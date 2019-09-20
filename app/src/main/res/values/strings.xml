@@ -9,4 +9,12 @@
     <string name="invalid_username">Correo inválido</string>
     <string name="invalid_password">Contraseña debe tener más de 5 carácteres</string>
     <string name="login_failed">"INICIO FALLIDO"</string>
+    <string name="nombre_contratista">Nombre contratista</string>
+    <string name="c_digo_contrato">Código contrato</string>
+    <string name="c_digo_api">Código API</string>
+    <string name="mantenci_n_de_personas">MANTENCIÓN DE PERSONAS</string>
+    <string name="mantenci_n_de_m_quinas">MANTENCIÓN DE MÁQUINAS</string>
+    <string name="plan_de_obra_diaria">PLAN DE OBRA DIARIA</string>
+    <string name="cambiar_contrato">CAMBIAR CONTRATO</string>
+    <string name="cerrar_sesi_n">CERRAR SESIÓN</string>
 </resources>

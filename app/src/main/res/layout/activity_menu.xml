@@ -15,21 +15,164 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/colorGray">
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="150sp"
-            android:src="@drawable/logo_area_salvador"
-            android:layout_gravity="start"/>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".35"
+
+            android:src="@drawable/logo_area_salvador"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".65"
+
+            android:layout_marginTop="12sp"
+            android:layout_marginBottom="12sp"
+            android:layout_marginLeft="12sp"
+            android:layout_marginRight="12sp"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/menu_nombre_contratista"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nombre_contratista"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12sp"/>
+
+            <TextView
+                android:id="@+id/menu_codigo_contrato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/c_digo_contrato"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:layout_marginBottom="12sp"/>
+
+            <TextView
+                android:id="@+id/menu_codigo_api"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/c_digo_api"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/menu_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/menu_personas"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="20sp"
+                android:layout_marginRight="20sp"
+                android:layout_marginLeft="20sp"
+
+                android:layout_gravity="center_horizontal"
+                android:enabled="false"
+                android:text="@string/mantenci_n_de_personas"
+                android:textColor="@color/colorWhite"
+                android:background = "@drawable/rounded_button_blue"/>
+
+            <Button
+                android:id="@+id/menu_maquinas"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="20sp"
+                android:layout_marginRight="20sp"
+                android:layout_marginLeft="20sp"
+
+                android:layout_gravity="center_horizontal"
+                android:enabled="false"
+                android:text="@string/mantenci_n_de_m_quinas"
+                android:textColor="@color/colorWhite"
+                android:background = "@drawable/rounded_button_blue"/>
+
+            <Button
+                android:id="@+id/menu_plan_de_obra_diaria"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="20sp"
+                android:layout_marginBottom="20sp"
+                android:layout_marginRight="20sp"
+                android:layout_marginLeft="20sp"
+
+                android:layout_gravity="center_horizontal"
+                android:enabled="false"
+                android:text="@string/plan_de_obra_diaria"
+                android:textColor="@color/colorWhite"
+                android:background = "@drawable/rounded_button_blue"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:gravity="center|bottom"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/menu_cambiar_contrato"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="20sp"
+                android:layout_marginRight="20sp"
+                android:layout_marginLeft="20sp"
+
+                android:layout_gravity="center_horizontal"
+                android:enabled="false"
+                android:text="@string/cambiar_contrato"
+                android:textColor="@color/colorWhite"
+                android:background = "@drawable/rounded_button_gray"/>
+
+            <Button
+                android:id="@+id/menu_cerrar_sesion"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="20sp"
+                android:layout_marginBottom="20sp"
+                android:layout_marginRight="20sp"
+                android:layout_marginLeft="20sp"
+
+                android:layout_gravity="center_horizontal"
+                android:enabled="false"
+                android:text="@string/cerrar_sesi_n"
+                android:textColor="@color/colorWhite"
+                android:background = "@drawable/rounded_button_gray"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>
