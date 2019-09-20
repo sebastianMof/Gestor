@@ -17,4 +17,6 @@
     <string name="plan_de_obra_diaria">PLAN DE OBRA DIARIA</string>
     <string name="cambiar_contrato">CAMBIAR CONTRATO</string>
     <string name="cerrar_sesi_n">CERRAR SESIÓN</string>
+    <string name="gesti_n_de_personas">GESTIÓN DE PERSONAS</string>
+    <string name="nombre_rut">NOMBRE / RUT</string>
 </resources>

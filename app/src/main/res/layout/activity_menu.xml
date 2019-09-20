@@ -151,7 +151,7 @@
                 android:enabled="false"
                 android:text="@string/cambiar_contrato"
                 android:textColor="@color/colorWhite"
-                android:background = "@drawable/rounded_button_gray"/>
+                android:background = "@drawable/rounded_button_orange"/>
 
             <Button
                 android:id="@+id/menu_cerrar_sesion"
@@ -168,7 +168,7 @@
                 android:enabled="false"
                 android:text="@string/cerrar_sesi_n"
                 android:textColor="@color/colorWhite"
-                android:background = "@drawable/rounded_button_gray"/>
+                android:background = "@drawable/rounded_button_orange"/>
 
         </LinearLayout>
 
