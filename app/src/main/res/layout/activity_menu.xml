@@ -90,7 +90,6 @@
                 android:layout_marginLeft="20sp"
 
                 android:layout_gravity="center_horizontal"
-                android:enabled="false"
                 android:text="@string/mantenci_n_de_personas"
                 android:textColor="@color/colorWhite"
                 android:background = "@drawable/rounded_button_blue"/>
@@ -106,7 +105,6 @@
                 android:layout_marginLeft="20sp"
 
                 android:layout_gravity="center_horizontal"
-                android:enabled="false"
                 android:text="@string/mantenci_n_de_m_quinas"
                 android:textColor="@color/colorWhite"
                 android:background = "@drawable/rounded_button_blue"/>
@@ -123,7 +121,6 @@
                 android:layout_marginLeft="20sp"
 
                 android:layout_gravity="center_horizontal"
-                android:enabled="false"
                 android:text="@string/plan_de_obra_diaria"
                 android:textColor="@color/colorWhite"
                 android:background = "@drawable/rounded_button_blue"/>
@@ -148,7 +145,6 @@
                 android:layout_marginLeft="20sp"
 
                 android:layout_gravity="center_horizontal"
-                android:enabled="false"
                 android:text="@string/cambiar_contrato"
                 android:textColor="@color/colorWhite"
                 android:background = "@drawable/rounded_button_orange"/>
@@ -165,7 +161,6 @@
                 android:layout_marginLeft="20sp"
 
                 android:layout_gravity="center_horizontal"
-                android:enabled="false"
                 android:text="@string/cerrar_sesi_n"
                 android:textColor="@color/colorWhite"
                 android:background = "@drawable/rounded_button_orange"/>

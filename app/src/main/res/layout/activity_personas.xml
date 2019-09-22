@@ -82,25 +82,45 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/nombre_rut"
+            android:hint="@string/nombre_rut"
+            android:textColorHint="@color/colorBlue"
             android:textColor="@color/colorBlue"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:backgroundTint="@color/colorBlue"/>
 
-        <Spinner
-            android:id="@+id/spinner"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:textColor="@color/colorBlue"
-            android:backgroundTint="@color/colorBlue"
+            android:orientation="horizontal"
 
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp">
+
+            <Spinner
+                android:id="@+id/spinner_personas"
+                android:layout_width="0dp"
+                android:layout_height="50sp"
+                android:layout_weight="1"
+
+                android:textColor="@color/colorBlue"
+                android:backgroundTint="@color/colorBlue"
+                android:spinnerMode="dropdown" />
+
+            <Button
+                android:id="@+id/btn_personas_busqueda"
+
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:layout_marginStart="20sp"
+
+                android:background="@drawable/busqueda" />
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -111,9 +131,6 @@
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/rounded_button_blue">
-
-
-
 
         </LinearLayout>
 
