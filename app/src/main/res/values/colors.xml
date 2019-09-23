@@ -14,4 +14,7 @@
     <color name="colorRed">#BE2E22</color>
 
     <color name="colorWhite">#FFFFFF</color>
+
+    <color name="colorOrangeSelected">#F46A00</color>
+    <color name="colorOrangeUnselected">#EBA977</color>
 </resources>

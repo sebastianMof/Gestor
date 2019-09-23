@@ -22,4 +22,7 @@
     <string name="nombre">NOMBRE</string>
     <string name="cargo">CARGO</string>
     <string name="status">STATUS</string>
+    <string name="informaci_n">INFORMACIÓN</string>
+    <string name="documentos">DOCUMENTOS</string>
+    <string name="detalle_nombre">DETALLE NOMBRE</string>
 </resources>

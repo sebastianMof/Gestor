@@ -14,7 +14,6 @@
         android:orientation="vertical">
         
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -44,7 +43,7 @@
                     android:gravity="start">
 
                     <Button
-                        android:id="@+id/button_personas_stras"
+                        android:id="@+id/button_personas_atras"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="10dp"
