@@ -25,4 +25,13 @@
     <string name="informaci_n">INFORMACIÓN</string>
     <string name="documentos">DOCUMENTOS</string>
     <string name="detalle_nombre">DETALLE NOMBRE</string>
+    <string name="informaci_n_escalable">INFORMACIÓN ESCALABLE</string>
+    <string name="tipo">TIPO</string>
+    <string name="documento">DOCUMENTO</string>
+    <string name="c_digo_interno">CÓDIGO INTERNO</string>
+    <string name="marca">MARCA</string>
+    <string name="patente">PATENTE</string>
+    <string name="modelo">MODELO</string>
+    <string name="cod_marca_patente_modelo">COD / MARCA / PATENTE / MODELO</string>
+    <string name="gesti_n_de_equipos">GESTIÓN DE EQUIPOS</string>
 </resources>

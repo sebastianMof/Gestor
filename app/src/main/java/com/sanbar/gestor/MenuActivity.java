@@ -25,6 +25,7 @@ public class MenuActivity extends AppCompatActivity {
         }
 
         configureButtonPersonas();
+        configureButtonMaquinas();
 
     }
 
@@ -35,6 +36,20 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MenuActivity.this, PersonasActivity.class);
+                myIntent.putExtra("loginModelData1", "dato"); //Optional parameters
+                startActivity(myIntent);
+
+            }
+        });
+    }
+
+    private void configureButtonMaquinas() {
+
+        Button btn_personas = (Button) findViewById(R.id.button_menu_maquinas);
+        btn_personas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MenuActivity.this, MaquinasActivity.class);
                 myIntent.putExtra("loginModelData1", "dato"); //Optional parameters
                 startActivity(myIntent);
 
