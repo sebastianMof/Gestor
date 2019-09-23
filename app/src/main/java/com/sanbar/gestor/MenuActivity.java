@@ -30,7 +30,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private void configureButtonPersonas() {
 
-        Button btn_personas = (Button) findViewById(R.id.menu_personas);
+        Button btn_personas = (Button) findViewById(R.id.button_menu_personas);
         btn_personas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

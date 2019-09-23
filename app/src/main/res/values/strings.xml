@@ -19,4 +19,7 @@
     <string name="cerrar_sesi_n">CERRAR SESIÓN</string>
     <string name="gesti_n_de_personas">GESTIÓN DE PERSONAS</string>
     <string name="nombre_rut">NOMBRE / RUT</string>
+    <string name="nombre">NOMBRE</string>
+    <string name="cargo">CARGO</string>
+    <string name="status">STATUS</string>
 </resources>

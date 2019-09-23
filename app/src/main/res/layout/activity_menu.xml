@@ -38,7 +38,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/menu_nombre_contratista"
+                android:id="@+id/textview_menu_nombre_contratista"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nombre_contratista"
@@ -48,7 +48,7 @@
                 android:layout_marginBottom="12sp"/>
 
             <TextView
-                android:id="@+id/menu_codigo_contrato"
+                android:id="@+id/textview_menu_codigo_contrato"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/c_digo_contrato"
@@ -57,7 +57,7 @@
                 android:layout_marginBottom="12sp"/>
 
             <TextView
-                android:id="@+id/menu_codigo_api"
+                android:id="@+id/textview_menu_codigo_api"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/c_digo_api"
@@ -80,7 +80,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/menu_personas"
+                android:id="@+id/button_menu_personas"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                 android:background = "@drawable/rounded_button_blue"/>
 
             <Button
-                android:id="@+id/menu_maquinas"
+                android:id="@+id/button_menu_maquinas"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                 android:background = "@drawable/rounded_button_blue"/>
 
             <Button
-                android:id="@+id/menu_plan_de_obra_diaria"
+                android:id="@+id/button_menu_plan_de_obra_diaria"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
             android:orientation="vertical" >
 
             <Button
-                android:id="@+id/menu_cambiar_contrato"
+                android:id="@+id/button_menu_cambiar_contrato"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                 android:background = "@drawable/rounded_button_orange"/>
 
             <Button
-                android:id="@+id/menu_cerrar_sesion"
+                android:id="@+id/button_menu_cerrar_sesion"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
