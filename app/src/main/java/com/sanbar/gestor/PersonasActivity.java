@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,6 +23,10 @@ import java.util.Arrays;
 public class PersonasActivity extends AppCompatActivity {
 
     private ArrayList<String> tiposList;
+    private String tipoSelected;
+    private EditText et_nombre_rut;
+    private String nombreFilter;
+
 
     private String[] nameArray = {
             "Nombre 1",
@@ -65,13 +72,49 @@ public class PersonasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personas);
 
+        configureEditTextNombre();
+
         configureTiposList();
         configureSpinnerTipos();
 
         configureItemList();
 
+        configureButtonBack();
+        configureButtonFilter();
 
 
+
+    }
+
+    private void configureEditTextNombre() {
+        et_nombre_rut= (EditText) findViewById(R.id.edittext_personas_nombre_rut);
+
+    }
+
+    private void configureButtonBack() {
+
+        Button btn_atras = (Button) findViewById(R.id.button_personas_atras);
+        btn_atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
+    }
+
+    private void configureButtonFilter() {
+
+        Button btn_atras = (Button) findViewById(R.id.button_personas_busqueda);
+        btn_atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                nombreFilter = String.valueOf(et_nombre_rut.getText());
+                Toast.makeText(getApplicationContext(),"Filtro con tipo: "+tipoSelected+"y nombre: "+nombreFilter,Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     private void configureTiposList() {
@@ -103,7 +146,7 @@ public class PersonasActivity extends AppCompatActivity {
         spn_bodega.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-
+                tipoSelected= (String) adapterView.getItemAtPosition(position);
             }
 
             @Override
