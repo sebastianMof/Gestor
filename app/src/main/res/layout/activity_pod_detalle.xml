@@ -130,7 +130,7 @@
                 android:layout_marginRight="15sp">
 
                 <TextView
-                    android:id="@+id/textview_personas_detalle_informacion_escalable"
+                    android:id="@+id/textview_pod_detalle_informacion_escalable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/informaci_n_escalable"
@@ -143,25 +143,105 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100sp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/rounded_button_blue">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gesti_n"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"/>
+
+            <Button
+                android:id="@+id/button_pod_gestionar_interrupcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:text="@string/gestionar_interrupci_n"
+                android:textColor="@color/colorWhite"
+                android:background="@drawable/rounded_button_gray"/>
+
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100sp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/rounded_button_blue">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/acciones_de_gesti_n"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"/>
+
+            <Spinner
+                android:id="@+id/spinner_pod_status"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorBlue"
+                android:backgroundTint="@color/colorWhite"
+                android:spinnerMode="dropdown" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp">
+
+                <EditText
+                    android:id="@+id/edittext_pod_tipo"
+                    android:layout_width="0dp"
+                    android:layout_height="50sp"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/button_pod_anadir"
+                    android:layout_width="50sp"
+                    android:layout_height="50sp"
+                    android:layout_marginStart="20sp"
+                    android:text="@string/plus"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="30sp"
+                    android:background="@drawable/rounded_button_gray" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_pod_guardar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:text="@string/guardar"
+                android:textColor="@color/colorWhite"
+                android:background="@drawable/rounded_button_gray"/>
 
         </LinearLayout>
 

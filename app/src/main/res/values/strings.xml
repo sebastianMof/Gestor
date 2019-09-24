@@ -40,4 +40,9 @@
     <string name="c_digo_de_contrato">CÓDIGO DE CONTRATO</string>
     <string name="contratista">CONTRATISTA</string>
     <string name="c_digo_itu">CÓDIGO ITU</string>
+    <string name="gesti_n">GESTIÓN</string>
+    <string name="gestionar_interrupci_n">GESTIONAR INTERRUPCIÓN</string>
+    <string name="acciones_de_gesti_n">ACCIONES DE GESTIÓN</string>
+    <string name="guardar">GUARDAR</string>
+    <string name="plus">+</string>
 </resources>
