@@ -20,7 +20,11 @@ public class CustomListAdapter extends ArrayAdapter {
     private final String[] statusArray;
 
 
-    public CustomListAdapter(Activity context, String[] nameArrayParam, String[] cargoArrayParam, String[] statusArrayParam, Integer[] imageIDArrayParam){
+    public CustomListAdapter(Activity context,
+                             String[] nameArrayParam,
+                             String[] cargoArrayParam,
+                             String[] statusArrayParam,
+                             Integer[] imageIDArrayParam){
 
         super(context,R.layout.listview_row_persona, nameArrayParam);
 

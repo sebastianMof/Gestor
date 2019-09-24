@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -149,10 +150,11 @@ public class MaquinasActivity extends AppCompatActivity {
 
     private void configureItemList(){
         //Lo que se pasa acá aparecerá en la lista
-        CustomListAdapter list_adapter = new CustomListAdapter(this, nameArray, patenteArray, statusArray, imageArray);
+        CustomListAdapterMaquinas list_adapter = new CustomListAdapterMaquinas(this, nameArray, codigoInternoArray, marcaArray, modeloArray, patenteArray, statusArray, imageArray,pieChartArray);
+
 
         listView = (ListView) findViewById(R.id.listview_maquinas);
-        listView.setAdapter(list_adapter);
+        listView.setAdapter((ListAdapter) list_adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
