@@ -32,7 +32,7 @@ public class CustomListAdapterMaquinas extends ArrayAdapter {
     private final String[] modeloArray;
     private final String[] patenteArray;
     private final String[] statusArray;
-
+    private final String[] ubicacionArray;
 
 
     public CustomListAdapterMaquinas(Activity context,
@@ -42,6 +42,7 @@ public class CustomListAdapterMaquinas extends ArrayAdapter {
                              String[] modeloArrayParam,
                              String[] patenteArrayParam,
                              String[] statusArrayParam,
+                             String[] ubicacionArrayParam,
                              Integer[] imageIDArrayParam,
                              Integer[] pieChartArrayParam){
 
@@ -57,6 +58,7 @@ public class CustomListAdapterMaquinas extends ArrayAdapter {
         this.modeloArray = modeloArrayParam;
         this.patenteArray = patenteArrayParam;
         this.statusArray = statusArrayParam;
+        this.ubicacionArray = ubicacionArrayParam;
 
     }
 
@@ -71,6 +73,7 @@ public class CustomListAdapterMaquinas extends ArrayAdapter {
         TextView tv_modelo = (TextView) rowView.findViewById(R.id.textview_maquinas_item_modelo);
         TextView tv_patente = (TextView) rowView.findViewById(R.id.textview_maquinas_item_patente);
         TextView tv_status = (TextView) rowView.findViewById(R.id.textview_maquinas_item_status);
+        TextView tv_ubicacion = (TextView) rowView.findViewById(R.id.textview_maquinas_item_ubicacion);
         ImageView imgv_imagen = (ImageView) rowView.findViewById(R.id.imageview_maquinas_item);
         PieChartView pieChartView = rowView.findViewById(R.id.piechart);
 
@@ -81,6 +84,7 @@ public class CustomListAdapterMaquinas extends ArrayAdapter {
         tv_modelo.setText(modeloArray[position]);
         tv_patente.setText(patenteArray[position]);
         tv_status.setText(statusArray[position]);
+        tv_ubicacion.setText(ubicacionArray[position]);
 
         imgv_imagen.setImageResource(imageIDarray[position]);
 

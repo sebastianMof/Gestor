@@ -40,7 +40,7 @@
                     android:gravity="start">
 
                     <Button
-                        android:id="@+id/button_personas_detalle_atras"
+                        android:id="@+id/button_maquinas_detalle_atras"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="10dp"
@@ -78,6 +78,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/linearlayout_maquinas_detalle_informacion"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -92,6 +93,7 @@
                     android:layout_marginBottom="15sp"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/linearlayout_maquinas_detalle_documentos"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -108,12 +110,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearlayout_maquinas_detalle_informacion_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/rounded_button_blue">
@@ -184,6 +186,12 @@
                         android:layout_height="wrap_content"
                         android:text="@string/status"
                         android:textColor="@color/colorWhite" />
+                    <TextView
+                        android:id="@+id/textview_maquinas_detalle_ubicacion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ubicaci_n"
+                        android:textColor="@color/colorWhite" />
 
                 </LinearLayout>
 
@@ -218,10 +226,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearlayout_maquinas_detalle_documentos_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"

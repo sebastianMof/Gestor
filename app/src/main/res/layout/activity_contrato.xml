@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PersonasActivity">
+    tools:context=".ContratoActivity">
 
-    
-    
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        
+
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                     android:gravity="start">
 
                     <Button
-                        android:id="@+id/button_personas_atras"
+                        android:id="@+id/button_contrato_atras"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="10dp"
@@ -58,7 +58,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/gesti_n_de_personas"
+                        android:text="@string/cambiar_contrato"
                         android:textAlignment="center"
                         android:textColor="@color/colorWhite"
                         android:textSize="18sp" />
@@ -75,54 +75,8 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <EditText
-            android:id="@+id/edittext_personas_busqueda"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/nombre_rut"
-            android:textColorHint="@color/colorBlue"
-            android:textColor="@color/colorBlue"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="@color/colorBlue"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp">
-
-            <Spinner
-                android:id="@+id/spinner_personas_tipo"
-                android:layout_width="0dp"
-                android:layout_height="50sp"
-                android:layout_weight="1"
-
-                android:textColor="@color/colorBlue"
-                android:backgroundTint="@color/colorBlue"
-                android:spinnerMode="dropdown" />
-
-            <Button
-                android:id="@+id/button_personas_busqueda"
-
-                android:layout_width="50sp"
-                android:layout_height="50sp"
-                android:layout_marginStart="20sp"
-
-                android:background="@drawable/busqueda" />
-
-        </LinearLayout>
-
-
         <ListView
-            android:id="@+id/listview_personas"
+            android:id="@+id/listview_contrato"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"

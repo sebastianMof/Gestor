@@ -45,4 +45,7 @@
     <string name="acciones_de_gesti_n">ACCIONES DE GESTIÓN</string>
     <string name="guardar">GUARDAR</string>
     <string name="plus">+</string>
+    <string name="ltima_ubicaci_n">ÚLTIMA UBICACIÓN</string>
+    <string name="ubicaci_n">UBICACIÓN</string>
+    <string name="cambiar_contrato">CAMBIAR CONTRATO</string>
 </resources>

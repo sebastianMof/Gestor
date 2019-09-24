@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -20,6 +22,9 @@ import java.util.Arrays;
 public class MaquinasActivity extends AppCompatActivity {
 
     private ArrayList<String> tiposList;
+    private String tipoSelected;
+    private EditText et_nombre;
+    private String nombreFilter;
 
     private String[] nameArray = {
             "Nombre 1",
@@ -72,6 +77,15 @@ public class MaquinasActivity extends AppCompatActivity {
             "Status 6"
     };
 
+    private String[] ubicacionArray = {
+            "Ubicación 1",
+            "Ubicación 2",
+            "Ubicación 3",
+            "Ubicación 4",
+            "Ubicación 5",
+            "Ubicación 6"
+    };
+
     private Integer[] imageArray = {
             R.drawable.imagen_maquina,
             R.drawable.imagen_maquina,
@@ -99,11 +113,14 @@ public class MaquinasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maquinas);
 
+        configureEditTextNombre();
+        configureButtonBack();
+        configureButtonFilter();
+
         configureTiposList();
         configureSpinnerTipos();
 
         configureItemList();
-
     }
 
 
@@ -137,7 +154,7 @@ public class MaquinasActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 //Toast.makeText(MaquinasActivity.this,"selected "+(String) adapterView.getItemAtPosition(position),Toast.LENGTH_LONG).show();
-
+                tipoSelected= (String) adapterView.getItemAtPosition(position);
             }
 
             @Override
@@ -150,8 +167,7 @@ public class MaquinasActivity extends AppCompatActivity {
 
     private void configureItemList(){
         //Lo que se pasa acá aparecerá en la lista
-        CustomListAdapterMaquinas list_adapter = new CustomListAdapterMaquinas(this, nameArray, codigoInternoArray, marcaArray, modeloArray, patenteArray, statusArray, imageArray,pieChartArray);
-
+        CustomListAdapterMaquinas list_adapter = new CustomListAdapterMaquinas(this, nameArray, codigoInternoArray, marcaArray, modeloArray, patenteArray, statusArray, ubicacionArray, imageArray,pieChartArray);
 
         listView = (ListView) findViewById(R.id.listview_maquinas);
         listView.setAdapter((ListAdapter) list_adapter);
@@ -167,6 +183,38 @@ public class MaquinasActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void configureButtonBack() {
+
+        Button btn_atras = (Button) findViewById(R.id.button_maquinas_atras);
+        btn_atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
+    }
+
+    private void configureEditTextNombre() {
+        et_nombre= (EditText) findViewById(R.id.edittext_maquinas_busqueda);
+    }
+
+    private void configureButtonFilter() {
+        Button btn_filter = (Button) findViewById(R.id.button_maquinas_busqueda);
+        btn_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            nombreFilter = String.valueOf(et_nombre.getText());
+            Toast.makeText(getApplicationContext(),
+                    "Filtro con\n" +
+                            "Tipo: "+tipoSelected+"\n"+
+                            "Nombre: "+nombreFilter,
+                    Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
 }

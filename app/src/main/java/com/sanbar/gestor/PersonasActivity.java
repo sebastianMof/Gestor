@@ -82,12 +82,10 @@ public class PersonasActivity extends AppCompatActivity {
         configureButtonBack();
         configureButtonFilter();
 
-
-
     }
 
     private void configureEditTextNombre() {
-        et_nombre_rut= (EditText) findViewById(R.id.edittext_personas_nombre_rut);
+        et_nombre_rut= (EditText) findViewById(R.id.edittext_personas_busqueda);
 
     }
 
@@ -109,9 +107,8 @@ public class PersonasActivity extends AppCompatActivity {
         btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                nombreFilter = String.valueOf(et_nombre_rut.getText());
-                Toast.makeText(getApplicationContext(),"Filtro con tipo: "+tipoSelected+"y nombre: "+nombreFilter,Toast.LENGTH_SHORT).show();
+            nombreFilter = String.valueOf(et_nombre_rut.getText());
+            Toast.makeText(getApplicationContext(),"Filtro con tipo: "+tipoSelected+"y nombre: "+nombreFilter,Toast.LENGTH_SHORT).show();
 
             }
         });

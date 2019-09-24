@@ -27,7 +27,22 @@ public class MenuActivity extends AppCompatActivity {
         configureButtonPersonas();
         configureButtonMaquinas();
         configureButtonPod();
+        configureButtonAtras();
 
+    }
+
+    private void configureButtonAtras() {
+
+        Button btn_atras = (Button) findViewById(R.id.button_menu_cerrar_sesion);
+        btn_atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MenuActivity.this, LoginActivity.class);
+                startActivity(myIntent);
+                finish();
+
+            }
+        });
     }
 
     private void configureButtonPersonas() {
@@ -65,6 +80,20 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MenuActivity.this, PodActivity.class);
+                myIntent.putExtra("loginModelData1", "dato"); //Optional parameters
+                startActivity(myIntent);
+
+            }
+        });
+    }
+
+    private void configureButtonContrato() {
+
+        Button btn_pod = (Button) findViewById(R.id.button_menu_cambiar_contrato);
+        btn_pod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MenuActivity.this, ContratoActivity.class);
                 myIntent.putExtra("loginModelData1", "dato"); //Optional parameters
                 startActivity(myIntent);
 

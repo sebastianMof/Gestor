@@ -8,14 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PodActivity extends AppCompatActivity {
+
+    private String nombreFilter;
 
     private String[] nameArray = {
             "Nombre 1",
@@ -58,12 +63,21 @@ public class PodActivity extends AppCompatActivity {
     private ArrayList<String> areaList;
     private ArrayList<String> statusList;
 
+    private EditText et_nombre;
+    private String especialidadSelected;
+    private String areaSelected;
+    private String statusSelected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pod);
 
+        configureEditTextNombre();
+        configureButtonBack();
         configureItemList();
+
+        configureButtonFilter();
 
         configureEspecialidadList();
         configureAreaList();
@@ -138,7 +152,7 @@ public class PodActivity extends AppCompatActivity {
         spn_bodega.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-
+                especialidadSelected= (String) adapterView.getItemAtPosition(position);
             }
 
             @Override
@@ -170,7 +184,7 @@ public class PodActivity extends AppCompatActivity {
         spn_bodega.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-
+                areaSelected= (String) adapterView.getItemAtPosition(position);
             }
 
             @Override
@@ -202,16 +216,50 @@ public class PodActivity extends AppCompatActivity {
         spn_bodega.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-
+                statusSelected= (String) adapterView.getItemAtPosition(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+
         });
 
     }
 
+    private void configureButtonBack() {
+
+        Button btn_atras = (Button) findViewById(R.id.button_pod_atras);
+        btn_atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
+    }
+
+    private void configureButtonFilter() {
+        Button btn_filter = (Button) findViewById(R.id.button_pod_busqueda);
+        btn_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nombreFilter = String.valueOf(et_nombre.getText());
+                Toast.makeText(getApplicationContext(),
+                        "Filtro con \n" +
+                                "Capataz:"+nombreFilter+"\n"+
+                                "Especialidad: "+ especialidadSelected+"\n"+
+                                "Area: "+ areaSelected+"\n"+
+                                "Status: "+ statusSelected,
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void configureEditTextNombre() {
+        et_nombre= (EditText) findViewById(R.id.edittext_pod_busqueda);
+    }
 
 }
