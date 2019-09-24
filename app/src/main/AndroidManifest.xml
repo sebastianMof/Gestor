@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MaquinasDetalleActivity"></activity>
+        <activity android:name=".PodDetalleActivity"></activity>
+        <activity android:name=".PodActivity" />
+        <activity android:name=".MaquinasDetalleActivity" />
         <activity android:name=".MaquinasActivity" />
         <activity android:name=".PersonasDetalleActivity" />
         <activity android:name=".PersonasActivity" />

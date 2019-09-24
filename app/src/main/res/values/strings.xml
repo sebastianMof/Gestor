@@ -34,4 +34,10 @@
     <string name="modelo">MODELO</string>
     <string name="cod_marca_patente_modelo">COD / MARCA / PATENTE / MODELO</string>
     <string name="gesti_n_de_equipos">GESTIÓN DE EQUIPOS</string>
+    <string name="gesti_n_de_obras">GESTIÓN DE OBRAS</string>
+    <string name="nombre_capataz">NOMBRE CAPATAZ</string>
+    <string name="nombre_tarea">NOMBRE TAREA</string>
+    <string name="c_digo_de_contrato">CÓDIGO DE CONTRATO</string>
+    <string name="contratista">CONTRATISTA</string>
+    <string name="c_digo_itu">CÓDIGO ITU</string>
 </resources>

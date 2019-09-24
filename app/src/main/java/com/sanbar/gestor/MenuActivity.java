@@ -26,6 +26,7 @@ public class MenuActivity extends AppCompatActivity {
 
         configureButtonPersonas();
         configureButtonMaquinas();
+        configureButtonPod();
 
     }
 
@@ -45,11 +46,25 @@ public class MenuActivity extends AppCompatActivity {
 
     private void configureButtonMaquinas() {
 
-        Button btn_personas = (Button) findViewById(R.id.button_menu_maquinas);
-        btn_personas.setOnClickListener(new View.OnClickListener() {
+        Button btn_maquinas = (Button) findViewById(R.id.button_menu_maquinas);
+        btn_maquinas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MenuActivity.this, MaquinasActivity.class);
+                myIntent.putExtra("loginModelData1", "dato"); //Optional parameters
+                startActivity(myIntent);
+
+            }
+        });
+    }
+
+    private void configureButtonPod() {
+
+        Button btn_pod = (Button) findViewById(R.id.button_menu_plan_de_obra_diaria);
+        btn_pod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MenuActivity.this, PodActivity.class);
                 myIntent.putExtra("loginModelData1", "dato"); //Optional parameters
                 startActivity(myIntent);
 
