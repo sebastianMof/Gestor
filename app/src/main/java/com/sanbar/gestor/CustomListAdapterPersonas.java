@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomListAdapter extends ArrayAdapter {
+public class CustomListAdapterPersonas extends ArrayAdapter {
 
     //to reference the Activity
     private final Activity context;
@@ -20,11 +20,11 @@ public class CustomListAdapter extends ArrayAdapter {
     private final String[] statusArray;
 
 
-    public CustomListAdapter(Activity context,
-                             String[] nameArrayParam,
-                             String[] cargoArrayParam,
-                             String[] statusArrayParam,
-                             Integer[] imageIDArrayParam){
+    public CustomListAdapterPersonas(Activity context,
+                                     String[] nameArrayParam,
+                                     String[] cargoArrayParam,
+                                     String[] statusArrayParam,
+                                     Integer[] imageIDArrayParam){
 
         super(context,R.layout.listview_row_persona, nameArrayParam);
 

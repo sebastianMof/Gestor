@@ -73,22 +73,22 @@ public class MaquinasActivity extends AppCompatActivity {
     };
 
     private Integer[] imageArray = {
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen
+            R.drawable.imagen_maquina,
+            R.drawable.imagen_maquina,
+            R.drawable.imagen_maquina,
+            R.drawable.imagen_maquina,
+            R.drawable.imagen_maquina,
+            R.drawable.imagen_maquina
 
     };
 
     private Integer[] pieChartArray = {
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen
+            25,
+            25,
+            50,
+            75,
+            100,
+            100
 
     };
 
@@ -136,7 +136,7 @@ public class MaquinasActivity extends AppCompatActivity {
         spn_bodega.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                Toast.makeText(MaquinasActivity.this,"selected "+(String) adapterView.getItemAtPosition(position),Toast.LENGTH_LONG).show();
+                //Toast.makeText(MaquinasActivity.this,"selected "+(String) adapterView.getItemAtPosition(position),Toast.LENGTH_LONG).show();
 
             }
 
@@ -160,10 +160,10 @@ public class MaquinasActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 
-                //Intent intent = new Intent(MaquinasActivity.this, MaquinasDetalleActivity.class);
+                Intent intent = new Intent(MaquinasActivity.this, MaquinasDetalleActivity.class);
                 String message = nameArray[position];
-                //intent.putExtra("item", message);
-                //startActivity(intent);
+                intent.putExtra("item", message);
+                startActivity(intent);
             }
         });
 

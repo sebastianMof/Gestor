@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -104,7 +103,6 @@ public class PersonasActivity extends AppCompatActivity {
         spn_bodega.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                Toast.makeText(PersonasActivity.this,"selected "+(String) adapterView.getItemAtPosition(position),Toast.LENGTH_LONG).show();
 
             }
 
@@ -118,7 +116,7 @@ public class PersonasActivity extends AppCompatActivity {
 
     private void configureItemList(){
         //Lo que se pasa acá aparecerá en la lista
-        CustomListAdapter list_adapter = new CustomListAdapter(this, nameArray, cargoArray, statusArray, imageArray);
+        CustomListAdapterPersonas list_adapter = new CustomListAdapterPersonas(this, nameArray, cargoArray, statusArray, imageArray);
 
         listView = (ListView) findViewById(R.id.listview_personas);
         listView.setAdapter(list_adapter);

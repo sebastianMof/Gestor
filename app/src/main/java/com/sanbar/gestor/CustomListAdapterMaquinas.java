@@ -85,12 +85,12 @@ public class CustomListAdapterMaquinas extends ArrayAdapter {
         imgv_imagen.setImageResource(imageIDarray[position]);
 
         List<SliceValue> pieData = new ArrayList<>();
-        pieData.add(new SliceValue(50, Color.BLUE));
-        pieData.add(new SliceValue(50, Color.GRAY));
+        pieData.add(new SliceValue((100-pieChartArray[position]), Color.rgb(235,169,119)));
+        pieData.add(new SliceValue(pieChartArray[position], Color.rgb(244,106,0)));
+
         PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasCenterCircle(true).setCenterText1(String.valueOf(pieChartArray[position])).setCenterText1FontSize(20).setCenterText1Color(Color.rgb(244,106,0));
         pieChartView.setPieChartData(pieChartData);
-
-
         return rowView;
 
     };
