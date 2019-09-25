@@ -1,16 +1,13 @@
 package com.sanbar.gestor;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import static com.sanbar.gestor.R.color.colorGreen;
-import static com.sanbar.gestor.R.color.colorOrangeUnselected;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class PodDetalleActivity extends AppCompatActivity {
 
@@ -24,6 +21,9 @@ public class PodDetalleActivity extends AppCompatActivity {
         myText.setText(savedExtra);
 
         configureButtonBack();
+        configureButtonFinalizarTarea();
+        configureButtonRevisarTarea();
+        configureButtonGestionarInterrupcion();
 
         LinearLayout ll_pod_detalle_tarea = (LinearLayout)findViewById(R.id.linearlayout_pod_detalle_tarea);
 
@@ -42,4 +42,44 @@ public class PodDetalleActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void configureButtonFinalizarTarea() {
+
+        Button btn_fin_tarea = (Button) findViewById(R.id.button_pod_detalle_finalizar_tarea);
+        btn_fin_tarea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(PodDetalleActivity.this, PodDetalleFinalizarTareaActivity.class);
+                startActivity(myIntent);
+
+            }
+        });
+    }
+
+    private void configureButtonRevisarTarea() {
+
+        Button btn_fin_tarea = (Button) findViewById(R.id.button_pod_detalle_revisar_tarea);
+        btn_fin_tarea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(PodDetalleActivity.this, PodDetalleRevisionTareaActivity.class);
+                startActivity(myIntent);
+
+            }
+        });
+    }
+
+    private void configureButtonGestionarInterrupcion() {
+
+        Button btn_fin_tarea = (Button) findViewById(R.id.button_pod_detalle_gestionar_interrupcion);
+        btn_fin_tarea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(PodDetalleActivity.this, PodDetalleGestionarInterrupcionActivity.class);
+                startActivity(myIntent);
+
+            }
+        });
+    }
+
 }

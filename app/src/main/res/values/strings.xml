@@ -56,4 +56,11 @@
     <string name="acciones_de_interrupci_n">ACCIONES DE INTERRUPCIÓN</string>
     <string name="finalizar_tarea">FINALIZAR TAREA</string>
     <string name="revisi_n_de_tarea">REVISIÓN DE TAREA</string>
+    <string name="_100">/ 100</string>
+    <string name="incompleta">INCOMPLETA</string>
+    <string name="completa">COMPLETA</string>
+    <string name="completada">COMPLETADA</string>
+    <string name="revisar_tarea">REVISAR TAREA</string>
+    <string name="log_de_la_tarea">LOG DE LA TAREA</string>
+    <string name="notificar">NOTIFICAR</string>
 </resources>

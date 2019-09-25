@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ContratoActivity"></activity>
+        <activity android:name=".PodDetalleGestionarInterrupcionActivity"></activity>
+        <activity android:name=".PodDetalleRevisionTareaActivity" />
+        <activity android:name=".PodDetalleFinalizarTareaActivity" />
+        <activity android:name=".ContratoActivity" />
         <activity android:name=".PodDetalleActivity" />
         <activity android:name=".PodActivity" />
         <activity android:name=".MaquinasDetalleActivity" />

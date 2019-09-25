@@ -41,7 +41,7 @@ public class CustomListAdapterPod extends ArrayAdapter {
 
         TextView tv_nombre = (TextView) rowView.findViewById(R.id.textview_pod_item_nombre_capataz);
         TextView tv_status = (TextView) rowView.findViewById(R.id.textview_pod_item_status);
-        TextView tv_itu = (TextView) rowView.findViewById(R.id.textview_pods_item_codigo_itu);
+        TextView tv_itu = (TextView) rowView.findViewById(R.id.textview_pod_item_codigo_itu);
         TextView tv_especialidad = (TextView) rowView.findViewById(R.id.textview_pod_item_especialidad);
 
         tv_nombre.setText(nameArray[position]);

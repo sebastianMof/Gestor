@@ -166,7 +166,7 @@
                         android:layout_marginTop="20dp"
                         android:text="@string/finalizar_tarea"
                         android:textColor="@color/colorWhite"
-                        android:background="@drawable/rounded_button_red"/>
+                        android:background="@drawable/rounded_button_gray"/>
 
                 </LinearLayout>
 
@@ -212,7 +212,7 @@
                     android:layout_marginTop="20dp"/>
 
                 <Button
-                    android:id="@+id/button_pod_gestionar_interrupcion"
+                    android:id="@+id/button_pod_detalle_gestionar_interrupcion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
