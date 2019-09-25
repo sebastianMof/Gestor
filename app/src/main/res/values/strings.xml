@@ -63,4 +63,7 @@
     <string name="revisar_tarea">REVISAR TAREA</string>
     <string name="log_de_la_tarea">LOG DE LA TAREA</string>
     <string name="notificar">NOTIFICAR</string>
+    <string name="acci_n">ACCIÓN</string>
+    <string name="descripci_n">DESCRIPCIÓN</string>
+    <string name="causa_probable">CAUSA PROBABLE</string>
 </resources>

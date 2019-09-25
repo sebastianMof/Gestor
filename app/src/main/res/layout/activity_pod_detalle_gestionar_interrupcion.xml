@@ -88,16 +88,20 @@
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/rounded_button_blue">
 
-                <Spinner
-                    android:id="@+id/spinner_pod_detalle_gestionar_interrupcion_status"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50sp"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginLeft="20dp"
-                    android:textColor="@color/colorBlue"
-                    android:background="@color/colorWhite"
-                    android:spinnerMode="dropdown" />
+                    android:background="@color/colorWhite">
+                    <Spinner
+                        android:id="@+id/spinner_pod_detalle_gestionar_interrupcion_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:textColor="@color/colorBlue"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/edittext_pod_detalle_gestionar_interrupcion_descripcion"
@@ -107,7 +111,10 @@
                     android:layout_marginBottom="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginLeft="20dp"
-
+                    android:hint="@string/descripci_n"
+                    android:textColorHint="@color/colorBlue"
+                    android:textColor="@color/colorBlue"
+                    android:backgroundTint="@color/colorWhite"
                     android:background="@color/colorWhite"/>
 
                 <LinearLayout
@@ -124,6 +131,10 @@
                         android:layout_width="0dp"
                         android:layout_height="50sp"
                         android:layout_weight="1"
+                        android:textColorHint="@color/colorBlue"
+                        android:textColor="@color/colorBlue"
+                        android:backgroundTint="@color/colorWhite"
+                        android:hint="@string/causa_probable"
                         android:background="@color/colorWhite"/>
 
                     <Button
