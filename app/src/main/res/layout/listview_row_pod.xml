@@ -20,30 +20,30 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
         <TextView
-            android:id="@+id/textview_pod_item_nombre_tarea"
+            android:id="@+id/textview_pod_item_nombre_capataz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="@string/nombre_tarea"
+            android:text="@string/nombre_capataz"
             android:textColor="@color/colorWhite"/>
 
         <TextView
-            android:id="@+id/textview_pod_item_codigo_contratista"
+            android:id="@+id/textview_pod_item_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/contratista"
+            android:text="@string/status"
             android:textColor="@color/colorWhite"/>
         <TextView
-            android:id="@+id/textview_pods_item_codigo_contrato"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/c_digo_de_contrato"
-            android:textColor="@color/colorWhite"/>
-        <TextView
-            android:id="@+id/textview_pod_item_codigo_itu"
+            android:id="@+id/textview_pods_item_codigo_itu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/c_digo_itu"
+            android:textColor="@color/colorWhite"/>
+        <TextView
+            android:id="@+id/textview_pod_item_especialidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/especialidad"
             android:textColor="@color/colorWhite"/>
 
     </LinearLayout>

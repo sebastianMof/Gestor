@@ -23,29 +23,20 @@ public class PodActivity extends AppCompatActivity {
     private String nombreFilter;
 
     private String[] nameArray = {
-            "Nombre 1",
-            "Nombre 2",
-            "Nombre 3",
-            "Nombre 4",
-            "Nombre 5",
-            "Nombre 6" };
+            "Nombre Capataz 1",
+            "Nombre Capataz 2",
+            "Nombre Capataz 3",
+            "Nombre Capataz 4",
+            "Nombre Capataz 5",
+            "Nombre Capataz 6" };
 
-    private String[] contratistaArray = {
-            "Contratista 1",
-            "Contratista 2",
-            "Contratista 3",
-            "Contratista 4",
-            "Contratista 5",
-            "Contratista 6"
-    };
-
-    private String[] contratoArray = {
-            "Contrato 1",
-            "Contrato 2",
-            "Contrato 3",
-            "Contrato 4",
-            "Contrato 5",
-            "Contrato 6"
+    private String[] statusArray = {
+            "Status 1",
+            "Status 2",
+            "Status 3",
+            "Status 4",
+            "Status 5",
+            "Status 6"
     };
 
     private String[] ituArray = {
@@ -55,6 +46,15 @@ public class PodActivity extends AppCompatActivity {
             "ITU 4",
             "ITU 5",
             "ITU 6"
+    };
+
+    private String[] especialidadArray = {
+            "Especialidad 1",
+            "Especialidad 2",
+            "Especialidad 3",
+            "Especialidad 4",
+            "Especialidad 5",
+            "Especialidad 6"
     };
 
     private ListView listView;
@@ -91,7 +91,7 @@ public class PodActivity extends AppCompatActivity {
 
     private void configureItemList(){
         //Lo que se pasa acá aparecerá en la lista
-        CustomListAdapterPod list_adapter = new CustomListAdapterPod(this, nameArray, contratistaArray, contratoArray, ituArray);
+        CustomListAdapterPod list_adapter = new CustomListAdapterPod(this, nameArray, statusArray, ituArray,especialidadArray);
 
         listView = (ListView) findViewById(R.id.listview_pod);
         listView.setAdapter(list_adapter);

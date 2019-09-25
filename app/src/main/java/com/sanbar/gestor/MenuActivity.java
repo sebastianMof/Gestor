@@ -27,6 +27,7 @@ public class MenuActivity extends AppCompatActivity {
         configureButtonPersonas();
         configureButtonMaquinas();
         configureButtonPod();
+        configureButtonContrato();
         configureButtonAtras();
 
     }

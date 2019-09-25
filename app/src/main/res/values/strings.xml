@@ -47,5 +47,13 @@
     <string name="plus">+</string>
     <string name="ltima_ubicaci_n">ÚLTIMA UBICACIÓN</string>
     <string name="ubicaci_n">UBICACIÓN</string>
-    <string name="cambiar_contrato">CAMBIAR CONTRATO</string>
+    <string name="especialidad">ESPECIALIDAD</string>
+    <string name="b_squeda_de_tareas">BÚSQUEDA DE TAREAS</string>
+    <string name="interrupci_n">INTERRUPCIÓN</string>
+    <string name="detalle_de_tarea">DETALLE DE TAREA</string>
+    <string name="interrupciones">INTERRUPCIONES</string>
+    <string name="informaci_n_de_la_ltima_gesti_n_de_la_interrupcion">INFORMACIÓN DE LA ÚLTIMA GESTIÓN DE LA INTERRUPCION</string>
+    <string name="acciones_de_interrupci_n">ACCIONES DE INTERRUPCIÓN</string>
+    <string name="finalizar_tarea">FINALIZAR TAREA</string>
+    <string name="revisi_n_de_tarea">REVISIÓN DE TAREA</string>
 </resources>

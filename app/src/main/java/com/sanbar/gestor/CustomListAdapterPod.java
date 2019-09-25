@@ -14,24 +14,24 @@ public class CustomListAdapterPod extends ArrayAdapter {
     private final Activity context;
 
     private final String[] nameArray;
-    private final String[] contratistaArray;
-    private final String[] contratoArray;
+    private final String[] statusArray;
     private final String[] ituArray;
+    private final String[] especialidadArray;
 
 
     public CustomListAdapterPod(Activity context,
                                 String[] nameArrayParam,
-                                String[] contratistaArrayParam,
-                                String[] contratoArrayParam,
-                                String[] ituArrayParam){
+                                String[] statusArrayParam,
+                                String[] ituArrayParam,
+                                String[] especialidadArrayParam){
 
         super(context,R.layout.listview_row_persona, nameArrayParam);
 
         this.context=context;
         this.nameArray = nameArrayParam;
-        this.contratistaArray = contratistaArrayParam;
-        this.contratoArray = contratoArrayParam;
+        this.statusArray = statusArrayParam;
         this.ituArray = ituArrayParam;
+        this.especialidadArray = especialidadArrayParam;
 
     }
 
@@ -39,17 +39,19 @@ public class CustomListAdapterPod extends ArrayAdapter {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.listview_row_pod, null,true);
 
-        TextView tv_nombre = (TextView) rowView.findViewById(R.id.textview_pod_item_nombre_tarea);
-        TextView tv_contratista = (TextView) rowView.findViewById(R.id.textview_pod_item_codigo_contratista);
-        TextView tv_contrato = (TextView) rowView.findViewById(R.id.textview_pods_item_codigo_contrato);
-        TextView tv_itu = (TextView) rowView.findViewById(R.id.textview_pod_item_codigo_itu);
+        TextView tv_nombre = (TextView) rowView.findViewById(R.id.textview_pod_item_nombre_capataz);
+        TextView tv_status = (TextView) rowView.findViewById(R.id.textview_pod_item_status);
+        TextView tv_itu = (TextView) rowView.findViewById(R.id.textview_pods_item_codigo_itu);
+        TextView tv_especialidad = (TextView) rowView.findViewById(R.id.textview_pod_item_especialidad);
 
         tv_nombre.setText(nameArray[position]);
-        tv_contratista.setText(contratistaArray[position]);
-        tv_contrato.setText(contratoArray[position]);
+        tv_status.setText(statusArray[position]);
         tv_itu.setText(ituArray[position]);
+        tv_especialidad.setText(especialidadArray[position]);
 
         return rowView;
 
     };
+
+
 }

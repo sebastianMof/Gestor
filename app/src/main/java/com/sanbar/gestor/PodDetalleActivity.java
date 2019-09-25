@@ -20,7 +20,7 @@ public class PodDetalleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pod_detalle);
 
         String savedExtra = getIntent().getStringExtra("item");
-        TextView myText = (TextView) findViewById(R.id.textview_pod_detalle_nombre_tarea);
+        TextView myText = (TextView) findViewById(R.id.textview_pod_detalle_nombre_capataz);
         myText.setText(savedExtra);
 
         configureButtonBack();
