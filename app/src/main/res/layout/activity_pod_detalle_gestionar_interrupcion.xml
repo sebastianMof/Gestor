@@ -115,7 +115,9 @@
                     android:textColorHint="@color/colorBlue"
                     android:textColor="@color/colorBlue"
                     android:backgroundTint="@color/colorWhite"
-                    android:background="@color/colorWhite"/>
+                    android:background="@color/colorWhite"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -135,7 +137,9 @@
                         android:textColor="@color/colorBlue"
                         android:backgroundTint="@color/colorWhite"
                         android:hint="@string/causa_probable"
-                        android:background="@color/colorWhite"/>
+                        android:background="@color/colorWhite"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"/>
 
                     <Button
                         android:id="@+id/button_pod_detalle_gestionar_interrupcion_anadir"

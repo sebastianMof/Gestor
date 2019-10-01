@@ -66,4 +66,5 @@
     <string name="acci_n">ACCIÓN</string>
     <string name="descripci_n">DESCRIPCIÓN</string>
     <string name="causa_probable">CAUSA PROBABLE</string>
+    <string name="_0">0</string>
 </resources>

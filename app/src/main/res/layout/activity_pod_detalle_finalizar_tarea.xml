@@ -119,11 +119,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        android:hint="0"
+                        android:hint="@string/_0"
                         android:inputType="number"
                         android:textColorHint="@color/colorWhite"
                         android:textSize="18sp"
-                        android:textColor="@color/colorWhite" />
+                        android:textColor="@color/colorWhite"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"/>
                     <TextView
                         android:id="@+id/textview_pod_detalle_finalizar_tarea_avance"
                         android:layout_width="0dp"
