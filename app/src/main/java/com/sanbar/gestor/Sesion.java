@@ -26,28 +26,27 @@ public class Sesion implements Parcelable {
     //FOR HTTP
     private static final MediaType MEDIA_TYPE = MediaType.parse("application/json");
     //TASKS DECLARATIONS
-    private Contracts mToken = null;
-    private Contracts mContratistas = null;
+    private Token mToken = null;
+    private Contratistas mContratistas = null;
     private Contracts mContracts = null;
-    private Contracts mCambioContrato = null;
-    private Contracts mWorkerCategorias = null;
-    private Contracts mWorkers = null;
-    private Contracts mWorkersWorkerId = null;
-
-    private Contracts mTipoEquipos = null;
-    private Contracts mEquipos = null;
-    private Contracts mEquiposEquipoId = null;
-    private Contracts mEspecialidades = null;
-    private Contracts mTareaStatus = null;
-    private Contracts mTareas = null;
-    private Contracts mTareasTareaId = null;
-    private Contracts mFinalizarTarea = null;
-    private Contracts mComentariosTareas = null;
-    private Contracts mInterrupciones = null;
-    private Contracts mCausaInterrupciones = null;
-    private Contracts mSolucionCausaInterrupcionCausaInterrupcionId = null;
-    private Contracts mStatusInterrupciones = null;
-    private Contracts mAccionesSoluciones = null;
+    private CambioContrato mCambioContrato = null;
+    private WorkerCategorias mWorkerCategorias = null;
+    private Workers mWorkers = null;
+    private WorkersWorkerId mWorkersWorkerId = null;
+    private TipoEquipos mTipoEquipos = null;
+    private Equipos mEquipos = null;
+    private EquiposEquipoId mEquiposEquipoId = null;
+    private Especialidades mEspecialidades = null;
+    private TareaStatus mTareaStatus = null;
+    private Tareas mTareas = null;
+    private TareasTareaId mTareasTareaId = null;
+    private FinalizarTarea mFinalizarTarea = null;
+    private ComentariosTareas mComentariosTareas = null;
+    private Interrupciones mInterrupciones = null;
+    private CausaInterrupciones mCausaInterrupciones = null;
+    private SolucionCausaInterrupcionCausaInterrupcionId mSolucionCausaInterrupcionCausaInterrupcionId = null;
+    private StatusInterrupciones mStatusInterrupciones = null;
+    private AccionesSoluciones mAccionesSoluciones = null;
 
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -60,9 +59,10 @@ public class Sesion implements Parcelable {
         }
     };
 
+    private String mail;
+    private String password;
     private String user;
     private String token;
-    private String mail;
     private String userId;
     private String selectedContractId;
     private String lastContractId;
@@ -71,9 +71,10 @@ public class Sesion implements Parcelable {
     private String apiCode;
 
     //CONSTRUCTOR
-    public Sesion(String user, String token) {
-        this.user = user;
-        this.token = token;
+    public Sesion(String username, String password) {
+        this.mail = username;
+        this.password = password;
+
     //cambiar luego de terminar
     }
 
@@ -178,12 +179,7 @@ public class Sesion implements Parcelable {
     //TASK CLASSES
     public class Token extends AsyncTask<Void, Void, Boolean> {
 
-        String mUser;
-        String mPassword;
-
-        Token(String username, String password) {
-            mUser = username;
-            mPassword = password;
+        Token() {
         }
 
         @Override
@@ -192,7 +188,7 @@ public class Sesion implements Parcelable {
 
             OkHttpClient client = new OkHttpClient();
 
-            String postdata = "username="+mUser+"&password="+mPassword+"&grant_type=password";
+            String postdata = "username="+user+"&password="+password+"&grant_type=password";
 
             RequestBody body = RequestBody.create(MEDIA_TYPE, postdata.toString());
 
@@ -1327,12 +1323,12 @@ public class Sesion implements Parcelable {
         }
     }
 
-    public class ComentariosTarea extends AsyncTask<Void, Void, Boolean> {
+    public class ComentariosTareas extends AsyncTask<Void, Void, Boolean> {
 
         private String tareaId;
         private String comentario;
 
-        ComentariosTarea(String tareaId, String comentario) {
+        ComentariosTareas(String tareaId, String comentario) {
             this.tareaId = tareaId;
             this.comentario = comentario;
         }
