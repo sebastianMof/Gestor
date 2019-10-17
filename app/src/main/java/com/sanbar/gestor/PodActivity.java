@@ -1,7 +1,5 @@
 package com.sanbar.gestor;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,64 +13,37 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PodActivity extends AppCompatActivity {
 
     private Sesion session;
 
-    private String nombreFilter;
-
-    private String[] nameArray = {
-            "Nombre Capataz 1",
-            "Nombre Capataz 2",
-            "Nombre Capataz 3",
-            "Nombre Capataz 4",
-            "Nombre Capataz 5",
-            "Nombre Capataz 6" };
-
-    private String[] statusArray = {
-            "Status 1",
-            "Status 2",
-            "Status 3",
-            "Status 4",
-            "Status 5",
-            "Status 6"
-    };
-
-    private String[] ituArray = {
-            "ITU 1",
-            "ITU 2",
-            "ITU 3",
-            "ITU 4",
-            "ITU 5",
-            "ITU 6"
-    };
-
-    private String[] especialidadArray = {
-            "Especialidad 1",
-            "Especialidad 2",
-            "Especialidad 3",
-            "Especialidad 4",
-            "Especialidad 5",
-            "Especialidad 6"
-    };
-
-    private ListView listView;
+    private String[] nameArray;
+    private String[] statusArray;
+    private String[] especialidadArray;
+    private String[] colorArray;
 
     private ArrayList<String> especialidadList;
     private ArrayList<String> especialidadIdList;
 
     private ArrayList<String> areaList;
+    private ArrayList<String> areaIdList;
+
     private ArrayList<String> statusList;
+    private ArrayList<String> statusIdList;
 
     private EditText et_nombre;
+    private ListView listView;
+
+    private String nombreFilter;
     private String especialidadSelected;
     private String areaSelected;
     private String statusSelected;
@@ -91,10 +62,12 @@ public class PodActivity extends AppCompatActivity {
 
         configureEditTextNombre();
         configureButtonBack();
+
+        session.attemptTareas(null,null,null,null);
+        configureItemData();
         configureItemList();
 
         configureButtonFilter();
-
 
         configureEspecialidadList();
         configureAreaList();
@@ -108,7 +81,7 @@ public class PodActivity extends AppCompatActivity {
 
     private void configureItemList(){
         //Lo que se pasa acá aparecerá en la lista
-        CustomListAdapterPod list_adapter = new CustomListAdapterPod(this, nameArray, statusArray, ituArray,especialidadArray);
+        CustomListAdapterPod list_adapter = new CustomListAdapterPod(this, nameArray, statusArray,especialidadArray,colorArray);
 
         listView = (ListView) findViewById(R.id.listview_pod);
         listView.setAdapter(list_adapter);
@@ -131,6 +104,7 @@ public class PodActivity extends AppCompatActivity {
         session.attemptEspecialidades();
 
         especialidadList = new ArrayList<>();
+        especialidadList.add("ESPECIALIDAD");
         especialidadIdList = new ArrayList<>();
 
         try {
@@ -148,18 +122,52 @@ public class PodActivity extends AppCompatActivity {
 
 
     }
-    private void configureAreaList() {
-        areaList = new ArrayList<>();
-        String[] items = new String[]{"AREA", "AREA_1", "AREA_2", "AREA_3"};
 
-        areaList.addAll(Arrays.asList(items));
+    private void configureAreaList() {
+
+        session.attemptAreaContratos();
+
+        areaList = new ArrayList<>();
+        areaList.add("AREA");
+        areaIdList = new ArrayList<>();
+
+        try {
+            JSONArray areas = new JSONArray(session.getAreaContratos());
+            JSONObject auxObj;
+            for (int i = 0; i < areas.length(); i++) {
+                auxObj = areas.getJSONObject(i);
+                areaList.add(auxObj.getString("Name"));
+                areaIdList.add(auxObj.getString("Id"));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
     }
-    private void configureStatusList() {
-        statusList = new ArrayList<>();
-        String[] items = new String[]{"STATUS", "STATUS_1", "STATUS_2", "STATUS_3"};
 
-        statusList.addAll(Arrays.asList(items));
+    private void configureStatusList() {
+
+        session.attemptTareaStatus();
+
+        statusList = new ArrayList<>();
+        statusList.add("ESTADO");
+        statusIdList = new ArrayList<>();
+
+        try {
+            JSONArray tareaStatus = new JSONArray(session.getTareaStatus());
+            JSONObject auxObj;
+            for (int i = 0; i < tareaStatus.length(); i++) {
+                auxObj = tareaStatus.getJSONObject(i);
+                statusList.add(auxObj.getString("Name"));
+                statusIdList.add(auxObj.getString("Id"));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -184,7 +192,13 @@ public class PodActivity extends AppCompatActivity {
         spn_bodega.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                especialidadSelected= (String) adapterView.getItemAtPosition(position);
+                if (position!=0){
+                    especialidadSelected = especialidadIdList.get(position-1);
+                } else {
+                    especialidadSelected = null;
+                }
+
+
             }
 
             @Override
@@ -216,7 +230,12 @@ public class PodActivity extends AppCompatActivity {
         spn_bodega.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                areaSelected= (String) adapterView.getItemAtPosition(position);
+                if (position!=0){
+                    areaSelected= areaIdList.get(position-1);
+                } else {
+                    areaSelected = null;
+                }
+
             }
 
             @Override
@@ -248,7 +267,12 @@ public class PodActivity extends AppCompatActivity {
         spn_bodega.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                statusSelected= (String) adapterView.getItemAtPosition(position);
+                if (position!=0){
+                    statusSelected= statusIdList.get(position-1);
+                } else {
+                    statusSelected = null;
+                }
+
             }
 
             @Override
@@ -277,14 +301,17 @@ public class PodActivity extends AppCompatActivity {
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nombreFilter = String.valueOf(et_nombre.getText());
-                Toast.makeText(getApplicationContext(),
-                        "Filtro con \n" +
-                                "Capataz:"+nombreFilter+"\n"+
-                                "Especialidad: "+ especialidadSelected+"\n"+
-                                "Area: "+ areaSelected+"\n"+
-                                "Status: "+ statusSelected,
-                        Toast.LENGTH_SHORT).show();
+
+                if (!et_nombre.getText().equals("")){
+                    nombreFilter = String.valueOf(et_nombre.getText());
+                } else {
+                    nombreFilter=null;
+                }
+
+                session.attemptTareas(nombreFilter, especialidadSelected, areaSelected, statusSelected);
+
+                configureItemData();
+                configureItemList();
 
             }
         });
@@ -295,35 +322,40 @@ public class PodActivity extends AppCompatActivity {
     }
 
     private void configureItemData(){
+
         try {
-            JSONArray workers = new JSONArray(session.getWorkers());
+            JSONArray tareas = new JSONArray(session.getTareas());
             JSONObject auxObj;
 
             List<String> nameList = new ArrayList<String>();
-            List<String> categoriaList = new ArrayList<String>();
             List<String> statusList = new ArrayList<String>();
-            List<Integer> imageList = new ArrayList<Integer>();
+            List<String> especialidadList = new ArrayList<String>();
+            List<String> colorList = new ArrayList<String>();
 
-            for (int i = 0; i < workers.length(); i++) {
-                auxObj=workers.getJSONObject(i);
-                nameList.add(auxObj.getString("Name"));
-                categoriaList.add(auxObj.getString("Categoria"));
-                if (auxObj.getString("IsActivo").equals("true")){
-                    statusList.add("Activo");
-                }else {
-                    statusList.add("No activo");
+            for (int i = 0; i < tareas.length(); i++) {
+                auxObj=tareas.getJSONObject(i);
+
+                nameList.add(auxObj.getString("ItoName"));
+                if (auxObj.getBoolean("IsFinalizado")){
+                    statusList.add("Finalizada");
+                } else {
+                    statusList.add("Sin finalizar");
                 }
-                imageList.add(R.drawable.imagen);
+                especialidadList.add(auxObj.getString("EspecialidadName"));
+                colorList.add(auxObj.getString("Color"));
+
             }
 
-            nameArray = new String[workers.length()];
-
-            statusArray = new String[workers.length()];
-
+            nameArray = new String[tareas.length()];
+            statusArray = new String[tareas.length()];
+            especialidadArray = new String[tareas.length()];
+            colorArray = new String[tareas.length()];
 
             nameArray = nameList.toArray(nameArray);
-
             statusArray = statusList.toArray(statusArray);
+            especialidadArray = especialidadList.toArray(especialidadArray);
+            colorArray = colorList.toArray(colorArray);
+
 
         } catch (JSONException e) {
             e.printStackTrace();

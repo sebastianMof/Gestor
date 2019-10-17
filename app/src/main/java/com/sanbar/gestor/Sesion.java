@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.FormBody;
+import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -39,6 +40,7 @@ public class Sesion implements Parcelable {
     private Equipos mEquipos = null;
     private EquiposEquipoId mEquiposEquipoId = null;
     private Especialidades mEspecialidades = null;
+    private AreaContratos mAreaContratos = null;
     private TareaStatus mTareaStatus = null;
     private Tareas mTareas = null;
     private TareasTareaId mTareasTareaId = null;
@@ -75,6 +77,9 @@ public class Sesion implements Parcelable {
     private String workers;
     private String workersWorkerId;
     private String especialidades;
+    private String tareaStatus;
+    private String areaContratos;
+    private String tareas;
 
     //CONSTRUCTOR
     public Sesion(String mail, String password) {
@@ -100,6 +105,9 @@ public class Sesion implements Parcelable {
         this.workers = in.readString();
         this.workersWorkerId = in.readString();
         this.especialidades = in.readString();
+        this.tareaStatus = in.readString();
+        this.areaContratos = in.readString();
+        this.tareas = in.readString();
     }
 
     @Override
@@ -124,6 +132,9 @@ public class Sesion implements Parcelable {
         dest.writeString(this.workers);
         dest.writeString(this.workersWorkerId);
         dest.writeString(this.especialidades);
+        dest.writeString(this.tareaStatus);
+        dest.writeString(this.areaContratos);
+        dest.writeString(this.tareas);
     }
 
     @Override
@@ -246,7 +257,29 @@ public class Sesion implements Parcelable {
         this.especialidades = especialidades;
     }
 
+    public String getTareaStatus() {
+        return tareaStatus;
+    }
 
+    public void setTareaStatus(String tareaStatus) {
+        this.tareaStatus = tareaStatus;
+    }
+
+    public String getAreaContratos() {
+        return areaContratos;
+    }
+
+    public void setAreaContratos(String areaContratos) {
+        this.areaContratos = areaContratos;
+    }
+
+    public String getTareas() {
+        return tareas;
+    }
+
+    public void setTareas(String tareas) {
+        this.tareas = tareas;
+    }
 
 
     //TASK CLASSES
@@ -1004,6 +1037,64 @@ public class Sesion implements Parcelable {
 
             if (success) {
 
+            } else {
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mEspecialidades = null;
+            //showProgress(false);
+        }
+    }
+
+    public class AreaContratos extends AsyncTask<Void, Void, Boolean> {
+
+        AreaContratos() {
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            OkHttpClient client = new OkHttpClient();
+
+            //params opcionales
+            RequestBody body = new FormBody.Builder()
+                    .add("isFinalizado", "")// Se puede mandar cualquier argumento, el hecho de de agregar el campo lo hace true
+                    .add("isInterrupcion", "")// Se puede mandar cualquier argumento, el hecho de de agregar el campo lo hace true
+                    .build();
+
+            final Request request = new Request.Builder()
+                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/AreaContratos")
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "Bearer "+getToken())
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+
+                if (response.body() != null) {
+
+                    String jsonResponse = response.body().string();
+
+                    setAreaContratos(jsonResponse);
+
+                }
+
+                return response.isSuccessful();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAreaContratos = null;
+            //showProgress(false);
+
+            if (success) {
+
                 Log.e("TEST","AUTH OK");
 
             } else {
@@ -1014,7 +1105,7 @@ public class Sesion implements Parcelable {
 
         @Override
         protected void onCancelled() {
-            mEspecialidades = null;
+            mAreaContratos = null;
             //showProgress(false);
         }
     }
@@ -1029,6 +1120,8 @@ public class Sesion implements Parcelable {
             // TODO: attempt authentication against a network service.
 
             OkHttpClient client = new OkHttpClient();
+
+            //params opcionales
             RequestBody body = new FormBody.Builder()
                     .add("isFinalizado", "")// Se puede mandar cualquier argumento, el hecho de de agregar el campo lo hace true
                     .add("isInterrupcion", "")// Se puede mandar cualquier argumento, el hecho de de agregar el campo lo hace true
@@ -1036,7 +1129,6 @@ public class Sesion implements Parcelable {
 
             final Request request = new Request.Builder()
                     .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/TareaStatus")
-                    .post(body)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -1046,24 +1138,7 @@ public class Sesion implements Parcelable {
                 if (response.body() != null) {
 
                     String jsonResponse = response.body().string();
-
-                    try {
-
-                        JSONArray array = new JSONArray(jsonResponse);
-                        JSONObject auxObj;
-
-                        for (int i =0;i<array.length();i++){
-                            auxObj = array.getJSONObject(i);
-
-                            auxObj.get("Id");
-                            auxObj.get("Name");
-                            //lista de status de tareas y ids de cada status de tarea, guardar
-
-                        }
-
-                    } catch (Throwable tx) {
-                        Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
-                    }
+                    setTareaStatus(jsonResponse);
 
                 }
 
@@ -1098,7 +1173,16 @@ public class Sesion implements Parcelable {
 
     public class Tareas extends AsyncTask<Void, Void, Boolean> {
 
-        Tareas() {
+        String nombreCapataz;
+        String especialidadId;
+        String areaId;
+        String statusTareaId;
+
+        Tareas(String nombreCapataz, String especialidadId, String areaId, String statusTareaId) {
+            this.nombreCapataz=nombreCapataz;
+            this.especialidadId=especialidadId;
+            this.areaId=areaId;
+            this.statusTareaId=statusTareaId;
         }
 
         @Override
@@ -1106,17 +1190,50 @@ public class Sesion implements Parcelable {
             // TODO: attempt authentication against a network service.
 
             OkHttpClient client = new OkHttpClient();
-            RequestBody body = new FormBody.Builder()
-                    .add("nombreCapataz", "")
-                    .add("especialidadId", "")
-                    .add("areaId", "")
-                    .add("statusTareaId", "")
-                    .add("contractId", "")
-                    .build();
+
+            if (nombreCapataz!= null && nombreCapataz.equals(""))
+                nombreCapataz=null;
+
+            String url = "https://ezprogpdar-apiproductividad.azurewebsites.net/api/Tareas?";
+
+            if (nombreCapataz!=null){
+                url+="nombreCapataz="+nombreCapataz;
+            }
+
+            if (especialidadId!=null){
+                if (url.substring(url.length() - 1).equals("?")){
+                    url+="especialidadId="+especialidadId;
+                } else {
+                    url+="&especialidadId="+especialidadId;
+                }
+            }
+
+            if (areaId!=null){
+                if (url.substring(url.length() - 1).equals("?")){
+                    url+="areaId="+areaId;
+                } else {
+                    url+="&areaId="+areaId;
+                }
+            }
+
+            if (statusTareaId!=null){
+                if (url.substring(url.length() - 1).equals("?")){
+                    url+="statusTareaId="+statusTareaId;
+                } else {
+                    url+="&statusTareaId="+statusTareaId;
+                }
+            }
+
+            if (url.substring(url.length() - 1).equals("?")){
+                url+="contractId="+getLastContractId();
+            } else {
+                url+="&contractId="+getLastContractId();
+            }
+
+
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Tareas")
-                    .post(body)
+                    .url(url)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -1126,29 +1243,11 @@ public class Sesion implements Parcelable {
                 if (response.body() != null) {
 
                     String jsonResponse = response.body().string();
+                    Log.e("TEST",jsonResponse);
 
                     try {
-
                         JSONArray array = new JSONArray(jsonResponse);
-                        JSONObject auxObj;
-
-                        for (int i =0;i<array.length();i++){
-                            auxObj = array.getJSONObject(i);
-
-                            auxObj.getString("Id");
-                            auxObj.getString("ItoName");
-                            auxObj.getString("TareaStatusName");
-                            auxObj.getBoolean("IsFinalizado");
-                            auxObj.getBoolean("IsInterrupción");
-                            auxObj.getString("EspecialidadName");
-                            auxObj.getString("InicioPrograma");
-                            auxObj.getString("TerminoProgramada");
-                            auxObj.getString("InicioReal");
-                            auxObj.getString("TerminoReal");
-
-                        //Lista de todas las tareas filtradas, guardar o usar en la listview
-
-                        }
+                        setTareas(jsonResponse);
 
                     } catch (Throwable tx) {
                         Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
@@ -1170,11 +1269,8 @@ public class Sesion implements Parcelable {
 
             if (success) {
 
-                Log.e("TEST","AUTH OK");
-
             } else {
 
-                Log.e("TEST","AUTH NOT OK");
             }
         }
 
@@ -1978,6 +2074,66 @@ public class Sesion implements Parcelable {
 
         try {
             str_result= mEspecialidades.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptAreaContratos() {
+        if (mAreaContratos != null) {
+            return false;
+        }
+
+        mAreaContratos = new AreaContratos();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mAreaContratos.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptTareas(String nombreCapataz, String especialidadId, String areaId, String statusTareaId) {
+        if (mTareas != null) {
+            return false;
+        }
+
+        mTareas = new Tareas(nombreCapataz,especialidadId,areaId,statusTareaId);
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mTareas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptTareaStatus() {
+        if (mTareaStatus != null) {
+            return false;
+        }
+
+        mTareaStatus = new TareaStatus();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mTareaStatus.execute((Void) null).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

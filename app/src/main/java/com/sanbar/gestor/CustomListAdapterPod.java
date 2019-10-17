@@ -1,12 +1,17 @@
 package com.sanbar.gestor;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import static android.graphics.Color.parseColor;
 
 public class CustomListAdapterPod extends ArrayAdapter {
 
@@ -15,23 +20,23 @@ public class CustomListAdapterPod extends ArrayAdapter {
 
     private final String[] nameArray;
     private final String[] statusArray;
-    private final String[] ituArray;
     private final String[] especialidadArray;
+    private final String[] colorArray;
 
 
     public CustomListAdapterPod(Activity context,
                                 String[] nameArrayParam,
                                 String[] statusArrayParam,
-                                String[] ituArrayParam,
-                                String[] especialidadArrayParam){
+                                String[] especialidadArrayParam,
+                                String[] colorArrayParam){
 
         super(context,R.layout.listview_row_persona, nameArrayParam);
 
         this.context=context;
         this.nameArray = nameArrayParam;
         this.statusArray = statusArrayParam;
-        this.ituArray = ituArrayParam;
         this.especialidadArray = especialidadArrayParam;
+        this.colorArray = colorArrayParam;
 
     }
 
@@ -41,13 +46,17 @@ public class CustomListAdapterPod extends ArrayAdapter {
 
         TextView tv_nombre = (TextView) rowView.findViewById(R.id.textview_pod_item_nombre_capataz);
         TextView tv_status = (TextView) rowView.findViewById(R.id.textview_pod_item_status);
-        TextView tv_itu = (TextView) rowView.findViewById(R.id.textview_pod_item_codigo_itu);
         TextView tv_especialidad = (TextView) rowView.findViewById(R.id.textview_pod_item_especialidad);
+        LinearLayout ll_row = (LinearLayout) rowView.findViewById(R.id.linearlayout_pod_listrow);
 
         tv_nombre.setText(nameArray[position]);
         tv_status.setText(statusArray[position]);
-        tv_itu.setText(ituArray[position]);
         tv_especialidad.setText(especialidadArray[position]);
+
+        int color = parseColor (colorArray[position]);
+        ColorDrawable cd = new ColorDrawable(color);
+        ll_row.setBackground(cd);
+
 
         return rowView;
 
