@@ -10,12 +10,11 @@ import java.io.IOException;
  */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(String username, String password) {
+    public Result<LoggedInUser> login(String mail, String password) {
 
         try {
             // TODO: handle loggedInUser authentication
 
-            Sesion(username,password);
             LoggedInUser fakeUser =
                     new LoggedInUser( "userId", "displayName","token" );
             return new Result.Success<>(fakeUser);

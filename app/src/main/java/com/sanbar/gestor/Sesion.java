@@ -11,6 +11,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.FormBody;
@@ -61,7 +63,6 @@ public class Sesion implements Parcelable {
 
     private String mail;
     private String password;
-    private String user;
     private String token;
     private String userId;
     private String selectedContractId;
@@ -69,10 +70,15 @@ public class Sesion implements Parcelable {
     private String fullNameComputed;
     private String contractCode;
     private String apiCode;
+    private String contracts;
+    private String workerCategorias;
+    private String workers;
+    private String workersWorkerId;
+    private String especialidades;
 
     //CONSTRUCTOR
-    public Sesion(String username, String password) {
-        this.mail = username;
+    public Sesion(String mail, String password) {
+        this.mail = mail;
         this.password = password;
 
     //cambiar luego de terminar
@@ -80,8 +86,20 @@ public class Sesion implements Parcelable {
 
     // PARCELING
     public Sesion(Parcel in) {
-        this.user = in.readString();
+        this.mail = in.readString();
+        this.password = in.readString();
         this.token = in.readString();
+        this.userId = in.readString();
+        this.selectedContractId = in.readString();
+        this.lastContractId = in.readString();
+        this.fullNameComputed = in.readString();
+        this.contractCode = in.readString();
+        this.apiCode = in.readString();
+        this.contracts = in.readString();
+        this.workerCategorias = in.readString();
+        this.workers = in.readString();
+        this.workersWorkerId = in.readString();
+        this.especialidades = in.readString();
     }
 
     @Override
@@ -91,27 +109,39 @@ public class Sesion implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.user);
+
+        dest.writeString(this.mail);
+        dest.writeString(this.password);
         dest.writeString(this.token);
+        dest.writeString(this.userId);
+        dest.writeString(this.selectedContractId);
+        dest.writeString(this.lastContractId);
+        dest.writeString(this.fullNameComputed);
+        dest.writeString(this.contractCode);
+        dest.writeString(this.apiCode);
+        dest.writeString(this.contracts);
+        dest.writeString(this.workerCategorias);
+        dest.writeString(this.workers);
+        dest.writeString(this.workersWorkerId);
+        dest.writeString(this.especialidades);
     }
 
     @Override
     public String toString() {
         return "Sesion{" +
-                " user='" + user + '\'' +
-                ", token='" + token + '\'' +
+                " mail='" + mail + '\'' +
+                " password='" + password + '\'' +
+                " token='" + token + '\'' +
+                " userId='" + userId + '\'' +
+                " selectedContractId='" + selectedContractId + '\'' +
+                " lastContractId='" + lastContractId + '\'' +
+                " fullNameComputed='" + fullNameComputed + '\'' +
+                " contractCode='" + contractCode + '\'' +
+                " apiCode='" + apiCode + '\'' +
                 '}';
     }
 
     //SETTERS & GETTERS
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
     public String getToken() {
         return token;
     }
@@ -176,6 +206,49 @@ public class Sesion implements Parcelable {
         this.apiCode = apiCode;
     }
 
+    public String getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(String contracts) {
+        this.contracts = contracts;
+    }
+
+    public String getWorkerCategorias() {
+        return workerCategorias;
+    }
+
+    public void setWorkerCategorias(String workerCategorias) {
+        this.workerCategorias = workerCategorias;
+    }
+
+    public String getWorkers() {
+        return workers;
+    }
+
+    public void setWorkers(String workers) {
+        this.workers = workers;
+    }
+
+    public String getWorkersWorkerId() {
+        return workersWorkerId;
+    }
+
+    public void setWorkersWorkerId(String workersWorkerId) {
+        this.workersWorkerId = workersWorkerId;
+    }
+
+    public String getEspecialidades() {
+        return especialidades;
+    }
+
+    public void setEspecialidades(String especialidades) {
+        this.especialidades = especialidades;
+    }
+
+
+
+
     //TASK CLASSES
     public class Token extends AsyncTask<Void, Void, Boolean> {
 
@@ -188,7 +261,7 @@ public class Sesion implements Parcelable {
 
             OkHttpClient client = new OkHttpClient();
 
-            String postdata = "username="+user+"&password="+password+"&grant_type=password";
+            String postdata = "username="+mail+"&password="+password+"&grant_type=password";
 
             RequestBody body = RequestBody.create(MEDIA_TYPE, postdata.toString());
 
@@ -208,7 +281,7 @@ public class Sesion implements Parcelable {
 
                         JSONObject obj = new JSONObject(jsonResponse);
 
-                        setUser(obj.getString("userName"));
+                        setMail(obj.getString("userName"));
                         setToken(obj.getString("access_token"));
 
                     } catch (Throwable tx) {
@@ -255,15 +328,8 @@ public class Sesion implements Parcelable {
 
             OkHttpClient client = new OkHttpClient();
 
-
-            RequestBody formBody = new FormBody.Builder()
-                    .add("email", getMail())
-                    .build();
-
-            //https://ezprogpdar-apiproductividad.azurewebsites.net/api/Contratistas/?email=diego.murua@koffguerrero.com
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Contratistas/")
-                    .post(formBody)
+                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Contratistas/"+"?email="+getMail())
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -319,11 +385,8 @@ public class Sesion implements Parcelable {
 
             if (success) {
 
-                Log.e("TEST","AUTH OK");
-
             } else {
 
-                Log.e("TEST","AUTH NOT OK");
             }
         }
 
@@ -357,22 +420,7 @@ public class Sesion implements Parcelable {
 
                     String jsonResponse = response.body().string();
 
-                    try {
-
-                        JSONArray array = new JSONArray(jsonResponse);
-                        JSONObject auxObj;
-
-                        for (int i =0;i<array.length();i++){
-                            auxObj = array.getJSONObject(i);
-
-                            auxObj.get("Id");
-                            auxObj.get("Name");
-                            //guardar Id y nombre de cada contrato
-                        }
-
-                    } catch (Throwable tx) {
-                        Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
-                    }
+                    setContracts(jsonResponse);
 
                 }
 
@@ -390,11 +438,8 @@ public class Sesion implements Parcelable {
 
             if (success) {
 
-                Log.e("TEST","AUTH OK");
-
             } else {
 
-                Log.e("TEST","AUTH NOT OK");
             }
         }
 
@@ -428,7 +473,7 @@ public class Sesion implements Parcelable {
 
             final Request request = new Request.Builder()
                     .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/CambioContrato")
-                    .post(body)
+                    .put(body)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -449,11 +494,8 @@ public class Sesion implements Parcelable {
 
             if (success) {
 
-                Log.e("TEST","AUTH OK");
-
             } else {
 
-                Log.e("TEST","AUTH NOT OK");
             }
         }
 
@@ -486,23 +528,7 @@ public class Sesion implements Parcelable {
                 if (response.body() != null) {
 
                     String jsonResponse = response.body().string();
-
-                    try {
-
-                        JSONArray array = new JSONArray(jsonResponse);
-                        JSONObject auxObj;
-
-                        for (int i =0;i<array.length();i++){
-                            auxObj = array.getJSONObject(i);
-
-                            auxObj.get("Id");
-                            auxObj.get("Name");
-                            //guardar Id de categoria y nombre de cada categoria
-                        }
-
-                    } catch (Throwable tx) {
-                        Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
-                    }
+                    setWorkerCategorias(jsonResponse);
 
                 }
 
@@ -521,11 +547,11 @@ public class Sesion implements Parcelable {
 
             if (success) {
 
-                Log.e("TEST","AUTH OK");
+                Log.e("TEST","OK");
 
             } else {
 
-                Log.e("TEST","AUTH NOT OK");
+                Log.e("TEST","NOOK");
             }
         }
 
@@ -538,7 +564,12 @@ public class Sesion implements Parcelable {
 
     public class Workers extends AsyncTask<Void, Void, Boolean> {
 
-        Workers() {
+        String filter;
+        String categoriaId;
+
+        Workers(String filter, String categoriaId) {
+            this.filter=filter;
+            this.categoriaId=categoriaId;
         }
 
         @Override
@@ -547,25 +578,53 @@ public class Sesion implements Parcelable {
 
             OkHttpClient client = new OkHttpClient();
 
-            RequestBody body = new FormBody.Builder()
-                    .add("filter", "FILTER")//RUT / NOMBRE
-                    .add("categoriaId", "cateriaId") // categoria id
-                    .add("contractId",getLastContractId()) //tambien es opcional pero por la logica pedida para la aplicacion es el cntrato seleccionado en la sesion
-                    .build();
+            String url ="https://ezprogpdar-apiproductividad.azurewebsites.net/api/Workers";
+
+
+            if(filter != null || categoriaId != null ){
+                url+=("?");
+            }
+
+            if(filter != null ){
+                url+=("filter="+filter);
+            }
+
+            if (filter!=null && categoriaId != null ){
+                url+="&";
+            }
+
+            if (categoriaId!=null){
+                url+=("categoriaId="+categoriaId);
+            }
+
+            if (filter!=null || categoriaId != null){
+                url+="&";
+            }
+
+            if (filter==null){
+                if (categoriaId==null){
+                    url+="?";
+                }
+            }
+
+            url+=("contractId="+getLastContractId());
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Workers")
-                    .post(body)
+                    .url(url)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
+
+            Log.e("TEST",request.toString());
 
             try (Response response = client.newCall(request).execute()) {
 
                 if (response.body() != null) {
 
                     String jsonResponse = response.body().string();
-
+                    Log.e("TEST",jsonResponse);
+                    setWorkers(jsonResponse);
+/*
                     try {
 
                         JSONArray array = new JSONArray(jsonResponse);
@@ -583,7 +642,7 @@ public class Sesion implements Parcelable {
 
                     } catch (Throwable tx) {
                         Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
-                    }
+                    }*/
 
                 }
 
@@ -601,12 +660,7 @@ public class Sesion implements Parcelable {
             //showProgress(false);
 
             if (success) {
-
-                Log.e("TEST","AUTH OK");
-
             } else {
-
-                Log.e("TEST","AUTH NOT OK");
             }
         }
 
@@ -643,42 +697,7 @@ public class Sesion implements Parcelable {
 
                     String jsonResponse = response.body().string();
 
-                    try {
-                        JSONObject obj = new JSONObject(jsonResponse);
-
-
-                        /*
-                        {
-                            "Id": 16,
-                                "Name": "Diego Riquelme",
-                                "Code": "1",
-                                "CiudadOrigen": "Arica",
-                                "CiudadOrigenCode": "151",
-                                "Region": "De Arica y Parinacota",
-                                "RegionCode": "15",
-                                "CodigoContrato": "TBD",
-                                "NombreContrato": "Avance de Puesta en Marcha",
-                                "IsCapataz": true,
-                                "IsDirecto": false,
-                                "IsSupervisor": false,
-                                "TurnoContratoCode": "1",
-                                "TurnoContratoName": "Turno semanal día",
-                                "TurnoContratoIsNoche": false,
-                                "TurnoContratoFecha": "2019-10-01T19:16:42",
-                                "Especialidad": "excavación",
-                                "EspecialidadCode": "4",
-                                "Categoria": "mano de obra",
-                                "CategoriaCode": "1",
-                                "ExperienciaYears": 1,
-                                "FInicio": "2019-02-01T19:19:42",
-                                "FTermino": "2019-12-01T19:19:48",
-                                "Genero": 1,
-                                "IsActivo": true
-                        }*/
-
-                    } catch (Throwable tx) {
-                        Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
-                    }
+                    setWorkersWorkerId(jsonResponse);
 
                 }
 
@@ -697,11 +716,9 @@ public class Sesion implements Parcelable {
 
             if (success) {
 
-                Log.e("TEST","AUTH OK");
 
             } else {
 
-                Log.e("TEST","AUTH NOT OK");
             }
         }
 
@@ -969,23 +986,7 @@ public class Sesion implements Parcelable {
 
                     String jsonResponse = response.body().string();
 
-                    try {
-
-                        JSONArray array = new JSONArray(jsonResponse);
-                        JSONObject auxObj;
-
-                        for (int i =0;i<array.length();i++){
-                            auxObj = array.getJSONObject(i);
-
-                            auxObj.get("Id");
-                            auxObj.get("Name");
-                            //lista de especialidades, guardar
-
-                        }
-
-                    } catch (Throwable tx) {
-                        Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
-                    }
+                    setEspecialidades(jsonResponse);
 
                 }
 
@@ -1764,9 +1765,48 @@ public class Sesion implements Parcelable {
         }
     }
 
+    //METHODS EXECUT TASKS
+    public boolean attemptToken() {
+        if (mToken != null) {
+            return false;
+        }
 
-    /*
-    private boolean attemptContract() {
+        mToken = new Token();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mToken.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptContratistas() {
+        if (mContratistas != null) {
+            return false;
+        }
+
+        mContratistas = new Contratistas();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mContratistas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptContracts() {
         if (mContracts != null) {
             return false;
         }
@@ -1785,7 +1825,306 @@ public class Sesion implements Parcelable {
         }
         return str_result;
     }
-    */
+
+    public boolean attemptCambioContrato() {
+        if (mCambioContrato != null) {
+            return false;
+        }
+
+        mCambioContrato = new CambioContrato();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mCambioContrato.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptWorkerCategorias() {
+        if (mWorkerCategorias != null) {
+            return false;
+        }
+
+        mWorkerCategorias = new WorkerCategorias();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mWorkerCategorias.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptWorkers(String filter,String categoriaId) {
+        if (mWorkers != null) {
+            return false;
+        }
+
+        mWorkers = new Workers(filter,categoriaId);
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mWorkers.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptWorkersWorkerId(String workerId) {
+        if (mWorkersWorkerId != null) {
+            return false;
+        }
+
+        mWorkersWorkerId = new WorkersWorkerId(workerId);
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mWorkersWorkerId.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptTipoEquipos() {
+        if (mContratistas != null) {
+            return false;
+        }
+
+        mContratistas = new Contratistas();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mContratistas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptEquipos() {
+        if (mContratistas != null) {
+            return false;
+        }
+
+        mContratistas = new Contratistas();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mContratistas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptEquiposEquipoId() {
+        if (mContratistas != null) {
+            return false;
+        }
+
+        mContratistas = new Contratistas();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mContratistas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptEspecialidades() {
+        if (mEspecialidades != null) {
+            return false;
+        }
+
+        mEspecialidades = new Especialidades();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mEspecialidades.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptFinalizarTarea() {
+        if (mContratistas != null) {
+            return false;
+        }
+
+        mContratistas = new Contratistas();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mContratistas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptComentariosTareas() {
+        if (mContratistas != null) {
+            return false;
+        }
+
+        mContratistas = new Contratistas();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mContratistas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptInterrupciones() {
+        if (mContratistas != null) {
+            return false;
+        }
+
+        mContratistas = new Contratistas();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mContratistas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptCausaInterrupciones() {
+        if (mContratistas != null) {
+            return false;
+        }
+
+        mContratistas = new Contratistas();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mContratistas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptSolucionCausaInterrupcionCausaInterrupcionId() {
+        if (mContratistas != null) {
+            return false;
+        }
+
+        mContratistas = new Contratistas();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mContratistas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptStatusInterrupciones() {
+        if (mContratistas != null) {
+            return false;
+        }
+
+        mContratistas = new Contratistas();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mContratistas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptAccionesSoluciones() {
+        if (mContratistas != null) {
+            return false;
+        }
+
+        mContratistas = new Contratistas();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mContratistas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
 
 
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -22,10 +23,12 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.sanbar.gestor.MenuActivity;
 import com.sanbar.gestor.R;
+import com.sanbar.gestor.Sesion;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private Sesion session;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,9 +112,25 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                //loadingProgressBar.setVisibility(View.VISIBLE);
+
+                session = new Sesion(usernameEditText.getText().toString(),passwordEditText.getText().toString());
+
+                Boolean auxToken = false;
+                Boolean auxContratistas = false;
+
+                if (session.attemptToken()) {
+                    auxToken = true;
+                }
+                if (session.attemptContratistas()){
+                    auxContratistas = true;
+                }
+                if (auxContratistas)
+                    if (auxToken) {
+                        Intent myIntent = new Intent(LoginActivity.this, MenuActivity.class);
+                        myIntent.putExtra("SESSION", session); //Optional parameters
+                        LoginActivity.this.startActivity(myIntent);
+                    }
             }
         });
     }
@@ -128,3 +147,5 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 }
+
+

@@ -15,10 +15,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class PodActivity extends AppCompatActivity {
+
+    private Sesion session;
 
     private String nombreFilter;
 
@@ -60,6 +67,8 @@ public class PodActivity extends AppCompatActivity {
     private ListView listView;
 
     private ArrayList<String> especialidadList;
+    private ArrayList<String> especialidadIdList;
+
     private ArrayList<String> areaList;
     private ArrayList<String> statusList;
 
@@ -73,11 +82,19 @@ public class PodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pod);
 
+        try {
+            Intent intent = getIntent();
+            session = intent.getParcelableExtra("SESSION");
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(),"PROBLEMA CON DATOS DE LA CUENTA",Toast.LENGTH_SHORT).show();
+        }
+
         configureEditTextNombre();
         configureButtonBack();
         configureItemList();
 
         configureButtonFilter();
+
 
         configureEspecialidadList();
         configureAreaList();
@@ -110,10 +127,25 @@ public class PodActivity extends AppCompatActivity {
     }
 
     private void configureEspecialidadList() {
-        especialidadList = new ArrayList<>();
-        String[] items = new String[]{"ESPECIALIDAD", "ESPECIALIDAD_1", "ESPECIALIDAD_2", "ESPECIALIDAD_3"};
 
-        especialidadList.addAll(Arrays.asList(items));
+        session.attemptEspecialidades();
+
+        especialidadList = new ArrayList<>();
+        especialidadIdList = new ArrayList<>();
+
+        try {
+            JSONArray especialidades = new JSONArray(session.getEspecialidades());
+            JSONObject auxObj;
+            for (int i = 0; i < especialidades.length(); i++) {
+                auxObj = especialidades.getJSONObject(i);
+                especialidadList.add(auxObj.getString("Name"));
+                especialidadIdList.add(auxObj.getString("Id"));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
     }
     private void configureAreaList() {
@@ -260,6 +292,42 @@ public class PodActivity extends AppCompatActivity {
 
     private void configureEditTextNombre() {
         et_nombre= (EditText) findViewById(R.id.edittext_pod_busqueda);
+    }
+
+    private void configureItemData(){
+        try {
+            JSONArray workers = new JSONArray(session.getWorkers());
+            JSONObject auxObj;
+
+            List<String> nameList = new ArrayList<String>();
+            List<String> categoriaList = new ArrayList<String>();
+            List<String> statusList = new ArrayList<String>();
+            List<Integer> imageList = new ArrayList<Integer>();
+
+            for (int i = 0; i < workers.length(); i++) {
+                auxObj=workers.getJSONObject(i);
+                nameList.add(auxObj.getString("Name"));
+                categoriaList.add(auxObj.getString("Categoria"));
+                if (auxObj.getString("IsActivo").equals("true")){
+                    statusList.add("Activo");
+                }else {
+                    statusList.add("No activo");
+                }
+                imageList.add(R.drawable.imagen);
+            }
+
+            nameArray = new String[workers.length()];
+
+            statusArray = new String[workers.length()];
+
+
+            nameArray = nameList.toArray(nameArray);
+
+            statusArray = statusList.toArray(statusArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

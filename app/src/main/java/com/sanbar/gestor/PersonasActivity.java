@@ -1,10 +1,7 @@
 package com.sanbar.gestor;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,67 +13,55 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 
 public class PersonasActivity extends AppCompatActivity {
 
+    private Sesion session;
+
     private ArrayList<String> tiposList;
+    private ArrayList<String> categoriaIdList;
+    private ArrayList<String> userIdList;
+
     private String tipoSelected;
     private EditText et_nombre_rut;
     private String nombreFilter;
 
-
-    private String[] nameArray = {
-            "Nombre 1",
-            "Nombre 2",
-            "Nombre 3",
-            "Nombre 4",
-            "Nombre 5",
-            "Nombre 6" };
-
-    private String[] cargoArray = {
-            "Cargo 1",
-            "Cargo 2",
-            "Cargo 3",
-            "Cargo 4",
-            "Cargo 5",
-            "Cargo 6"
-    };
-
-    private String[] statusArray = {
-            "Status 1",
-            "Status 2",
-            "Status 3",
-            "Status 4",
-            "Status 5",
-            "Status 6"
-    };
-
-    private Integer[] imageArray = {
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen,
-            R.drawable.imagen
-
-    };
+    private String[] nameArray;
+    private String[] cargoArray;
+    private String[] statusArray;
+    private Integer[] imageArray;
 
     private ListView listView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personas);
 
+        try {
+            Intent intent = getIntent();
+            session = intent.getParcelableExtra("SESSION");
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(),"PROBLEMA CON DATOS DE LA CUENTA",Toast.LENGTH_SHORT).show();
+        }
+
         configureEditTextNombre();
 
         configureTiposList();
         configureSpinnerTipos();
 
+        session.attemptWorkers(null,null);
+
+        configureItemData();
         configureItemList();
 
         configureButtonBack();
@@ -107,8 +92,26 @@ public class PersonasActivity extends AppCompatActivity {
         btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            nombreFilter = String.valueOf(et_nombre_rut.getText());
-            Toast.makeText(getApplicationContext(),"Filtro con tipo: "+tipoSelected+"y nombre: "+nombreFilter,Toast.LENGTH_SHORT).show();
+
+            String nombre_rut = et_nombre_rut.getText().toString();
+            if (!nombre_rut.equals("")){
+                nombreFilter = nombre_rut;
+            } else {
+                nombreFilter=null;
+            }
+
+            String categoriaFilter;
+            if (!tipoSelected.equals("0")){
+                categoriaFilter = categoriaIdList.get(Integer.valueOf(tipoSelected)-1);
+
+            } else {
+                categoriaFilter=null;
+            }
+
+            session.attemptWorkers(nombreFilter,categoriaFilter);
+
+            configureItemData();
+            configureItemList();
 
             }
         });
@@ -116,9 +119,27 @@ public class PersonasActivity extends AppCompatActivity {
 
     private void configureTiposList() {
         tiposList = new ArrayList<>();
-        String[] items = new String[]{"TIPO", "TIPO_1", "TIPO_2", "TIPO_3"};
+        categoriaIdList = new ArrayList<>();
 
-        tiposList.addAll(Arrays.asList(items));
+        tiposList.add("CATEGORIA");
+
+        session.attemptWorkerCategorias();
+        JSONArray workerCategorias = null;
+
+        try {
+            workerCategorias = new JSONArray(session.getWorkerCategorias());
+
+            JSONObject auxObj;
+            for (int i = 0; i < workerCategorias.length(); i++) {
+
+                auxObj = workerCategorias.getJSONObject(i);
+                tiposList.add(auxObj.getString("Name"));
+                categoriaIdList.add(auxObj.getString("Id"));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -143,7 +164,9 @@ public class PersonasActivity extends AppCompatActivity {
         spn_bodega.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                tipoSelected= (String) adapterView.getItemAtPosition(position);
+                //tipoSelected= (String) adapterView.getItemAtPosition(position);
+                tipoSelected= String.valueOf(position);
+
             }
 
             @Override
@@ -154,7 +177,45 @@ public class PersonasActivity extends AppCompatActivity {
 
     }
 
+    private void configureItemData(){
+        try {
+            JSONArray workers = new JSONArray(session.getWorkers());
+            JSONObject auxObj;
+
+            List<String> nameList = new ArrayList<String>();
+            List<String> categoriaList = new ArrayList<String>();
+            List<String> statusList = new ArrayList<String>();
+            List<Integer> imageList = new ArrayList<Integer>();
+
+            for (int i = 0; i < workers.length(); i++) {
+                auxObj=workers.getJSONObject(i);
+                nameList.add(auxObj.getString("Name"));
+                categoriaList.add(auxObj.getString("Categoria"));
+                if (auxObj.getString("IsActivo").equals("true")){
+                    statusList.add("Activo");
+                }else {
+                    statusList.add("No activo");
+                }
+                imageList.add(R.drawable.imagen);
+            }
+
+            nameArray = new String[workers.length()];
+            cargoArray = new String[workers.length()];
+            statusArray = new String[workers.length()];
+            imageArray = new Integer[workers.length()];
+
+            nameArray = nameList.toArray(nameArray);
+            cargoArray = categoriaList.toArray(cargoArray);
+            statusArray = statusList.toArray(statusArray);
+            imageArray = imageList.toArray(imageArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void configureItemList(){
+
         //Lo que se pasa acá aparecerá en la lista
         CustomListAdapterPersonas list_adapter = new CustomListAdapterPersonas(this, nameArray, cargoArray, statusArray, imageArray);
 
@@ -166,8 +227,9 @@ public class PersonasActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 
                 Intent intent = new Intent(PersonasActivity.this, PersonasDetalleActivity.class);
-                String message = nameArray[position];
-                intent.putExtra("item", message);
+
+                intent.putExtra("itemPosition", String.valueOf(position));
+                intent.putExtra("SESSION", session);
                 startActivity(intent);
             }
         });

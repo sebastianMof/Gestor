@@ -1,34 +1,55 @@
 package com.sanbar.gestor;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.sanbar.gestor.ui.login.LoginActivity;
 
 public class MenuActivity extends AppCompatActivity {
+
+    private Sesion session;
+    private TextView nombreContratista;
+    private TextView codigoContrato;
+    private TextView codigoApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        Bundle extras = getIntent().getExtras();
-        if(extras !=null)
-        {
-            String loginModelData1 = extras.getString("loginModelData1");//model.getDisplayName()
+        try {
+            Intent intent = getIntent();
+            session = intent.getParcelableExtra("SESSION");
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(),"PROBLEMA CON DATOS DE LA CUENTA",Toast.LENGTH_SHORT).show();
         }
+
+        configureHeader(session);
 
         configureButtonPersonas();
         configureButtonMaquinas();
         configureButtonPod();
         configureButtonContrato();
         configureButtonAtras();
+
+    }
+
+    private void configureHeader(Sesion session){
+        nombreContratista = (TextView) findViewById(R.id.textview_menu_nombre_contratista);
+        codigoContrato = (TextView) findViewById(R.id.textview_menu_codigo_contrato);
+        codigoApi = (TextView) findViewById(R.id.textview_menu_codigo_api);
+
+        nombreContratista.setText(session.getFullNameComputed());
+        codigoContrato.setText(session.getContractCode());
+        codigoApi.setText(session.getApiCode());
+
 
     }
 
@@ -53,7 +74,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MenuActivity.this, PersonasActivity.class);
-                myIntent.putExtra("loginModelData1", "dato"); //Optional parameters
+                myIntent.putExtra("SESSION", session); //Optional parameters
                 startActivity(myIntent);
 
             }
@@ -67,7 +88,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MenuActivity.this, MaquinasActivity.class);
-                myIntent.putExtra("loginModelData1", "dato"); //Optional parameters
+                myIntent.putExtra("SESSION", session); //Optional parameters
                 startActivity(myIntent);
 
             }
@@ -81,7 +102,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MenuActivity.this, PodActivity.class);
-                myIntent.putExtra("loginModelData1", "dato"); //Optional parameters
+                myIntent.putExtra("SESSION", session); //Optional parameters
                 startActivity(myIntent);
 
             }
@@ -95,13 +116,27 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MenuActivity.this, ContratoActivity.class);
-                myIntent.putExtra("loginModelData1", "dato"); //Optional parameters
-                startActivity(myIntent);
+                myIntent.putExtra("SESSION", session); //Optional parameters
+                startActivityForResult(myIntent,1); // 1 is code for contracto
 
             }
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
 
-
+            case (1) : {//1 is for contratos
+                if (resultCode == Activity.RESULT_OK) {
+                    Intent intent = getIntent();
+                    session = intent.getParcelableExtra("SESSION");
+                    session.attemptContratistas();
+                    configureHeader(session);
+                }
+                break;
+            }
+        }
+    }
 }
