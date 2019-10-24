@@ -80,6 +80,8 @@ public class Sesion implements Parcelable {
     private String tareaStatus;
     private String areaContratos;
     private String tareas;
+    private String tipoEquipos;
+    private String equipos;
 
     //CONSTRUCTOR
     public Sesion(String mail, String password) {
@@ -108,6 +110,8 @@ public class Sesion implements Parcelable {
         this.tareaStatus = in.readString();
         this.areaContratos = in.readString();
         this.tareas = in.readString();
+        this.tipoEquipos = in.readString();
+        this.equipos = in.readString();
     }
 
     @Override
@@ -135,6 +139,8 @@ public class Sesion implements Parcelable {
         dest.writeString(this.tareaStatus);
         dest.writeString(this.areaContratos);
         dest.writeString(this.tareas);
+        dest.writeString(this.tipoEquipos);
+        dest.writeString(this.equipos);
     }
 
     @Override
@@ -279,6 +285,22 @@ public class Sesion implements Parcelable {
 
     public void setTareas(String tareas) {
         this.tareas = tareas;
+    }
+
+    public String getTipoEquipos() {
+        return tipoEquipos;
+    }
+
+    public void setTipoEquipos(String tipoEquipos) {
+        this.tipoEquipos = tipoEquipos;
+    }
+
+    public String getEquipos() {
+        return equipos;
+    }
+
+    public void setEquipos(String equipos) {
+        this.equipos = equipos;
     }
 
 
@@ -784,19 +806,10 @@ public class Sesion implements Parcelable {
                 if (response.body() != null) {
 
                     String jsonResponse = response.body().string();
-
                     try {
 
                         JSONArray array = new JSONArray(jsonResponse);
-                        JSONObject auxObj;
-
-                        for (int i = 0; i < array.length(); i++) {
-                            auxObj=array.getJSONObject(i);
-
-                            auxObj.getString("Id");
-                            auxObj.getString("Name");
-                            //id del tipo de equipo y el tipo de equipo, guardarlos
-                        }
+                        setTipoEquipos(jsonResponse);
 
 
                     } catch (Throwable tx) {
@@ -837,7 +850,12 @@ public class Sesion implements Parcelable {
 
     public class Equipos extends AsyncTask<Void, Void, Boolean> {
 
-        Equipos() {
+        String filter;
+        String tipoId;
+
+        Equipos(String filter, String tipoId) {
+            this.filter = filter;
+            this.tipoId = tipoId;
         }
 
         @Override
@@ -846,15 +864,39 @@ public class Sesion implements Parcelable {
 
             OkHttpClient client = new OkHttpClient();
 
-            RequestBody body = new FormBody.Builder()
-                    .add("filter", "FILTER")//RUT / NOMBRE
-                    .add("tipoId", "cateriaId") // categoria id
-                    .add("contractId",getLastContractId()) //tambien es opcional pero por la logica pedida para la aplicacion es el cntrato seleccionado en la sesion
-                    .build();
+            String url ="https://ezprogpdar-apiproductividad.azurewebsites.net/api/Equipos";
+
+
+            if(filter != null || tipoId != null ){
+                url+=("?");
+            }
+
+            if(filter != null ){
+                url+=("filter="+filter);
+            }
+
+            if (filter!=null && tipoId != null ){
+                url+="&";
+            }
+
+            if (tipoId!=null){
+                url+=("tipoId="+tipoId);
+            }
+
+            if (filter!=null || tipoId != null){
+                url+="&";
+            }
+
+            if (filter==null){
+                if (tipoId==null){
+                    url+="?";
+                }
+            }
+
+            url+=("contractId="+getLastContractId());
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Equipos")
-                    .post(body)
+                    .url(url)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -864,25 +906,9 @@ public class Sesion implements Parcelable {
                 if (response.body() != null) {
 
                     String jsonResponse = response.body().string();
-
                     try {
-
                         JSONArray array = new JSONArray(jsonResponse);
-                        JSONObject auxObj;
-
-                        for (int i =0;i<array.length();i++){
-                            auxObj = array.getJSONObject(i);
-
-                            auxObj.get("Id");
-                            auxObj.get("Code");
-                            auxObj.get("Marca");
-                            auxObj.get("Modelo");
-                            auxObj.get("Patente");
-                            auxObj.get("IsActivo");
-                            auxObj.get("Combustible");
-                            //Datos del equipo, guardar
-
-                        }
+                        setEquipos(jsonResponse);
 
                     } catch (Throwable tx) {
                         Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
@@ -2003,17 +2029,17 @@ public class Sesion implements Parcelable {
     }
 
     public boolean attemptTipoEquipos() {
-        if (mContratistas != null) {
+        if (mTipoEquipos != null) {
             return false;
         }
 
-        mContratistas = new Contratistas();
+        mTipoEquipos = new TipoEquipos();
         //mAuthTask.execute((Void) null);
 
         boolean str_result = false;
 
         try {
-            str_result= mContratistas.execute((Void) null).get();
+            str_result= mTipoEquipos.execute((Void) null).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -2022,18 +2048,18 @@ public class Sesion implements Parcelable {
         return str_result;
     }
 
-    public boolean attemptEquipos() {
-        if (mContratistas != null) {
+    public boolean attemptEquipos(String filter,String tipoId) {
+        if (mEquipos != null) {
             return false;
         }
 
-        mContratistas = new Contratistas();
+        mEquipos = new Equipos(filter,tipoId);
         //mAuthTask.execute((Void) null);
 
         boolean str_result = false;
 
         try {
-            str_result= mContratistas.execute((Void) null).get();
+            str_result= mEquipos.execute((Void) null).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

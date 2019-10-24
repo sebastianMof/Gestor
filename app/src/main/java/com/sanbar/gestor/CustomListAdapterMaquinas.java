@@ -26,39 +26,37 @@ public class CustomListAdapterMaquinas extends ArrayAdapter {
     private final Integer[] imageIDarray;
     private final Integer[] pieChartArray;
 
-    private final String[] nameArray;
-    private final String[] codigoInternoArray;
+    private final String[] codeArray;
     private final String[] marcaArray;
     private final String[] modeloArray;
     private final String[] patenteArray;
-    private final String[] statusArray;
-    private final String[] ubicacionArray;
+    private final String[] isActivoArray;
 
 
     public CustomListAdapterMaquinas(Activity context,
-                             String[] nameArrayParam,
-                             String[] codigoInternoArrayParam,
+                             String[] codeArrayParam,
                              String[] marcaArrayParam,
                              String[] modeloArrayParam,
                              String[] patenteArrayParam,
-                             String[] statusArrayParam,
-                             String[] ubicacionArrayParam,
+                             String[] isActivoArrayParam,
                              Integer[] imageIDArrayParam,
                              Integer[] pieChartArrayParam){
 
-        super(context,R.layout.listview_row_maquina, nameArrayParam);
+        super(context,R.layout.listview_row_maquina, codeArrayParam);
+
+
+        //
+
 
         this.context=context;
         this.imageIDarray = imageIDArrayParam;
         this.pieChartArray = pieChartArrayParam;
 
-        this.nameArray = nameArrayParam;
-        this.codigoInternoArray = codigoInternoArrayParam;
+        this.codeArray = codeArrayParam;
         this.marcaArray = marcaArrayParam;
         this.modeloArray = modeloArrayParam;
         this.patenteArray = patenteArrayParam;
-        this.statusArray = statusArrayParam;
-        this.ubicacionArray = ubicacionArrayParam;
+        this.isActivoArray = isActivoArrayParam;
 
     }
 
@@ -68,23 +66,24 @@ public class CustomListAdapterMaquinas extends ArrayAdapter {
 
         //this code gets references to objects in the listview_row_persona_persona.xml file
         TextView tv_nombre = (TextView) rowView.findViewById(R.id.textview_maquinas_item_nombre);
-        TextView tv_cod = (TextView) rowView.findViewById(R.id.textview_maquinas_item_codigo_interno);
+        TextView tv_cod = (TextView) rowView.findViewById(R.id.textview_maquinas_item_codigo);
         TextView tv_marca = (TextView) rowView.findViewById(R.id.textview_maquinas_item_marca);
         TextView tv_modelo = (TextView) rowView.findViewById(R.id.textview_maquinas_item_modelo);
         TextView tv_patente = (TextView) rowView.findViewById(R.id.textview_maquinas_item_patente);
         TextView tv_status = (TextView) rowView.findViewById(R.id.textview_maquinas_item_status);
         TextView tv_ubicacion = (TextView) rowView.findViewById(R.id.textview_maquinas_item_ubicacion);
+
         ImageView imgv_imagen = (ImageView) rowView.findViewById(R.id.imageview_maquinas_item);
         PieChartView pieChartView = rowView.findViewById(R.id.piechart);
 
         //this code sets the values of the objects to values from the arrays
-        tv_nombre.setText(nameArray[position]);
-        tv_cod.setText(codigoInternoArray[position]);
+        tv_nombre.setText("NOMBRE");
+        tv_cod.setText(codeArray[position]);
         tv_marca.setText(marcaArray[position]);
         tv_modelo.setText(modeloArray[position]);
         tv_patente.setText(patenteArray[position]);
-        tv_status.setText(statusArray[position]);
-        tv_ubicacion.setText(ubicacionArray[position]);
+        tv_status.setText(isActivoArray[position]);
+        tv_ubicacion.setText("ÚLTIMA UBICACIÓN");
 
         imgv_imagen.setImageResource(imageIDarray[position]);
 

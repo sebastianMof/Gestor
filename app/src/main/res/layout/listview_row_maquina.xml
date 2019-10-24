@@ -52,10 +52,10 @@
                 android:text="@string/nombre"
                 android:textColor="@color/colorWhite"/>
             <TextView
-                android:id="@+id/textview_maquinas_item_codigo_interno"
+                android:id="@+id/textview_maquinas_item_codigo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/c_digo_interno"
+                android:text="@string/c_digo"
                 android:textColor="@color/colorWhite"/>
             <TextView
                 android:id="@+id/textview_maquinas_item_marca"

@@ -16,95 +16,35 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MaquinasActivity extends AppCompatActivity {
 
+    private Sesion session;
+
     private ArrayList<String> tiposList;
+    private ArrayList<String> tiposIdList;
+    private ArrayList<String> userIdList;
+
     private String tipoSelected;
     private EditText et_nombre;
     private String nombreFilter;
 
-    private String[] nameArray = {
-            "Nombre 1",
-            "Nombre 2",
-            "Nombre 3",
-            "Nombre 4",
-            "Nombre 5",
-            "Nombre 6" };
-
-    private String[] codigoInternoArray = {
-            "Código Interno 1",
-            "Código Interno 2",
-            "Código Interno 3",
-            "Código Interno 4",
-            "Código Interno 5",
-            "Código Interno 6"
-    };
-
-    private String[] marcaArray = {
-            "Marca 1",
-            "Marca 2",
-            "Marca 3",
-            "Marca 4",
-            "Marca 5",
-            "Marca 6"
-    };
-
-    private String[] modeloArray = {
-            "Modelo 1",
-            "Modelo 2",
-            "Modelo 3",
-            "Modelo 4",
-            "Modelo 5",
-            "Modelo 6"
-    };
-    private String[] patenteArray = {
-            "Patente 1",
-            "Patente 2",
-            "Patente 3",
-            "Patente 4",
-            "Patente 5",
-            "Patente 6"
-    };
-    private String[] statusArray = {
-            "Status 1",
-            "Status 2",
-            "Status 3",
-            "Status 4",
-            "Status 5",
-            "Status 6"
-    };
-
-    private String[] ubicacionArray = {
-            "Ubicación 1",
-            "Ubicación 2",
-            "Ubicación 3",
-            "Ubicación 4",
-            "Ubicación 5",
-            "Ubicación 6"
-    };
-
-    private Integer[] imageArray = {
-            R.drawable.imagen_maquina,
-            R.drawable.imagen_maquina,
-            R.drawable.imagen_maquina,
-            R.drawable.imagen_maquina,
-            R.drawable.imagen_maquina,
-            R.drawable.imagen_maquina
-
-    };
-
-    private Integer[] pieChartArray = {
-            25,
-            25,
-            50,
-            75,
-            100,
-            100
-
-    };
+    private String[] codeArray;
+    private String[] marcaArray;
+    private String[] modeloArray;
+    private String[] patenteArray;
+    private String[] isActivoArray;
+    private Integer[] imageArray;
+    //R.drawable.imagen_maquina
+    private Integer[] pieChartArray;
+    //25 50 75 100
 
     private ListView listView;
 
@@ -113,22 +53,51 @@ public class MaquinasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maquinas);
 
+        try {
+            Intent intent = getIntent();
+            session = intent.getParcelableExtra("SESSION");
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(),"PROBLEMA CON DATOS DE LA CUENTA",Toast.LENGTH_SHORT).show();
+        }
+
         configureEditTextNombre();
-        configureButtonBack();
-        configureButtonFilter();
 
         configureTiposList();
         configureSpinnerTipos();
 
+        session.attemptEquipos(null,null);
+
+        configureItemData();
         configureItemList();
+
+        configureButtonBack();
+        configureButtonFilter();
     }
 
 
     private void configureTiposList() {
         tiposList = new ArrayList<>();
-        String[] items = new String[]{"TIPO", "TIPO_1", "TIPO_2", "TIPO_3"};
+        tiposIdList = new ArrayList<>();
 
-        tiposList.addAll(Arrays.asList(items));
+        tiposList.add("TIPO DE EQUIPO");
+
+        session.attemptTipoEquipos();
+        JSONArray tipoEquipos = null;
+
+        try {
+            tipoEquipos = new JSONArray(session.getTipoEquipos());
+
+            JSONObject auxObj;
+            for (int i = 0; i < tipoEquipos.length(); i++) {
+
+                auxObj = tipoEquipos.getJSONObject(i);
+                tiposList.add(auxObj.getString("Name"));
+                tiposIdList.add(auxObj.getString("Id"));
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -154,32 +123,12 @@ public class MaquinasActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 //Toast.makeText(MaquinasActivity.this,"selected "+(String) adapterView.getItemAtPosition(position),Toast.LENGTH_LONG).show();
-                tipoSelected= (String) adapterView.getItemAtPosition(position);
+                tipoSelected= String.valueOf(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
-
-    }
-
-    private void configureItemList(){
-        //Lo que se pasa acá aparecerá en la lista
-        CustomListAdapterMaquinas list_adapter = new CustomListAdapterMaquinas(this, nameArray, codigoInternoArray, marcaArray, modeloArray, patenteArray, statusArray, ubicacionArray, imageArray,pieChartArray);
-
-        listView = (ListView) findViewById(R.id.listview_maquinas);
-        listView.setAdapter((ListAdapter) list_adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
-
-                Intent intent = new Intent(MaquinasActivity.this, MaquinasDetalleActivity.class);
-                String message = nameArray[position];
-                intent.putExtra("item", message);
-                startActivity(intent);
             }
         });
 
@@ -206,15 +155,115 @@ public class MaquinasActivity extends AppCompatActivity {
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            nombreFilter = String.valueOf(et_nombre.getText());
-            Toast.makeText(getApplicationContext(),
-                    "Filtro con\n" +
-                            "Tipo: "+tipoSelected+"\n"+
-                            "Nombre: "+nombreFilter,
-                    Toast.LENGTH_SHORT).show();
+
+                String nombre = et_nombre.getText().toString();
+                if (!nombre.equals("")){
+                    nombreFilter = nombre;
+                } else {
+                    nombreFilter=null;
+                }
+
+                String tipoFilter;
+                if (!tipoSelected.equals("0")){
+                    tipoFilter = tiposIdList.get(Integer.valueOf(tipoSelected)-1);
+
+                } else {
+                    tipoFilter=null;
+                }
+
+                session.attemptEquipos(nombreFilter,tipoFilter);
+
+                configureItemData();
+                configureItemList();
+
+
 
             }
         });
+    }
+
+    private void configureItemData(){
+        try {
+            JSONArray equipos = new JSONArray(session.getEquipos());
+            JSONObject auxObj;
+
+            List<String> codeList = new ArrayList<String>();
+            List<String> marcaList = new ArrayList<String>();
+            List<String> modeloList = new ArrayList<String>();
+            List<String> patenteList = new ArrayList<String>();
+            List<String> isActivoList = new ArrayList<String>();
+            List<Integer> combustibleList = new ArrayList<Integer>();
+
+            List<Integer> imageList = new ArrayList<Integer>();
+
+            for (int i = 0; i < equipos.length(); i++) {
+                auxObj=equipos.getJSONObject(i);
+
+                codeList.add(auxObj.getString("Code"));
+
+                marcaList.add(auxObj.getString("Marca"));
+
+                modeloList.add(auxObj.getString("Modelo"));
+
+                patenteList.add(auxObj.getString("Patente"));
+
+                if (auxObj.getString("IsActivo").equals("true")){
+                    isActivoList.add("Activo");
+                }else {
+                    isActivoList.add("No activo");
+                }
+
+                Double combustibleDouble = auxObj.getDouble("Combustible");
+                Integer combustible = combustibleDouble.intValue();
+                combustible = combustible/10;
+                combustibleList.add(combustible);
+
+                imageList.add(R.drawable.imagen);
+            }
+
+            codeArray = new String[equipos.length()];
+            marcaArray = new String[equipos.length()];
+            modeloArray = new String[equipos.length()];
+            patenteArray = new String[equipos.length()];
+            isActivoArray = new String[equipos.length()];
+            imageArray = new Integer[equipos.length()];
+            //R.drawable.imagen_maquina
+            pieChartArray = new Integer[equipos.length()];
+            //25 50 75 100
+
+            codeArray = codeList.toArray(codeArray);
+            marcaArray = marcaList.toArray(marcaArray);
+            modeloArray = modeloList.toArray(modeloArray);
+            patenteArray = patenteList.toArray(patenteArray);
+            isActivoArray = isActivoList.toArray(isActivoArray);
+            imageArray = imageList.toArray(imageArray);
+            pieChartArray = combustibleList.toArray(pieChartArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void configureItemList(){
+        //Lo que se pasa acá aparecerá en la lista
+        CustomListAdapterMaquinas list_adapter = new CustomListAdapterMaquinas(this, codeArray, marcaArray, modeloArray, patenteArray, isActivoArray, imageArray, pieChartArray);
+
+        listView = (ListView) findViewById(R.id.listview_maquinas);
+        listView.setAdapter((ListAdapter) list_adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+
+                Intent intent = new Intent(MaquinasActivity.this, MaquinasDetalleActivity.class);
+                intent.putExtra("itemPosition", String.valueOf(position));
+                intent.putExtra("SESSION", session);
+                intent.putExtra("item", codeArray[position]);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
 }
