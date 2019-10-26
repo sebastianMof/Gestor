@@ -141,7 +141,6 @@
 
         </LinearLayout>
 
-
         <ListView
             android:id="@+id/listview_pod"
             android:layout_width="match_parent"
@@ -152,7 +151,6 @@
             android:layout_marginRight="20dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="10.0sp"/>
-
 
     </LinearLayout>
 

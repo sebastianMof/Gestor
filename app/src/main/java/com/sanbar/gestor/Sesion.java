@@ -675,32 +675,9 @@ public class Sesion implements Parcelable {
             try (Response response = client.newCall(request).execute()) {
 
                 if (response.body() != null) {
-
                     String jsonResponse = response.body().string();
-                    Log.e("TEST",jsonResponse);
                     setWorkers(jsonResponse);
-/*
-                    try {
-
-                        JSONArray array = new JSONArray(jsonResponse);
-                        JSONObject auxObj;
-
-                        for (int i =0;i<array.length();i++){
-                            auxObj = array.getJSONObject(i);
-
-                            auxObj.get("Id");
-                            auxObj.get("Name");
-                            auxObj.get("Categoria");
-                            auxObj.get("IsActivo");
-                            //son los datos de los workers para la lista
-                        }
-
-                    } catch (Throwable tx) {
-                        Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
-                    }*/
-
                 }
-
 
                 return response.isSuccessful();
             } catch (IOException e) {

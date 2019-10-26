@@ -2,29 +2,40 @@ package com.sanbar.gestor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static com.sanbar.gestor.R.color.colorOrangeSelected;
 import static com.sanbar.gestor.R.color.colorOrangeUnselected;
 
 public class MaquinasDetalleActivity extends AppCompatActivity {
 
+    Sesion session;
+    String posSelected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maquinas_detalle);
 
-        String savedExtra = getIntent().getStringExtra("item");
+        try {
+            Intent intent = getIntent();
+            session = intent.getParcelableExtra("SESSION");
+            posSelected = getIntent().getStringExtra("itemPosition");
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(),"PROBLEMA CON DATOS DE LA CUENTA",Toast.LENGTH_SHORT).show();
+        }
+
         TextView myText = (TextView) findViewById(R.id.textview_maquinas_detalle_nombre);
-        myText.setText(savedExtra);
+        myText.setText(posSelected);
 
         configureButtonBack();
         configureTabs();
-
 
     }
 

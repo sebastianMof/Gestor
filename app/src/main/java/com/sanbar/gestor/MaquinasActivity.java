@@ -176,8 +176,6 @@ public class MaquinasActivity extends AppCompatActivity {
                 configureItemData();
                 configureItemList();
 
-
-
             }
         });
     }

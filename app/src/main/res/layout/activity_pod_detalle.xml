@@ -98,50 +98,31 @@
                     android:layout_marginRight="15sp">
 
                     <TextView
-                        android:id="@+id/textview_pod_detalle_nombre_capataz"
+                        android:id="@+id/textview_pod_detalle_ito"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/nombre_capataz"
+                        android:text="@string/ito"
                         android:textColor="@color/colorWhite" />
 
                     <TextView
-                        android:id="@+id/textview_pod_detalle_status"
+                        android:id="@+id/textview_pod_detalle_hora_programada_inicio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/status"
+                        android:text="@string/hora_programada_inicio"
                         android:textColor="@color/colorWhite"
                         android:layout_marginTop="15sp"/>
+
                     <TextView
-                        android:id="@+id/textview_pod_detalle_codigo_itu"
+                        android:id="@+id/textview_pod_detalle_hora_programada_fin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/c_digo_itu"
-                        android:textColor="@color/colorWhite" />
-                    <TextView
-                        android:id="@+id/textview_pod_detalle_especialidad"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/especialidad"
-                        android:textColor="@color/colorWhite" />
+                        android:text="@string/hora_programada_fin"
+                        android:textColor="@color/colorWhite"
+                        android:layout_marginTop="15sp"/>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="15sp"
-                    android:layout_marginLeft="15sp"
-                    android:layout_marginRight="15sp">
 
-                    <TextView
-                        android:id="@+id/textview_pod_detalle_informacion_escalable"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/informaci_n_escalable"
-                        android:textColor="@color/colorWhite" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -152,19 +133,19 @@
                     android:layout_marginRight="15sp">
 
                     <Button
-                        android:id="@+id/button_pod_detalle_revisar_tarea"
+                        android:id="@+id/button_pod_detalle_iniciar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/revisi_n_de_tarea"
+                        android:text="@string/iniciar"
                         android:textColor="@color/colorWhite"
                         android:background="@drawable/rounded_button_gray"/>
 
                     <Button
-                        android:id="@+id/button_pod_detalle_finalizar_tarea"
+                        android:id="@+id/button_pod_detalle_interrupcion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/finalizar_tarea"
+                        android:layout_marginTop="15sp"
+                        android:text="@string/interrupci_n"
                         android:textColor="@color/colorWhite"
                         android:background="@drawable/rounded_button_gray"/>
 
@@ -173,149 +154,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearlayout_pod_detalle_gestion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/rounded_button_blue">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/interrupci_n"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/status"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="15sp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20sp"
-                    android:layout_marginLeft="20sp"
-                    android:text="@string/informaci_n_de_la_ltima_gesti_n_de_la_interrupcion"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="15sp"
-                    android:layout_marginTop="20dp"/>
-
-                <Button
-                    android:id="@+id/button_pod_detalle_gestionar_interrupcion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:text="@string/gestionar_interrupci_n"
-                    android:textColor="@color/colorWhite"
-                    android:background="@drawable/rounded_button_gray"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearlayout_pod_detalle_acciones_de_gestion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/rounded_button_blue">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/acciones_de_interrupci_n"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="18sp"
-                    android:layout_marginTop="20dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:background="@color/colorWhite">
-                    <Spinner
-                        android:id="@+id/spinner_pod_detalle_status"
-                        android:layout_width="match_parent"
-                        android:layout_height="50sp"
-                        android:textColor="@color/colorBlue"
-                        android:spinnerMode="dropdown" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="50sp"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="20dp">
-                        <EditText
-                            android:id="@+id/edittext_pod_detalle_tipo"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:ems="10"
-                            android:inputType="textPersonName"
-                            android:hint="@string/acci_n"
-                            android:textColorHint="@color/colorBlue"
-                            android:textColor="@color/colorBlue"
-                            android:background="@color/colorWhite"
-                            android:backgroundTint="@color/colorWhite"
-                            android:focusable="true"
-                            android:focusableInTouchMode="true"/>
-
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/button_pod_anadir"
-                        android:layout_width="50sp"
-                        android:layout_height="50sp"
-                        android:text="@string/plus"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="30sp"
-                        android:background="@drawable/rounded_button_gray" />
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/button_pod_guardar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:text="@string/guardar"
-                    android:textColor="@color/colorWhite"
-                    android:background="@drawable/rounded_button_gray"/>
-
-            </LinearLayout>
 
         </LinearLayout>
 
