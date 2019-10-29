@@ -93,7 +93,10 @@ public class PodActivity extends AppCompatActivity {
                 Intent intent = new Intent(PodActivity.this, PodDetalleActivity.class);
                 String message = nameArray[position];
                 intent.putExtra("item", message);
+                intent.putExtra("SESSION", session);
                 startActivity(intent);
+
+
             }
         });
 
@@ -331,16 +334,22 @@ public class PodActivity extends AppCompatActivity {
             List<String> statusList = new ArrayList<String>();
             List<String> especialidadList = new ArrayList<String>();
             List<String> colorList = new ArrayList<String>();
+/*
+                    {"Id":11,
+                    "TareaStatusName":"Terminada",
+                    "EspecialidadName":"manejo de material",
+                    "InicioPrograma":"2019-10-16T23:01:26",
+                    "TerminoProgramada":"2019-10-16T23:01:27",
+                    "Color":"#CCCCCC",
+                    "InicioReal":"2019-10-16T23:01:32",
+                    "TerminoReal":"2019-10-16T23:01:33"}
+*/
 
             for (int i = 0; i < tareas.length(); i++) {
                 auxObj=tareas.getJSONObject(i);
 
-                nameList.add(auxObj.getString("ItoName"));
-                if (auxObj.getBoolean("IsFinalizado")){
-                    statusList.add("Finalizada");
-                } else {
-                    statusList.add("Sin finalizar");
-                }
+                nameList.add(auxObj.getString("Id"));
+                statusList.add(auxObj.getString("TareaStatusName"));
                 especialidadList.add(auxObj.getString("EspecialidadName"));
                 colorList.add(auxObj.getString("Color"));
 

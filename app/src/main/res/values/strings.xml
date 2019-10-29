@@ -73,4 +73,14 @@
     <string name="hora_programada_fin">HORA PROGRAMADA FIN</string>
     <string name="iniciar">INICIAR</string>
     <string name="interrupci_n">INTERRUPCIÓN</string>
+    <string name="seleccionar_hora">SELECCIONAR HORA</string>
+    <string name="terminar">TERMINAR</string>
+    <string name="causa">CAUSA</string>
+    <string name="termino">TERMINO</string>
+    <string name="se_puede_terminar">Se puede terminar?</string>
+    <string name="continuar">CONTINUAR</string>
+    <string name="responsable">RESPONSABLE</string>
+    <string name="es_ud_el_responsable">Es Ud. el responsable?</string>
+    <string name="qui_n_es_el_responsable">Quién es el responsable?</string>
+    <string name="se_puede_terminar_hoy">Se puede terminar hoy?</string>
 </resources>

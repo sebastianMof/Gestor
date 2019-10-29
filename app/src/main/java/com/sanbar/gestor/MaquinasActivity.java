@@ -30,17 +30,19 @@ public class MaquinasActivity extends AppCompatActivity {
 
     private ArrayList<String> tiposList;
     private ArrayList<String> tiposIdList;
-    private ArrayList<String> userIdList;
+    private ArrayList<String> equiposIdList;
 
     private String tipoSelected;
     private EditText et_nombre;
     private String nombreFilter;
 
+    private String[] nameArray;
     private String[] codeArray;
     private String[] marcaArray;
     private String[] modeloArray;
     private String[] patenteArray;
     private String[] isActivoArray;
+    private String[] ubicacionArray;
     private Integer[] imageArray;
     //R.drawable.imagen_maquina
     private Integer[] pieChartArray;
@@ -185,11 +187,15 @@ public class MaquinasActivity extends AppCompatActivity {
             JSONArray equipos = new JSONArray(session.getEquipos());
             JSONObject auxObj;
 
+            equiposIdList = new ArrayList<>();
+
+            List<String> nameList = new ArrayList<String>();
             List<String> codeList = new ArrayList<String>();
             List<String> marcaList = new ArrayList<String>();
             List<String> modeloList = new ArrayList<String>();
             List<String> patenteList = new ArrayList<String>();
             List<String> isActivoList = new ArrayList<String>();
+            List<String> ubicacionList = new ArrayList<String>();
             List<Integer> combustibleList = new ArrayList<Integer>();
 
             List<Integer> imageList = new ArrayList<Integer>();
@@ -197,43 +203,45 @@ public class MaquinasActivity extends AppCompatActivity {
             for (int i = 0; i < equipos.length(); i++) {
                 auxObj=equipos.getJSONObject(i);
 
+                equiposIdList.add(String.valueOf(auxObj.getInt("Id")));
+
+                nameList.add(auxObj.getString("Name"));
                 codeList.add(auxObj.getString("Code"));
-
                 marcaList.add(auxObj.getString("Marca"));
-
                 modeloList.add(auxObj.getString("Modelo"));
-
                 patenteList.add(auxObj.getString("Patente"));
-
+                //ubicacionList.add(auxObj.getString("Ubicacion"));
+                ubicacionList.add("Última ubicación");
                 if (auxObj.getString("IsActivo").equals("true")){
                     isActivoList.add("Activo");
                 }else {
                     isActivoList.add("No activo");
                 }
-
                 Double combustibleDouble = auxObj.getDouble("Combustible");
                 Integer combustible = combustibleDouble.intValue();
-                combustible = combustible/10;
                 combustibleList.add(combustible);
-
                 imageList.add(R.drawable.imagen);
             }
 
+            nameArray = new String[equipos.length()];
             codeArray = new String[equipos.length()];
             marcaArray = new String[equipos.length()];
             modeloArray = new String[equipos.length()];
             patenteArray = new String[equipos.length()];
             isActivoArray = new String[equipos.length()];
+            ubicacionArray = new String[equipos.length()];
             imageArray = new Integer[equipos.length()];
             //R.drawable.imagen_maquina
             pieChartArray = new Integer[equipos.length()];
             //25 50 75 100
 
+            nameArray = nameList.toArray(nameArray);
             codeArray = codeList.toArray(codeArray);
             marcaArray = marcaList.toArray(marcaArray);
             modeloArray = modeloList.toArray(modeloArray);
             patenteArray = patenteList.toArray(patenteArray);
             isActivoArray = isActivoList.toArray(isActivoArray);
+            ubicacionArray = ubicacionList.toArray(ubicacionArray);
             imageArray = imageList.toArray(imageArray);
             pieChartArray = combustibleList.toArray(pieChartArray);
 
@@ -244,7 +252,7 @@ public class MaquinasActivity extends AppCompatActivity {
 
     private void configureItemList(){
         //Lo que se pasa acá aparecerá en la lista
-        CustomListAdapterMaquinas list_adapter = new CustomListAdapterMaquinas(this, codeArray, marcaArray, modeloArray, patenteArray, isActivoArray, imageArray, pieChartArray);
+        CustomListAdapterMaquinas list_adapter = new CustomListAdapterMaquinas(this, nameArray, codeArray, marcaArray, modeloArray, patenteArray, isActivoArray, ubicacionArray, imageArray, pieChartArray);
 
         listView = (ListView) findViewById(R.id.listview_maquinas);
         listView.setAdapter((ListAdapter) list_adapter);
@@ -254,9 +262,8 @@ public class MaquinasActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 
                 Intent intent = new Intent(MaquinasActivity.this, MaquinasDetalleActivity.class);
-                intent.putExtra("itemPosition", String.valueOf(position));
                 intent.putExtra("SESSION", session);
-                intent.putExtra("item", codeArray[position]);
+                intent.putExtra("equipoId", equiposIdList.get(position));
                 startActivity(intent);
 
             }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".PodDetalleActivity">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".PodInterrupcionResponsableActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                         android:gravity="start">
 
                         <Button
-                            android:id="@+id/button_pod_detalle_atras"
+                            android:id="@+id/button_pod_interrupcion_responsable_back"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_marginStart="10dp"
@@ -59,7 +59,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/detalle_de_tarea"
+                            android:text="@string/responsable"
                             android:textAlignment="center"
                             android:textColor="@color/colorWhite"
                             android:textSize="18sp" />
@@ -77,19 +77,70 @@
             </androidx.appcompat.widget.Toolbar>
 
             <LinearLayout
-                android:id="@+id/linearlayout_pod_detalle_tarea"
+                android:id="@+id/linearlayout_pod_interrupcion_responsable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
-
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/rounded_button_blue">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="15sp"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginRight="15sp">
+
+                    <Switch
+                        android:id="@+id/switch_pod_interrupcion_responsable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/es_ud_el_responsable"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorWhite" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearlayout_pod_interrupcion_responsable_lista"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="15sp"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginRight="15sp">
+                    <TextView
+                        android:id="@+id/textview_pod_detalle_finalizar_tarea_avance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15sp"
+                        android:text="@string/qui_n_es_el_responsable"
+                        android:textSize="18sp"
+                        android:textColor="@color/colorWhite" />
+                    <EditText
+                        android:id="@+id/edittext_pod_interrupcion_responsable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15sp"  
+                        android:textColorHint="@color/colorWhite"
+                        android:textColor="@color/colorWhite"/>
+
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite">
+
+                    </ListView>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="15sp"
@@ -97,75 +148,20 @@
                     android:layout_marginLeft="15sp"
                     android:layout_marginRight="15sp">
 
-                    <TextView
-                        android:id="@+id/textview_pod_detalle_ito"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ito"
-                        android:textColor="@color/colorWhite" />
-
-                    <TextView
-                        android:id="@+id/textview_pod_detalle_hora_inicio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/hora_programada_inicio"
-                        android:textColor="@color/colorWhite"
-                        android:layout_marginTop="15sp"/>
-
-                    <TextView
-                        android:id="@+id/textview_pod_detalle_hora_fin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/hora_programada_fin"
-                        android:textColor="@color/colorWhite"
-                        android:layout_marginTop="15sp"/>
-
-                    <TextView
-                        android:id="@+id/textview_pod_detalle_hora_interrupcion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textColor="@color/colorWhite"
-                        android:layout_marginTop="15sp"/>
-
-                </LinearLayout>
-
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="15sp"
-                    android:layout_marginLeft="15sp"
-                    android:layout_marginRight="15sp">
-
                     <Button
-                        android:id="@+id/button_pod_detalle_iniciar"
+                        android:id="@+id/button_pod_interrupcion_responsable_confirmar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/iniciar"
+                        android:text="@string/continuar"
                         android:textColor="@color/colorWhite"
-                        android:background="@drawable/rounded_button_gray"/>
-
-                    <Button
-                        android:id="@+id/button_pod_detalle_interrupcion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
-                        android:text="@string/interrupci_n"
-                        android:textColor="@color/colorWhite"
-                        android:background="@drawable/rounded_button_gray"/>
+                        android:background="@drawable/rounded_button_orange"/>
 
                 </LinearLayout>
-
 
             </LinearLayout>
-
 
         </LinearLayout>
 
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

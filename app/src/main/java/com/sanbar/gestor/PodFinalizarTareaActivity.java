@@ -2,6 +2,8 @@ package com.sanbar.gestor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,12 +11,12 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
-public class PodDetalleFinalizarTareaActivity extends AppCompatActivity {
+public class PodFinalizarTareaActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pod_detalle_finalizar_tarea);
+        setContentView(R.layout.activity_pod_finalizar_tarea);
 
         configureButtonBack();
         configureButtonFinalizarTarea();
@@ -40,6 +42,9 @@ public class PodDetalleFinalizarTareaActivity extends AppCompatActivity {
         btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK,returnIntent);
                 finish();
 
             }

@@ -214,6 +214,14 @@
                 android:layout_marginRight="15sp">
 
                 <TextView
+                    android:id="@+id/textview_maquinas_detalle_workers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15sp"
+                    android:text="WORKERS"
+                    android:textColor="@color/colorWhite" />
+
+                <TextView
                     android:id="@+id/textview_maquinas_detalle_informacion_escalable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

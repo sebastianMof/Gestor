@@ -23,40 +23,42 @@ public class CustomListAdapterMaquinas extends ArrayAdapter {
     //to reference the Activity
     private final Activity context;
 
-    private final Integer[] imageIDarray;
-    private final Integer[] pieChartArray;
-
+    private final String[] nameArray;
     private final String[] codeArray;
     private final String[] marcaArray;
     private final String[] modeloArray;
     private final String[] patenteArray;
     private final String[] isActivoArray;
+    private final String[] ubicacionArray;
 
+    private final Integer[] imageIDarray;
+    private final Integer[] pieChartArray;
 
     public CustomListAdapterMaquinas(Activity context,
+                             String[] nameArrayParam,
                              String[] codeArrayParam,
                              String[] marcaArrayParam,
                              String[] modeloArrayParam,
                              String[] patenteArrayParam,
                              String[] isActivoArrayParam,
+                             String[] ubicacionArrayParam,
                              Integer[] imageIDArrayParam,
                              Integer[] pieChartArrayParam){
 
         super(context,R.layout.listview_row_maquina, codeArrayParam);
 
-
-        //
-
-
         this.context=context;
-        this.imageIDarray = imageIDArrayParam;
-        this.pieChartArray = pieChartArrayParam;
 
+        this.nameArray=nameArrayParam;
         this.codeArray = codeArrayParam;
         this.marcaArray = marcaArrayParam;
         this.modeloArray = modeloArrayParam;
         this.patenteArray = patenteArrayParam;
         this.isActivoArray = isActivoArrayParam;
+        this.ubicacionArray = ubicacionArrayParam;
+
+        this.imageIDarray = imageIDArrayParam;
+        this.pieChartArray = pieChartArrayParam;
 
     }
 
@@ -77,13 +79,13 @@ public class CustomListAdapterMaquinas extends ArrayAdapter {
         PieChartView pieChartView = rowView.findViewById(R.id.piechart);
 
         //this code sets the values of the objects to values from the arrays
-        tv_nombre.setText("NOMBRE");
+        tv_nombre.setText(nameArray[position]);
         tv_cod.setText(codeArray[position]);
         tv_marca.setText(marcaArray[position]);
         tv_modelo.setText(modeloArray[position]);
         tv_patente.setText(patenteArray[position]);
         tv_status.setText(isActivoArray[position]);
-        tv_ubicacion.setText("ÚLTIMA UBICACIÓN");
+        tv_ubicacion.setText(ubicacionArray[position]);
 
         imgv_imagen.setImageResource(imageIDarray[position]);
 
