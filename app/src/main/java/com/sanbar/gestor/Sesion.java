@@ -693,7 +693,6 @@ public class Sesion implements Parcelable {
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
 
-            Log.e("TEST",request.toString());
 
             try (Response response = client.newCall(request).execute()) {
 
@@ -930,12 +929,7 @@ public class Sesion implements Parcelable {
             //showProgress(false);
 
             if (success) {
-
-                Log.e("TEST","AUTH OK");
-
             } else {
-
-                Log.e("TEST","AUTH NOT OK");
             }
         }
 

@@ -157,7 +157,7 @@
                         android:text="@string/cargo"
                         android:textColor="@color/colorWhite" />
                     <TextView
-                        android:id="@+id/textview_personas_detalle_status"
+                        android:id="@+id/textview_personas_detalle_tipo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tipo"

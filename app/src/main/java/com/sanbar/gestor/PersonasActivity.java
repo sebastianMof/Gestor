@@ -29,7 +29,7 @@ public class PersonasActivity extends AppCompatActivity {
 
     private ArrayList<String> tiposList;
     private ArrayList<String> categoriaIdList;
-    private ArrayList<String> userIdList;
+    private ArrayList<String> workerIdList;
 
     private String tipoSelected;
     private EditText et_nombre_rut;
@@ -182,6 +182,8 @@ public class PersonasActivity extends AppCompatActivity {
             JSONArray workers = new JSONArray(session.getWorkers());
             JSONObject auxObj;
 
+            workerIdList = new ArrayList<>();
+
             List<String> nameList = new ArrayList<String>();
             List<String> categoriaList = new ArrayList<String>();
             List<String> statusList = new ArrayList<String>();
@@ -189,6 +191,9 @@ public class PersonasActivity extends AppCompatActivity {
 
             for (int i = 0; i < workers.length(); i++) {
                 auxObj=workers.getJSONObject(i);
+
+                workerIdList.add(String.valueOf(auxObj.getInt("Id")));
+
                 nameList.add(auxObj.getString("Name"));
                 categoriaList.add(auxObj.getString("Categoria"));
                 if (auxObj.getString("IsActivo").equals("true")){
@@ -228,7 +233,7 @@ public class PersonasActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(PersonasActivity.this, PersonasDetalleActivity.class);
 
-                intent.putExtra("itemPosition", String.valueOf(position));
+                intent.putExtra("workerId", workerIdList.get(position));
                 intent.putExtra("SESSION", session);
                 startActivity(intent);
             }
