@@ -126,7 +126,7 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
                 String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
 
                 //Fecha con el formato deseado
-                fechaObtenida=diaFormateado + BARRA + mesFormateado + BARRA + year;
+                fechaObtenida= year+ BARRA + mesFormateado + BARRA + diaFormateado;
 
                 Intent myIntent = new Intent(PodInterrupcionTerminoActivity.this, PodFinalizarTareaActivity.class);
                 myIntent.putExtra("SESSION", session);
