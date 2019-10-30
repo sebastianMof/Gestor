@@ -38,6 +38,9 @@ public class PodInterrupcionResponsableActivity extends AppCompatActivity {
     private boolean userResponsable;
 
     List<String> ResponsablesArray = new ArrayList<String>();
+    List<String> ResponsablesIdArray = new ArrayList<String>();
+
+    EditText et_responsable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +69,14 @@ public class PodInterrupcionResponsableActivity extends AppCompatActivity {
     }
 
     private void configureEditText() {
-        final EditText et_responsable = findViewById(R.id.edittext_pod_interrupcion_responsable);
+        et_responsable = findViewById(R.id.edittext_pod_interrupcion_responsable);
 
         et_responsable.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
 
                 Log.e("TEST",et_responsable.getText().toString());
+                //modificar busqueda
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -83,14 +87,15 @@ public class PodInterrupcionResponsableActivity extends AppCompatActivity {
 
     private void getResponsablesList() {
 
-        Boolean aux = session.attemptContracts();
+        Boolean aux = session.attemptResponsables();
         if (aux){
             try {
-                JSONArray contracts = new JSONArray(session.getContracts());
+                JSONArray responsables = new JSONArray(session.getResponsables());
                 JSONObject auxObj;
-                for (int i = 0; i < contracts.length(); i++) {
-                    auxObj = contracts.getJSONObject(i);
-                    ResponsablesArray.add(auxObj.getString("Name"));
+                for (int i = 0; i < responsables.length(); i++) {
+                    auxObj = responsables.getJSONObject(i);
+                    ResponsablesArray.add(auxObj.getString("FullNameComputed"));
+                    ResponsablesIdArray.add(auxObj.getString("Id"));
                 }
 
             } catch (JSONException e) {
@@ -113,26 +118,9 @@ public class PodInterrupcionResponsableActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 
-                responsableId = ResponsablesArray.get(position-1);
-                try {
-                    JSONArray contracts = new JSONArray(session.getContracts());
-                    JSONObject auxObj;
-
-                    auxObj = contracts.getJSONObject(position);
-
-                    session.setSelectedContractId(auxObj.getString("Id"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                session.attemptCambioContrato();
-
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("SESSION", session);
-                setResult(Activity.RESULT_OK, resultIntent);
-
-                finish();
-
+                responsableId = ResponsablesIdArray.get(position);
+                et_responsable.setText(ResponsablesArray.get(position));
+                Toast.makeText(getApplicationContext(),"Responsable seleccionado: "+ResponsablesArray.get(position),Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -179,13 +167,19 @@ public class PodInterrupcionResponsableActivity extends AppCompatActivity {
 
                 if (userResponsable){
                     responsableId=session.getUserId();
-                } else {
-                    //LISTA
-                    responsableId=session.getUserId();
                 }
-                //boolean interrupcion = session.attemptInterrupciones(tareaId,responsableId,causaId,horaInicio,horaTerminoEstimada);
+
                 Log.e("TEST",tareaId+"-"+responsableId+"-"+causaId+"-"+horaInicio+"-"+horaTerminoEstimada);
-                Toast.makeText(getApplicationContext(),tareaId+responsableId+causaId+horaInicio+horaTerminoEstimada,Toast.LENGTH_SHORT).show();
+                boolean interrupcion = session.attemptInterrupciones(tareaId,responsableId,causaId,horaInicio,horaTerminoEstimada);
+
+                if (interrupcion){
+                    setResult(Activity.RESULT_OK);
+                    finish();
+                } else {
+                    setResult(Activity.RESULT_CANCELED);
+                    finish();
+                }
+
             }
         });
     }

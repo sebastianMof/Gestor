@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -75,8 +76,8 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (!switch_state){
-                    //Finalizar tarea
-                    obtenerHoraTerminar();
+
+                    obtenerFechaEstimada();
 
                 } else {
 
@@ -86,27 +87,6 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void obtenerHoraTerminar(){
-        TimePickerDialog recogerHora = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                //Hora con el formato deseado
-                horaObtenida = String.valueOf(hourOfDay) + DOS_PUNTOS + String.valueOf(minute)+DOS_PUNTOS+DOS_CEROS;
-
-                Intent myIntent = new Intent(PodInterrupcionTerminoActivity.this, PodFinalizarTareaActivity.class);
-                myIntent.putExtra("SESSION", session);
-                myIntent.putExtra("tareaId", tareaId);
-                myIntent.putExtra("horaObtenida", horaObtenida);
-                startActivityForResult(myIntent,1);
-
-            }
-            //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
-            //Pero el sistema devuelve la hora en formato 24 horas
-        }, hora, minuto, true);
-
-        recogerHora.show();
     }
 
     private void configureSwitch() {
@@ -148,10 +128,11 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
                 //Fecha con el formato deseado
                 fechaObtenida=diaFormateado + BARRA + mesFormateado + BARRA + year;
 
-                Intent myIntent = new Intent(PodInterrupcionTerminoActivity.this, PodInterrupcionResponsableActivity.class);
+                Intent myIntent = new Intent(PodInterrupcionTerminoActivity.this, PodFinalizarTareaActivity.class);
                 myIntent.putExtra("SESSION", session);
-                myIntent.putExtra("FECHA", fechaObtenida);
-                startActivity(myIntent);
+                myIntent.putExtra("tareaId", tareaId);
+                myIntent.putExtra("horaObtenida", fechaObtenida);
+                startActivityForResult(myIntent,1);
 
             }
         },anio, mes, dia);
@@ -192,7 +173,8 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
                 finish();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(),"Acción no concretada",Toast.LENGTH_SHORT).show();
+                setResult(Activity.RESULT_CANCELED);
+                finish();
             }
         }
         if (requestCode == 1) {//TERMINAR tarea

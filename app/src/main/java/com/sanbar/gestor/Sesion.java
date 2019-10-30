@@ -53,6 +53,7 @@ public class Sesion implements Parcelable {
     private AccionesSoluciones mAccionesSoluciones = null;
     private CausasInmediatas mCausasInmediatas = null;
     private TerminarInterrupcion mTerminarInterrupcion = null;
+    private Responsables mResponsables = null;
 
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -87,6 +88,7 @@ public class Sesion implements Parcelable {
     private String equiposEquipoId;
     private String causasInmediatas;
     private String tareasTareaId;
+    private String responsables;
 
     //CONSTRUCTOR
     public Sesion(String mail, String password) {
@@ -337,6 +339,14 @@ public class Sesion implements Parcelable {
 
     public void setTareasTareaId(String tareasTareaId) {
         this.tareasTareaId = tareasTareaId;
+    }
+
+    public String getResponsables() {
+        return responsables;
+    }
+
+    public void setResponsables(String responsables) {
+        this.responsables = responsables;
     }
 
 
@@ -1584,28 +1594,27 @@ public class Sesion implements Parcelable {
             this.horaInicio = horaInicio;
             this.horaTerminoEstimado = horaTerminoEstimado;
         }
-/*
-        {
-                "TareaId": 10,
-                "EncargadoId": 7,
-                "CausaInmediata": 2,
-                "HoraInicio": "2014-09-02T08:05:23.653-04:00",
-                "HoraTerminoEstimado": "2014-09-02T08:05:23.653-04:00"
-        }
-*/
+
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
             OkHttpClient client = new OkHttpClient();
 
-            RequestBody body = new FormBody.Builder()
-                    .add("TareaId", tareaId)//
-                    .add("EncargadoId", encargadoId)
-                    .add("CausaInmediata", causaInmediataId) //
-                    .add("HoraInicio", horaInicio) //
-                    .add("HoraTerminoEstimado", horaTerminoEstimado)
-                    .build();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            JSONObject auxBody = new JSONObject();
+            try {
+                auxBody.put("TareaId", tareaId);
+                auxBody.put("EncargadoId", encargadoId);
+                auxBody.put("CausaInmediata", causaInmediataId);
+                auxBody.put("HoraInicio", horaInicio);
+                auxBody.put("HoraTerminoEstimado", horaTerminoEstimado);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            RequestBody body = RequestBody.create(JSON, String.valueOf(auxBody));
 
             final Request request = new Request.Builder()
                     .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Interrupciones")
@@ -1615,13 +1624,6 @@ public class Sesion implements Parcelable {
                     .build();
 
             try (Response response = client.newCall(request).execute()) {
-
-                if (response.body() != null) {
-
-                    String jsonResponse = response.body().string();
-                    Log.e("TEST",jsonResponse);
-
-                }
 
                 return response.isSuccessful();
             } catch (IOException e) {
@@ -1930,11 +1932,11 @@ public class Sesion implements Parcelable {
 
     public class TerminarInterrupcion extends AsyncTask<Void, Void, Boolean> {
 
-        private String tareaId;
+        private String interrupcionId;
         private String horaTerminoReal;
 
-        TerminarInterrupcion(String tareaId, String horaTerminoReal) {
-            this.tareaId = tareaId;
+        TerminarInterrupcion(String interrupcionId, String horaTerminoReal) {
+            this.interrupcionId = interrupcionId;
             this.horaTerminoReal = horaTerminoReal;
 
         }
@@ -1945,8 +1947,9 @@ public class Sesion implements Parcelable {
 
             OkHttpClient client = new OkHttpClient();
 
+
             RequestBody body = new FormBody.Builder()
-                    .add("Id", tareaId)// id de la tarea a terminar su interripcion
+                    .add("Id", interrupcionId)// id de la tarea a terminar su interripcion
                     .add("HoraTerminoReal", horaTerminoReal)
                     .build();
 
@@ -1959,12 +1962,10 @@ public class Sesion implements Parcelable {
 
             try (Response response = client.newCall(request).execute()) {
 
-                if (response.body() != null) {
 
-                    String jsonResponse = response.body().string();
-                    Log.e("TEST",jsonResponse);
+                Log.e("TEST",response.toString());
 
-                }
+
 
                 return response.isSuccessful();
             } catch (IOException e) {
@@ -1992,6 +1993,58 @@ public class Sesion implements Parcelable {
         }
     }
 
+    public class Responsables extends AsyncTask<Void, Void, Boolean> {
+
+        Responsables() {
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            OkHttpClient client = new OkHttpClient();
+
+            final Request request = new Request.Builder()
+                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Contratistas/?ContractId="+getLastContractId())
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "Bearer "+getToken())
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+
+                if (response.body() != null) {
+
+                    String jsonResponse = response.body().string();
+
+                    setResponsables(jsonResponse);
+
+                }
+
+                return response.isSuccessful();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mResponsables = null;
+            //showProgress(false);
+
+            if (success) {
+
+            } else {
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mResponsables = null;
+            //showProgress(false);
+        }
+    }
 
     //METHODS EXECUT TASKS
     public boolean attemptToken() {
@@ -2477,18 +2530,38 @@ public class Sesion implements Parcelable {
         return str_result;
     }
 
-    public boolean attemptTerminarInterrupcion(String id, String horaTerminoReal) {
+    public boolean attemptTerminarInterrupcion(String interrupcionId, String horaTerminoReal) {
         if (mTerminarInterrupcion != null) {
             return false;
         }
 
-        mTerminarInterrupcion = new TerminarInterrupcion(id, horaTerminoReal);
+        mTerminarInterrupcion = new TerminarInterrupcion(interrupcionId, horaTerminoReal);
         //mAuthTask.execute((Void) null);
 
         boolean str_result = false;
 
         try {
             str_result= mTerminarInterrupcion.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptResponsables() {
+        if (mResponsables != null) {
+            return false;
+        }
+
+        mResponsables = new Responsables();
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mResponsables.execute((Void) null).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

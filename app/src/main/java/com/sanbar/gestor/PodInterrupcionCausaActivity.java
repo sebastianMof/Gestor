@@ -131,7 +131,8 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
                 finish();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(),"Acción no concretada",Toast.LENGTH_SHORT).show();
+                setResult(Activity.RESULT_CANCELED);
+                finish();
             }
         }
         if (requestCode == 1) {//TERMINAR tarea

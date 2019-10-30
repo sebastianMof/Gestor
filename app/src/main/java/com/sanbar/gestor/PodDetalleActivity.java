@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.LongSparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -322,8 +323,17 @@ public class PodDetalleActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 //Hora con el formato deseado
                 horaObtenida = String.valueOf(hourOfDay) + DOS_PUNTOS + String.valueOf(minute)+DOS_PUNTOS+DOS_CEROS;
+                boolean aux = false;
+                try {
 
-                boolean aux = session.attemptTerminarInterrupcion(tareaId,horaObtenida);
+                    JSONObject tarea = new JSONObject(session.getTareasTareaId());
+                    JSONObject ultimaInterrupcion = tarea.getJSONObject("UltimaInterrupcion");
+
+                    aux = session.attemptTerminarInterrupcion(ultimaInterrupcion.getString("Id"),horaObtenida);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 if (aux){
                     Toast.makeText(getApplicationContext(),"Interrupción terminada",Toast.LENGTH_SHORT).show();
                     configureData();
@@ -392,5 +402,12 @@ public class PodDetalleActivity extends AppCompatActivity {
 
 
     }//onActivityResult
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+    }
 
 }
