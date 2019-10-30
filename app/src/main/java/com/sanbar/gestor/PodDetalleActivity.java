@@ -76,14 +76,6 @@ public class PodDetalleActivity extends AppCompatActivity {
 
     }
 
-                /*
-            tarea.getString("EspecialidadName");//"manejo de material"
-            tarea.getString("TareaStatusName");//"No iniciada"
-            tarea.getString("UnidadMedida");//Dollar
-            tarea.getString("CantidadPlanificada");//10
-            tarea.getString("CantidadCompletada");//null
-*/
-
     @SuppressLint("SetTextI18n")
     private void configureData(){
         session.attemptTareasTareaId(tareaId);
@@ -249,8 +241,6 @@ public class PodDetalleActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void obtenerHoraIniciar(){
         TimePickerDialog recogerHora = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -371,8 +361,6 @@ public class PodDetalleActivity extends AppCompatActivity {
         recogerFecha.show();
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -407,7 +395,10 @@ public class PodDetalleActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-
+        configureData();
+        configureButtonBack();
+        configureButtonsIniciar();
+        configureButtonInterrupcion();
     }
 
 }

@@ -1606,13 +1606,12 @@ public class Sesion implements Parcelable {
             try {
                 auxBody.put("TareaId", tareaId);
                 auxBody.put("EncargadoId", encargadoId);
-                auxBody.put("CausaInmediata", causaInmediataId);
+                auxBody.put("CausaInmediataId", causaInmediataId);
                 auxBody.put("HoraInicio", horaInicio);
                 auxBody.put("HoraTerminoEstimado", horaTerminoEstimado);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
             RequestBody body = RequestBody.create(JSON, String.valueOf(auxBody));
 
@@ -1710,11 +1709,8 @@ public class Sesion implements Parcelable {
 
             if (success) {
 
-                Log.e("TEST","AUTH OK");
-
             } else {
 
-                Log.e("TEST","AUTH NOT OK");
             }
         }
 

@@ -169,7 +169,6 @@ public class PodInterrupcionResponsableActivity extends AppCompatActivity {
                     responsableId=session.getUserId();
                 }
 
-                Log.e("TEST",tareaId+"-"+responsableId+"-"+causaId+"-"+horaInicio+"-"+horaTerminoEstimada);
                 boolean interrupcion = session.attemptInterrupciones(tareaId,responsableId,causaId,horaInicio,horaTerminoEstimada);
 
                 if (interrupcion){

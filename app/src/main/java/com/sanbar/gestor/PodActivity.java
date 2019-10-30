@@ -93,7 +93,6 @@ public class PodActivity extends AppCompatActivity {
             configureEditTextNombre();
             configureButtonBack();
 
-
             configureItemData();
             configureItemList();
 
