@@ -103,8 +103,9 @@ public class PersonasDetalleActivity extends AppCompatActivity {
         session.attemptWorkersWorkerId(workerId);
 
         TextView nombre = (TextView) findViewById(R.id.textview_personas_detalle_nombre);
-        TextView cargo = (TextView) findViewById(R.id.textview_personas_detalle_cargo);
-        TextView tipo = (TextView) findViewById(R.id.textview_personas_detalle_tipo);
+        TextView categoria = (TextView) findViewById(R.id.textview_personas_detalle_categoria);
+        TextView status = (TextView) findViewById(R.id.textview_personas_detalle_status);
+        TextView capacitados = (TextView) findViewById(R.id.textview_personas_detalle_capacitados);
         TextView informacionEscalable = (TextView) findViewById(R.id.textview_personas_detalle_informacion_escalable);
 
 
@@ -112,22 +113,33 @@ public class PersonasDetalleActivity extends AppCompatActivity {
             JSONObject worker = new JSONObject(session.getWorkersWorkerId());
 
             nombre.setText(worker.getString("Name"));
-            cargo.setText(worker.getString("Name"));
-            tipo.setText(worker.getString("Name"));
+            categoria.setText(worker.getString("Categoria"));
+            if (worker.getBoolean("IsActivo")){
+                status.setText("Activo");
+            } else {
+                status.setText("No activo");
+            }
 
-            /*JSONArray workersArray = worker.getJSONArray("Workers");
-            JSONArray auxWorkerArray;
-            JSONObject auxWorkerObj;
-            workers.setText("Trabajadores capacitados: \n");
+            JSONArray equiposArray = worker.getJSONArray("Equipos");
+            JSONArray auxEquiposArray;
+            JSONObject auxEquiposObj;
 
-            for (int i = 0; i< workersArray.length(); i++){
+            if (equiposArray.length()!=0){
+                capacitados.setText("Capacitado para: \n");
+            } else{
+                capacitados.setText("");
+            }
 
-                auxWorkerArray = workersArray.getJSONArray(i);
-                for (int j = 0; j < auxWorkerArray.length(); j++){
-                    auxWorkerObj = auxWorkerArray.getJSONObject(j);
-                    workers.append(auxWorkerObj.getString("value")+"\n");
+
+            for (int i = 0; i< equiposArray.length(); i++){
+                auxEquiposArray = equiposArray.getJSONArray(i);
+
+                for (int j = 0; j < auxEquiposArray.length(); j++){
+                    auxEquiposObj = auxEquiposArray.getJSONObject(j);
+                    capacitados.append(auxEquiposObj.getString("value")+"\n");
                 }
-            }*/
+                capacitados.append("\n");
+            }
 
             JSONArray infEscalable = worker.getJSONArray("InformacionEscalable");
             JSONObject auxInfObj;

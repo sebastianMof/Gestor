@@ -210,8 +210,7 @@ public class MaquinasActivity extends AppCompatActivity {
                 marcaList.add(auxObj.getString("Marca"));
                 modeloList.add(auxObj.getString("Modelo"));
                 patenteList.add(auxObj.getString("Patente"));
-                //ubicacionList.add(auxObj.getString("Ubicacion"));
-                ubicacionList.add("Última ubicación");
+                ubicacionList.add(auxObj.getString("UltimaUbicacion"));
                 if (auxObj.getString("IsActivo").equals("true")){
                     isActivoList.add("Activo");
                 }else {

@@ -2,6 +2,7 @@ package com.sanbar.gestor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -20,6 +21,9 @@ import java.util.Calendar;
 public class PodInterrupcionTerminoActivity extends AppCompatActivity {
 
     private Sesion session;
+    private String tareaId;
+    private String horaInicio;
+    private String causaId;
 
     private boolean switch_state = false;
 
@@ -48,6 +52,10 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
         try {
             Intent intent = getIntent();
             session = intent.getParcelableExtra("SESSION");
+            tareaId = getIntent().getStringExtra("tareaId");
+            horaInicio = getIntent().getStringExtra("horaInicio");
+            causaId = getIntent().getStringExtra("causaId");
+
         } catch (Exception e){
             Toast.makeText(getApplicationContext(),"PROBLEMA CON DATOS DE LA CUENTA",Toast.LENGTH_SHORT).show();
         }
@@ -67,14 +75,38 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (!switch_state){
-                    obtenerFechaTermino();
+                    //Finalizar tarea
+                    obtenerHoraTerminar();
+
                 } else {
-                    obtenerHoraTermino();
+
+                    obtenerHoraTerminoEstimada();
                 }
 
             }
         });
 
+    }
+
+    private void obtenerHoraTerminar(){
+        TimePickerDialog recogerHora = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                //Hora con el formato deseado
+                horaObtenida = String.valueOf(hourOfDay) + DOS_PUNTOS + String.valueOf(minute)+DOS_PUNTOS+DOS_CEROS;
+
+                Intent myIntent = new Intent(PodInterrupcionTerminoActivity.this, PodFinalizarTareaActivity.class);
+                myIntent.putExtra("SESSION", session);
+                myIntent.putExtra("tareaId", tareaId);
+                myIntent.putExtra("horaObtenida", horaObtenida);
+                startActivityForResult(myIntent,1);
+
+            }
+            //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
+            //Pero el sistema devuelve la hora en formato 24 horas
+        }, hora, minuto, true);
+
+        recogerHora.show();
     }
 
     private void configureSwitch() {
@@ -102,7 +134,7 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
         });
     }
 
-    private void obtenerFechaTermino(){
+    private void obtenerFechaEstimada(){
         DatePickerDialog recogerFecha = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -127,7 +159,7 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
         recogerFecha.show();
     }
 
-    private void obtenerHoraTermino(){
+    private void obtenerHoraTerminoEstimada(){
         TimePickerDialog recogerHora = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -136,8 +168,12 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
 
                 Intent myIntent = new Intent(PodInterrupcionTerminoActivity.this, PodInterrupcionResponsableActivity.class);
                 myIntent.putExtra("SESSION", session);
-                myIntent.putExtra("HORA", horaObtenida);
-                startActivity(myIntent);
+                myIntent.putExtra("tareaId", tareaId);
+                myIntent.putExtra("causaId", causaId);
+                myIntent.putExtra("horaInicio", horaInicio);
+                myIntent.putExtra("horaTerminoEstimada", horaObtenida);
+
+                startActivityForResult(myIntent,2);
 
             }
             //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
@@ -146,6 +182,32 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
 
         recogerHora.show();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 2) {//INTERRUMPIR tarea
+            if(resultCode == Activity.RESULT_OK){
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(),"Acción no concretada",Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == 1) {//TERMINAR tarea
+            if(resultCode == Activity.RESULT_OK){
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(),"Acción no concretada",Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+
+    }//onActivityResult
 
 
 

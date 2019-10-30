@@ -8,20 +8,51 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class PodFinalizarTareaActivity extends AppCompatActivity {
+
+    private Sesion session;
+
+    private String tareaId;
+    private String horaObtenida;
+    private String cantidad;
+
+    private boolean cantidadCompletada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pod_finalizar_tarea);
 
-        configureButtonBack();
-        configureButtonFinalizarTarea();
-        configureSwitch();
+        try {
+            Intent intent = getIntent();
+            session = intent.getParcelableExtra("SESSION");
+            tareaId = getIntent().getStringExtra("tareaId");
+            horaObtenida = getIntent().getStringExtra("horaObtenida");
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(),"PROBLEMA CON DATOS DE LA CUENTA",Toast.LENGTH_SHORT).show();
+        }
 
+        TextView avance = findViewById(R.id.textview_pod_detalle_finalizar_tarea_avance);
+        try {
+            JSONObject auxObj = new JSONObject(session.getTareasTareaId());
+            avance.setText(" / "+auxObj.getString("CantidadPlanificada"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        configureButtonBack();
+        configureSwitch();
+        configureButtonFinalizarTarea();
     }
 
     private void configureButtonBack() {
@@ -38,14 +69,37 @@ public class PodFinalizarTareaActivity extends AppCompatActivity {
 
     private void configureButtonFinalizarTarea() {
 
+        final EditText et_cantidad = findViewById(R.id.edittext_pod_detalle_finalizar_tarea_avance);
         Button btn_atras = (Button) findViewById(R.id.button_pod_detalle_finalizar_tarea_confirmar);
         btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                String cantidadReal="";
+
+                if (cantidadCompletada){
+                    try {
+                        JSONObject auxObj = new JSONObject(session.getTareasTareaId());
+                        cantidadReal=auxObj.getString("CantidadPlanificada");
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    cantidadReal= et_cantidad.getText().toString();
+                }
+
+                boolean finalizada = session.attemptFinalizarTarea(tareaId,horaObtenida,cantidadReal);
+
                 Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_OK,returnIntent);
+                if (finalizada){
+                    setResult(Activity.RESULT_OK,returnIntent);
+                } else{
+                    setResult(Activity.RESULT_CANCELED,returnIntent);
+                }
                 finish();
+
 
             }
         });
@@ -57,8 +111,7 @@ public class PodFinalizarTareaActivity extends AppCompatActivity {
         Switch sw_complete = (Switch) findViewById(R.id.switch_pod_detalle_finalizar_tarea);
         sw_complete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
+                cantidadCompletada = isChecked;
                 if (isChecked){
                     ll_finalizar_tarea.setVisibility(View.GONE);
                 } else {

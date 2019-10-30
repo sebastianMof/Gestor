@@ -83,4 +83,6 @@
     <string name="es_ud_el_responsable">Es Ud. el responsable?</string>
     <string name="qui_n_es_el_responsable">Quién es el responsable?</string>
     <string name="se_puede_terminar_hoy">Se puede terminar hoy?</string>
+    <string name="categoria">CATEGORIA</string>
+    <string name="capacitados">CAPACITADOS</string>
 </resources>

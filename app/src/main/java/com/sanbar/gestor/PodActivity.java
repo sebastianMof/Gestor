@@ -2,6 +2,7 @@ package com.sanbar.gestor;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -33,12 +34,12 @@ public class PodActivity extends AppCompatActivity {
 
     private ArrayList<String> especialidadList;
     private ArrayList<String> especialidadIdList;
-
     private ArrayList<String> areaList;
     private ArrayList<String> areaIdList;
-
     private ArrayList<String> statusList;
     private ArrayList<String> statusIdList;
+
+    private ArrayList<String> tareaIdList;
 
     private EditText et_nombre;
     private ListView listView;
@@ -47,6 +48,8 @@ public class PodActivity extends AppCompatActivity {
     private String especialidadSelected;
     private String areaSelected;
     private String statusSelected;
+
+    private int onCreate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,7 @@ public class PodActivity extends AppCompatActivity {
         configureEditTextNombre();
         configureButtonBack();
 
-        session.attemptTareas(null,null,null,null);
+
         configureItemData();
         configureItemList();
 
@@ -77,7 +80,38 @@ public class PodActivity extends AppCompatActivity {
         configureSpinnerArea();
         configureSpinnerStatus();
 
+        onCreate=0;
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (onCreate>0){
+            Log.e("TEST","onResume");
+            configureEditTextNombre();
+            configureButtonBack();
+
+
+            configureItemData();
+            configureItemList();
+
+            configureButtonFilter();
+
+            configureEspecialidadList();
+            configureAreaList();
+            configureStatusList();
+
+            configureSpinnerEspecialidad();
+            configureSpinnerArea();
+            configureSpinnerStatus();
+        }
+        onCreate++;
+
+    }
+
+
 
     private void configureItemList(){
         //Lo que se pasa acá aparecerá en la lista
@@ -91,11 +125,9 @@ public class PodActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent(PodActivity.this, PodDetalleActivity.class);
-                String message = nameArray[position];
-                intent.putExtra("item", message);
+                intent.putExtra("tareaId", tareaIdList.get(position));
                 intent.putExtra("SESSION", session);
                 startActivity(intent);
-
 
             }
         });
@@ -326,6 +358,8 @@ public class PodActivity extends AppCompatActivity {
 
     private void configureItemData(){
 
+        session.attemptTareas(null,null,null,null);
+
         try {
             JSONArray tareas = new JSONArray(session.getTareas());
             JSONObject auxObj;
@@ -334,20 +368,12 @@ public class PodActivity extends AppCompatActivity {
             List<String> statusList = new ArrayList<String>();
             List<String> especialidadList = new ArrayList<String>();
             List<String> colorList = new ArrayList<String>();
-/*
-                    {"Id":11,
-                    "TareaStatusName":"Terminada",
-                    "EspecialidadName":"manejo de material",
-                    "InicioPrograma":"2019-10-16T23:01:26",
-                    "TerminoProgramada":"2019-10-16T23:01:27",
-                    "Color":"#CCCCCC",
-                    "InicioReal":"2019-10-16T23:01:32",
-                    "TerminoReal":"2019-10-16T23:01:33"}
-*/
+            tareaIdList = new ArrayList<String>();
 
             for (int i = 0; i < tareas.length(); i++) {
                 auxObj=tareas.getJSONObject(i);
 
+                tareaIdList.add(auxObj.getString("Id"));
                 nameList.add(auxObj.getString("Id"));
                 statusList.add(auxObj.getString("TareaStatusName"));
                 especialidadList.add(auxObj.getString("EspecialidadName"));

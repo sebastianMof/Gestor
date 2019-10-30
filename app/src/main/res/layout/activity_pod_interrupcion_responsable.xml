@@ -130,6 +130,7 @@ tools:context=".PodInterrupcionResponsableActivity">
                         android:textColor="@color/colorWhite"/>
 
                     <ListView
+                        android:id="@+id/listview_pod_interrupcion_responsable"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/colorWhite">

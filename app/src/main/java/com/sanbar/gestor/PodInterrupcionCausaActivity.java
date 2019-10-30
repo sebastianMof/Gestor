@@ -2,6 +2,7 @@ package com.sanbar.gestor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,9 @@ import java.util.ArrayList;
 public class PodInterrupcionCausaActivity extends AppCompatActivity {
 
     private Sesion session;
+    private String tareaId;
+    private String horaInicio;
+    private String causaId;
 
     private ArrayList<String> causasList;
     private ArrayList<String> causasIdList;
@@ -34,6 +38,8 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
         try {
             Intent intent = getIntent();
             session = intent.getParcelableExtra("SESSION");
+            tareaId = getIntent().getStringExtra("tareaId");
+            horaInicio = getIntent().getStringExtra("horaInicio");
         } catch (Exception e){
             Toast.makeText(getApplicationContext(),"PROBLEMA CON DATOS DE LA CUENTA",Toast.LENGTH_SHORT).show();
         }
@@ -91,13 +97,19 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
         spn_causas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                //tipoSelected= (String) adapterView.getItemAtPosition(position);
-                //tipoSelected= String.valueOf(position);
 
                 if (position!=0){
+
+                    causaId = causasIdList.get(position-1);
+
                     Intent myIntent = new Intent(PodInterrupcionCausaActivity.this, PodInterrupcionTerminoActivity.class);
+
                     myIntent.putExtra("SESSION", session);
-                    startActivity(myIntent);
+                    myIntent.putExtra("tareaId", tareaId);
+                    myIntent.putExtra("causaId", causaId);
+                    myIntent.putExtra("horaInicio", horaInicio);
+
+                    startActivityForResult(myIntent,2);
                 }
 
             }
@@ -110,5 +122,30 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 2) {//INTERRUMPIR tarea
+            if(resultCode == Activity.RESULT_OK){
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(),"Acción no concretada",Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == 1) {//TERMINAR tarea
+            if(resultCode == Activity.RESULT_OK){
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(),"Acción no concretada",Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+
+    }//onActivityResult
 
 }

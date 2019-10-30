@@ -151,17 +151,18 @@
                         android:text="@string/nombre"
                         android:textColor="@color/colorWhite" />
                     <TextView
-                        android:id="@+id/textview_personas_detalle_cargo"
+                        android:id="@+id/textview_personas_detalle_categoria"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/cargo"
+                        android:text="@string/categoria"
                         android:textColor="@color/colorWhite" />
                     <TextView
-                        android:id="@+id/textview_personas_detalle_tipo"
+                        android:id="@+id/textview_personas_detalle_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tipo"
+                        android:text="@string/status"
                         android:textColor="@color/colorWhite" />
+
 
                 </LinearLayout>
 
@@ -174,6 +175,14 @@
                 android:layout_marginBottom="15sp"
                 android:layout_marginLeft="15sp"
                 android:layout_marginRight="15sp">
+
+                <TextView
+                    android:id="@+id/textview_personas_detalle_capacitados"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/capacitados"
+                    android:textColor="@color/colorWhite" />
 
                 <TextView
                     android:id="@+id/textview_personas_detalle_informacion_escalable"
