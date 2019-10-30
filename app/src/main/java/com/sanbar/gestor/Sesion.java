@@ -52,6 +52,7 @@ public class Sesion implements Parcelable {
     private StatusInterrupciones mStatusInterrupciones = null;
     private AccionesSoluciones mAccionesSoluciones = null;
     private CausasInmediatas mCausasInmediatas = null;
+    private TerminarInterrupcion mTerminarInterrupcion = null;
 
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -1927,6 +1928,70 @@ public class Sesion implements Parcelable {
         }
     }
 
+    public class TerminarInterrupcion extends AsyncTask<Void, Void, Boolean> {
+
+        private String tareaId;
+        private String horaTerminoReal;
+
+        TerminarInterrupcion(String tareaId, String horaTerminoReal) {
+            this.tareaId = tareaId;
+            this.horaTerminoReal = horaTerminoReal;
+
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody body = new FormBody.Builder()
+                    .add("Id", tareaId)// id de la tarea a terminar su interripcion
+                    .add("HoraTerminoReal", horaTerminoReal)
+                    .build();
+
+            final Request request = new Request.Builder()
+                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/TerminarInterrupcion")
+                    .put(body)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "Bearer "+getToken())
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+
+                if (response.body() != null) {
+
+                    String jsonResponse = response.body().string();
+                    Log.e("TEST",jsonResponse);
+
+                }
+
+                return response.isSuccessful();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mTerminarInterrupcion = null;
+            //showProgress(false);
+
+            if (success) {
+
+            } else {
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mTerminarInterrupcion = null;
+            //showProgress(false);
+        }
+    }
+
 
     //METHODS EXECUT TASKS
     public boolean attemptToken() {
@@ -2404,6 +2469,26 @@ public class Sesion implements Parcelable {
 
         try {
             str_result= mTareasTareaId.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptTerminarInterrupcion(String id, String horaTerminoReal) {
+        if (mTerminarInterrupcion != null) {
+            return false;
+        }
+
+        mTerminarInterrupcion = new TerminarInterrupcion(id, horaTerminoReal);
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mTerminarInterrupcion.execute((Void) null).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

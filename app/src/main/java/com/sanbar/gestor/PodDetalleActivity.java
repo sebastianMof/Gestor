@@ -242,10 +242,7 @@ public class PodDetalleActivity extends AppCompatActivity {
                     obtenerHoraInterrupcion();
 
                 } else {
-                    //METODO TERMINAR INTERRUPCION
-                    Intent myIntent = new Intent(PodDetalleActivity.this, PodFinalizarTareaActivity.class);
-                    myIntent.putExtra("SESSION", session);
-                    startActivity(myIntent);
+                    obtenerHoraTerminoInterrupcion();
                 }
             }
         });
@@ -310,6 +307,31 @@ public class PodDetalleActivity extends AppCompatActivity {
                 myIntent.putExtra("tareaId", tareaId);
                 myIntent.putExtra("horaInicio", horaObtenida);
                 startActivityForResult(myIntent,2);
+
+            }
+            //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
+            //Pero el sistema devuelve la hora en formato 24 horas
+        }, hora, minuto, true);
+
+        recogerHora.show();
+    }
+
+    private void obtenerHoraTerminoInterrupcion(){
+        TimePickerDialog recogerHora = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                //Hora con el formato deseado
+                horaObtenida = String.valueOf(hourOfDay) + DOS_PUNTOS + String.valueOf(minute)+DOS_PUNTOS+DOS_CEROS;
+
+                boolean aux = session.attemptTerminarInterrupcion(tareaId,horaObtenida);
+                if (aux){
+                    Toast.makeText(getApplicationContext(),"Interrupción terminada",Toast.LENGTH_SHORT).show();
+                    configureData();
+                    configureButtonsIniciar();
+                    configureButtonInterrupcion();
+                } else {
+                    Toast.makeText(getApplicationContext(),"Acción no concretada",Toast.LENGTH_SHORT).show();
+                }
 
             }
             //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
