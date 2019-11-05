@@ -3,6 +3,7 @@ package com.sanbar.gestor;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -143,12 +144,16 @@ public class PersonasDetalleActivity extends AppCompatActivity {
 
             JSONArray infEscalable = worker.getJSONArray("InformacionEscalable");
             JSONObject auxInfObj;
+
             informacionEscalable.setText("");
+            String sourceString = "";
+
             for (int i = 0; i< infEscalable.length();i++){
                 auxInfObj = infEscalable.getJSONObject(i);
-                informacionEscalable.append(auxInfObj.getString("name") + ": "+ "\n"+auxInfObj.getString("value") + "\n");
+                sourceString = "<b>" + auxInfObj.getString("name") + ": " + "</b> ";
+                informacionEscalable.append(Html.fromHtml(sourceString));
+                informacionEscalable.append("\n" +auxInfObj.getString("value") + "\n");
             }
-
 
 
         } catch (JSONException e) {

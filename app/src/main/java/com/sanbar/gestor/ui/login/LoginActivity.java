@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -130,6 +129,8 @@ public class LoginActivity extends AppCompatActivity {
                         Intent myIntent = new Intent(LoginActivity.this, MenuActivity.class);
                         myIntent.putExtra("SESSION", session); //Optional parameters
                         LoginActivity.this.startActivity(myIntent);
+                    } else {
+                        Toast.makeText(getApplicationContext(),"Credenciales inválidas",Toast.LENGTH_LONG).show();
                     }
             }
         });

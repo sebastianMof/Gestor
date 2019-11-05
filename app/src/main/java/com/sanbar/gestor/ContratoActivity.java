@@ -1,17 +1,17 @@
 package com.sanbar.gestor;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.IntegerRes;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,12 +20,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.sql.Types.INTEGER;
-
 public class ContratoActivity extends AppCompatActivity {
 
-    List<String> ContractArray = new ArrayList<String>();
+    List<String> ContractNameList = new ArrayList<String>();
+    List<String> ContractCodeList = new ArrayList<String>();
     Sesion session;
+
+    private String[] nameArray;
+    private String[] codeArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,34 +60,54 @@ public class ContratoActivity extends AppCompatActivity {
     }
 
     private void getContractList() {
+
         Boolean aux = session.attemptContracts();
+
         if (aux){
             try {
                 JSONArray contracts = new JSONArray(session.getContracts());
                 JSONObject auxObj;
                 for (int i = 0; i < contracts.length(); i++) {
                     auxObj = contracts.getJSONObject(i);
-                    ContractArray.add(auxObj.getString("Name"));
+                    ContractNameList.add(auxObj.getString("Name"));
+                    ContractCodeList.add(auxObj.getString("Code"));
                 }
+
+                nameArray = new String[contracts.length()];
+                codeArray = new String[contracts.length()];
+
+                nameArray = ContractNameList.toArray(nameArray);
+                codeArray = ContractCodeList.toArray(codeArray);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         } else {
-            ContractArray.add("No hay contratos");
+            ContractNameList.add("No hay contratos");
+            ContractCodeList.add("");
+
+            nameArray = new String[1];
+            codeArray = new String[1];
+
+            nameArray = ContractNameList.toArray(nameArray);
+            codeArray = ContractCodeList.toArray(codeArray);
+
         }
+
     }
 
     private void configureContratosList(){
 
-        ListView lista;
-        lista = (ListView) findViewById(R.id.listview_contrato);
+        //Lo que se pasa acá aparecerá en la lista
+        CustomListAdapterContrato list_adapter = new CustomListAdapterContrato(this, nameArray, codeArray);
 
-        ArrayAdapter<String> adaptador;
-        adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,ContractArray);
-        lista.setAdapter(adaptador);
+        ListView listView;
 
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView = (ListView) findViewById(R.id.listview_contrato);
+        listView.setAdapter(list_adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 
@@ -96,11 +118,14 @@ public class ContratoActivity extends AppCompatActivity {
                     auxObj = contracts.getJSONObject(position);
 
                     session.setSelectedContractId(auxObj.getString("Id"));
+                    session.setSelectedContractName("Name");
+
+                    session.attemptCambioContrato();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                session.attemptCambioContrato();
 
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("SESSION", session);
@@ -110,6 +135,7 @@ public class ContratoActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
 

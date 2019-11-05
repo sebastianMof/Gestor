@@ -24,9 +24,7 @@ public class PodFinalizarTareaActivity extends AppCompatActivity {
 
     private String tareaId;
     private String horaObtenida;
-    private String cantidad;
 
-    private boolean cantidadCompletada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +40,25 @@ public class PodFinalizarTareaActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"PROBLEMA CON DATOS DE LA CUENTA",Toast.LENGTH_SHORT).show();
         }
 
+        configureButtonBack();
+        configureButtonFinalizarTarea();
+        configureProgressViews();
+    }
+
+    private void configureProgressViews() {
+
+        EditText et_progreso = (EditText) findViewById(R.id.edittext_pod_detalle_finalizar_tarea_avance);
         TextView avance = findViewById(R.id.textview_pod_detalle_finalizar_tarea_avance);
+
         try {
             JSONObject auxObj = new JSONObject(session.getTareasTareaId());
             avance.setText(" / "+auxObj.getString("CantidadPlanificada"));
+            et_progreso.setText(auxObj.getString("CantidadPlanificada"));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        configureButtonBack();
-        configureSwitch();
-        configureButtonFinalizarTarea();
     }
 
     private void configureButtonBack() {
@@ -78,18 +83,7 @@ public class PodFinalizarTareaActivity extends AppCompatActivity {
 
                 String cantidadReal="";
 
-                if (cantidadCompletada){
-                    try {
-                        JSONObject auxObj = new JSONObject(session.getTareasTareaId());
-                        cantidadReal=auxObj.getString("CantidadPlanificada");
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    cantidadReal= et_cantidad.getText().toString();
-                }
+                cantidadReal= et_cantidad.getText().toString();
 
                 boolean finalizada = session.attemptFinalizarTarea(tareaId,horaObtenida,cantidadReal);
 
@@ -101,25 +95,8 @@ public class PodFinalizarTareaActivity extends AppCompatActivity {
                 }
                 finish();
 
-
             }
         });
     }
 
-    private void configureSwitch() {
-        final LinearLayout ll_finalizar_tarea = (LinearLayout)findViewById(R.id.linearlayout_pod_detalle_finalizar_tarea);
-
-        Switch sw_complete = (Switch) findViewById(R.id.switch_pod_detalle_finalizar_tarea);
-        sw_complete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                cantidadCompletada = isChecked;
-                if (isChecked){
-                    ll_finalizar_tarea.setVisibility(View.GONE);
-                } else {
-                    ll_finalizar_tarea.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
-    }
 }

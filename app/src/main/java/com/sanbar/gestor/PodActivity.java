@@ -89,7 +89,6 @@ public class PodActivity extends AppCompatActivity {
         super.onResume();
 
         if (onCreate>0){
-            Log.e("TEST","onResume");
             configureEditTextNombre();
             configureButtonBack();
 

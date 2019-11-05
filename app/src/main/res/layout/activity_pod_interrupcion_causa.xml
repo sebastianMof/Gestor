@@ -106,9 +106,19 @@ tools:context=".PodInterrupcionCausaActivity">
                     android:backgroundTint="@color/colorBlue"
                     android:spinnerMode="dropdown"/>
 
+                <ListView
+                    android:id="@+id/listview_pod_causas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </ListView>
+
             </LinearLayout>
 
         </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

@@ -48,13 +48,22 @@
                 android:layout_marginBottom="12sp"/>
 
             <TextView
+                android:id="@+id/textview_menu_nombre_contrato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nombre_contrato"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:layout_marginBottom="10sp"/>
+
+            <TextView
                 android:id="@+id/textview_menu_codigo_contrato"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/c_digo_contrato"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp"
-                android:layout_marginBottom="12sp"/>
+                android:layout_marginBottom="10sp"/>
 
             <TextView
                 android:id="@+id/textview_menu_codigo_api"
@@ -90,7 +99,7 @@
                 android:layout_marginLeft="20sp"
 
                 android:layout_gravity="center_horizontal"
-                android:text="@string/mantenci_n_de_personas"
+                android:text="@string/listado_de_personal"
                 android:textColor="@color/colorWhite"
                 android:background = "@drawable/rounded_button_blue"/>
 
@@ -105,7 +114,7 @@
                 android:layout_marginLeft="20sp"
 
                 android:layout_gravity="center_horizontal"
-                android:text="@string/mantenci_n_de_m_quinas"
+                android:text="@string/listado_de_equipos_y_maquinaria"
                 android:textColor="@color/colorWhite"
                 android:background = "@drawable/rounded_button_blue"/>
 

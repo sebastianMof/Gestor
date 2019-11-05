@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -82,14 +83,14 @@ public class MaquinasDetalleActivity extends AppCompatActivity {
             }else {
                 status.setText("No activo");
             }
-            //ubicacion.setText(equipo.getString("Ubicacion"));
-            ubicacion.setText("Última ubicación");
+            ubicacion.setText("Última ubicación:"+"\n"+equipo.getString("UltimaUbicacion"));
+            //ubicacion.setText("Última ubicación");
 
 
             JSONArray workersArray = equipo.getJSONArray("Workers");
             JSONArray auxWorkerArray;
             JSONObject auxWorkerObj;
-            workers.setText("Trabajadores capacitados: \n");
+            workers.setText("Operadores autorizados: \n");
 
             for (int i = 0; i< workersArray.length(); i++){
 
@@ -99,14 +100,23 @@ public class MaquinasDetalleActivity extends AppCompatActivity {
                     workers.append(auxWorkerObj.getString("value")+"\n");
                 }
             }
+            if (workersArray.length()==0){
+                workers.append("No definidos");
+            }
 
             JSONArray infEscalable = equipo.getJSONArray("InformacionEscalable");
             JSONObject auxInfObj;
+
             informacionEscalable.setText("");
+            String sourceString = "";
+
             for (int i = 0; i< infEscalable.length();i++){
                 auxInfObj = infEscalable.getJSONObject(i);
-                informacionEscalable.append(auxInfObj.getString("name") + ": "+ "\n"+auxInfObj.getString("value") + "\n");
+                sourceString = "<b>" + auxInfObj.getString("name") + ": " + "</b> ";
+                informacionEscalable.append(Html.fromHtml(sourceString));
+                informacionEscalable.append("\n" +auxInfObj.getString("value") + "\n");
             }
+
 
             int combustible = equipo.getInt("Combustible");
             List<SliceValue> pieData = new ArrayList<>();

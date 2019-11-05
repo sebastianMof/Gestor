@@ -16,6 +16,7 @@ public class MenuActivity extends AppCompatActivity {
 
     private Sesion session;
     private TextView nombreContratista;
+    private TextView nombreContrato;
     private TextView codigoContrato;
     private TextView codigoApi;
 
@@ -43,13 +44,14 @@ public class MenuActivity extends AppCompatActivity {
 
     private void configureHeader(Sesion session){
         nombreContratista = (TextView) findViewById(R.id.textview_menu_nombre_contratista);
+        nombreContrato = (TextView) findViewById(R.id.textview_menu_nombre_contrato);
         codigoContrato = (TextView) findViewById(R.id.textview_menu_codigo_contrato);
         codigoApi = (TextView) findViewById(R.id.textview_menu_codigo_api);
 
         nombreContratista.setText(session.getFullNameComputed());
+        nombreContrato.setText(session.getSelectedContractName());
         codigoContrato.setText(session.getContractCode());
         codigoApi.setText(session.getApiCode());
-
 
     }
 
@@ -76,7 +78,6 @@ public class MenuActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(MenuActivity.this, PersonasActivity.class);
                 myIntent.putExtra("SESSION", session); //Optional parameters
                 startActivity(myIntent);
-
             }
         });
     }
@@ -90,7 +91,6 @@ public class MenuActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(MenuActivity.this, MaquinasActivity.class);
                 myIntent.putExtra("SESSION", session); //Optional parameters
                 startActivity(myIntent);
-
             }
         });
     }

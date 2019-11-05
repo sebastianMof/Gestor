@@ -85,4 +85,12 @@
     <string name="se_puede_terminar_hoy">Se puede terminar hoy?</string>
     <string name="categoria">CATEGORIA</string>
     <string name="capacitados">CAPACITADOS</string>
+    <string name="nombre_contrato">Nombre contrato</string>
+    <string name="listado_de_personal">LISTADO DE PERSONAL</string>
+    <string name="listado_de_equipos_y_maquinaria">LISTADO DE EQUIPOS Y MAQUINARIA</string>
+    <string name="no_hay_documentos">No hay documentos</string>
+    <string name="listado_de_equipos">LISTADO DE EQUIPOS</string>
+    <string name="nombre_de_contrato">NOMBRE DE CONTRATO</string>
+    <string name="operadores_autorizados">Operadores Autorizados</string>
+    <string name="progreso">Progreso</string>
 </resources>

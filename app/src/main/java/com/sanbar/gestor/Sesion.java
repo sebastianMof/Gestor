@@ -1,6 +1,5 @@
 package com.sanbar.gestor;
 
-
 import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -11,12 +10,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.FormBody;
-import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -55,7 +51,6 @@ public class Sesion implements Parcelable {
     private TerminarInterrupcion mTerminarInterrupcion = null;
     private Responsables mResponsables = null;
 
-
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public Sesion createFromParcel(Parcel in) {
             return new Sesion(in);
@@ -71,6 +66,7 @@ public class Sesion implements Parcelable {
     private String token;
     private String userId;
     private String selectedContractId;
+    private String selectedContractName;
     private String lastContractId;
     private String fullNameComputed;
     private String contractCode;
@@ -105,6 +101,7 @@ public class Sesion implements Parcelable {
         this.token = in.readString();
         this.userId = in.readString();
         this.selectedContractId = in.readString();
+        this.selectedContractName = in.readString();
         this.lastContractId = in.readString();
         this.fullNameComputed = in.readString();
         this.contractCode = in.readString();
@@ -138,6 +135,7 @@ public class Sesion implements Parcelable {
         dest.writeString(this.token);
         dest.writeString(this.userId);
         dest.writeString(this.selectedContractId);
+        dest.writeString(this.selectedContractName);
         dest.writeString(this.lastContractId);
         dest.writeString(this.fullNameComputed);
         dest.writeString(this.contractCode);
@@ -155,6 +153,7 @@ public class Sesion implements Parcelable {
         dest.writeString(this.equiposEquipoId);
         dest.writeString(this.causasInmediatas);
         dest.writeString(this.tareasTareaId);
+
     }
 
     @Override
@@ -203,6 +202,14 @@ public class Sesion implements Parcelable {
 
     public void setSelectedContractId(String selectedContractId) {
         this.selectedContractId = selectedContractId;
+    }
+
+    public String getSelectedContractName() {
+        return selectedContractName;
+    }
+
+    public void setSelectedContractName(String selectedContractName) {
+        this.selectedContractName = selectedContractName;
     }
 
     public String getLastContractId() {
@@ -349,7 +356,6 @@ public class Sesion implements Parcelable {
         this.responsables = responsables;
     }
 
-
     //TASK CLASSES
     public class Token extends AsyncTask<Void, Void, Boolean> {
 
@@ -465,6 +471,11 @@ public class Sesion implements Parcelable {
                                 obj.has("ApiCode")?
                                 obj.getString("ApiCode"):null
                         );
+                        selectedContractName = (
+                                obj.has("ContractName")?
+                                        obj.getString("ContractName"):null
+                        );
+
 
                     } catch (Throwable tx) {
                         Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
@@ -594,7 +605,7 @@ public class Sesion implements Parcelable {
             //showProgress(false);
 
             if (success) {
-
+                Log.e("TEST","SUCCESS cambio contrato");
             } else {
 
             }
