@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,16 +45,14 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"PROBLEMA CON DATOS DE LA CUENTA",Toast.LENGTH_SHORT).show();
         }
 
+        getCausasList();
         configureCausasList();
-        configureSpinnerTipos();
 
     }
 
-    private void configureCausasList() {
+    private void getCausasList() {
         causasList = new ArrayList<>();
         causasIdList = new ArrayList<>();
-
-        causasList.add("CAUSAS");
 
         session.attemptCausasInmediatas();
         JSONArray CausasInmediatas = null;
@@ -76,6 +75,32 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
 
     }
 
+    private void configureCausasList() {
+
+        ListView listView;
+        listView = (ListView) findViewById(R.id.listview_pod_causas);
+
+        ArrayAdapter<String> adaptador;
+        adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,causasList);
+
+        listView.setAdapter(adaptador);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+
+                Toast.makeText(getApplicationContext(),"testing "+position+":"+causasIdList.get(position),Toast.LENGTH_LONG);
+
+
+            }
+        });
+
+
+    }
+
+
+
+/*
     private void configureSpinnerTipos() {
         Spinner spn_causas = (Spinner) findViewById(R.id.spinner_pod_interrupcion_causa);
 
@@ -120,7 +145,7 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

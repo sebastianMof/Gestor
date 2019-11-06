@@ -1883,8 +1883,9 @@ public class Sesion implements Parcelable {
 
             OkHttpClient client = new OkHttpClient();
 
+
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/CausasInmediatas")
+                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/CausasInmediatas?causasPadre=TRUE")
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();

@@ -66,7 +66,6 @@ public class PodActivity extends AppCompatActivity {
         configureEditTextNombre();
         configureButtonBack();
 
-
         configureItemData();
         configureItemList();
 
@@ -372,7 +371,7 @@ public class PodActivity extends AppCompatActivity {
                 auxObj=tareas.getJSONObject(i);
 
                 tareaIdList.add(auxObj.getString("Id"));
-                nameList.add(auxObj.getString("Id"));
+                nameList.add(auxObj.getString("Name"));
                 statusList.add(auxObj.getString("TareaStatusName"));
                 especialidadList.add(auxObj.getString("EspecialidadName"));
                 colorList.add(auxObj.getString("Color"));
