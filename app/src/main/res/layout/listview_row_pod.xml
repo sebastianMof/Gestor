@@ -24,8 +24,14 @@
             android:id="@+id/textview_pod_item_nombre_capataz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:text="@string/nombre_capataz"
+            android:textColor="@color/colorWhite"/>
+        <TextView
+            android:id="@+id/textview_pod_item_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/rea_contrato"
             android:textColor="@color/colorWhite"/>
 
         <TextView

@@ -19,6 +19,7 @@ public class CustomListAdapterPod extends ArrayAdapter {
     private final Activity context;
 
     private final String[] nameArray;
+    private final String[] areaArray;
     private final String[] statusArray;
     private final String[] especialidadArray;
     private final String[] colorArray;
@@ -26,6 +27,7 @@ public class CustomListAdapterPod extends ArrayAdapter {
 
     public CustomListAdapterPod(Activity context,
                                 String[] nameArrayParam,
+                                String[] areaArrayParam,
                                 String[] statusArrayParam,
                                 String[] especialidadArrayParam,
                                 String[] colorArrayParam){
@@ -34,6 +36,7 @@ public class CustomListAdapterPod extends ArrayAdapter {
 
         this.context=context;
         this.nameArray = nameArrayParam;
+        this.areaArray = areaArrayParam;
         this.statusArray = statusArrayParam;
         this.especialidadArray = especialidadArrayParam;
         this.colorArray = colorArrayParam;
@@ -45,11 +48,13 @@ public class CustomListAdapterPod extends ArrayAdapter {
         View rowView=inflater.inflate(R.layout.listview_row_pod, null,true);
 
         TextView tv_nombre = (TextView) rowView.findViewById(R.id.textview_pod_item_nombre_capataz);
+        TextView tv_area = (TextView) rowView.findViewById(R.id.textview_pod_item_area);
         TextView tv_status = (TextView) rowView.findViewById(R.id.textview_pod_item_status);
         TextView tv_especialidad = (TextView) rowView.findViewById(R.id.textview_pod_item_especialidad);
         LinearLayout ll_row = (LinearLayout) rowView.findViewById(R.id.linearlayout_pod_listrow);
 
         tv_nombre.setText(nameArray[position]);
+        tv_area.setText(areaArray[position]);
         tv_status.setText(statusArray[position]);
         tv_especialidad.setText(especialidadArray[position]);
 

@@ -2,7 +2,6 @@ package com.sanbar.gestor;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,17 +20,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PodActivity extends AppCompatActivity {
 
     private Sesion session;
 
+    //For list items
     private String[] nameArray;
     private String[] statusArray;
     private String[] especialidadArray;
     private String[] colorArray;
+    private String[] areaArray;
 
+    //For list filters
     private ArrayList<String> especialidadList;
     private ArrayList<String> especialidadIdList;
     private ArrayList<String> areaList;
@@ -108,11 +111,12 @@ public class PodActivity extends AppCompatActivity {
 
     }
 
-
-
     private void configureItemList(){
+
+        //sort arrays(and id list) by status priority
+
         //Lo que se pasa acá aparecerá en la lista
-        CustomListAdapterPod list_adapter = new CustomListAdapterPod(this, nameArray, statusArray,especialidadArray,colorArray);
+        CustomListAdapterPod list_adapter = new CustomListAdapterPod(this, nameArray, areaArray, statusArray, especialidadArray, colorArray);
 
         listView = (ListView) findViewById(R.id.listview_pod);
         listView.setAdapter(list_adapter);
@@ -365,28 +369,118 @@ public class PodActivity extends AppCompatActivity {
             List<String> statusList = new ArrayList<String>();
             List<String> especialidadList = new ArrayList<String>();
             List<String> colorList = new ArrayList<String>();
+            List<String> areaList = new ArrayList<String>();
+
             tareaIdList = new ArrayList<String>();
 
             for (int i = 0; i < tareas.length(); i++) {
                 auxObj=tareas.getJSONObject(i);
 
-                tareaIdList.add(auxObj.getString("Id"));
-                nameList.add(auxObj.getString("Name"));
-                statusList.add(auxObj.getString("TareaStatusName"));
-                especialidadList.add(auxObj.getString("EspecialidadName"));
-                colorList.add(auxObj.getString("Color"));
+                if (auxObj.getInt("TareaStatusPriority")==0){
+                    tareaIdList.add(
+                            auxObj.getString("Id"));
 
+                    nameList.add(
+                            auxObj.getString("Name"));
+                    statusList.add(
+                            auxObj.getString("TareaStatusName"));
+                    especialidadList.add(
+                            auxObj.getString("EspecialidadName"));
+                    colorList.add(
+                            auxObj.getString("Color"));
+                    areaList.add(
+                            auxObj.getString("AreaContrato"));
+
+                }
+            }
+            for (int i = 0; i < tareas.length(); i++) {
+                auxObj=tareas.getJSONObject(i);
+
+                if (auxObj.getInt("TareaStatusPriority")==1){
+                    tareaIdList.add(
+                            auxObj.getString("Id"));
+
+                    nameList.add(
+                            auxObj.getString("Name"));
+                    statusList.add(
+                            auxObj.getString("TareaStatusName"));
+                    especialidadList.add(
+                            auxObj.getString("EspecialidadName"));
+                    colorList.add(
+                            auxObj.getString("Color"));
+                    areaList.add(
+                            auxObj.getString("AreaContrato"));
+                }
+            }
+            for (int i = 0; i < tareas.length(); i++) {
+                auxObj=tareas.getJSONObject(i);
+
+                if (auxObj.getInt("TareaStatusPriority")==2){
+                    tareaIdList.add(
+                            auxObj.getString("Id"));
+
+                    nameList.add(
+                            auxObj.getString("Name"));
+                    statusList.add(
+                            auxObj.getString("TareaStatusName"));
+                    especialidadList.add(
+                            auxObj.getString("EspecialidadName"));
+                    colorList.add(
+                            auxObj.getString("Color"));
+                    areaList.add(
+                            auxObj.getString("AreaContrato"));
+                }
+            }
+            for (int i = 0; i < tareas.length(); i++) {
+                auxObj=tareas.getJSONObject(i);
+
+                if (auxObj.getInt("TareaStatusPriority")==3){
+                    tareaIdList.add(
+                            auxObj.getString("Id"));
+
+                    nameList.add(
+                            auxObj.getString("Name"));
+                    statusList.add(
+                            auxObj.getString("TareaStatusName"));
+                    especialidadList.add(
+                            auxObj.getString("EspecialidadName"));
+                    colorList.add(
+                            auxObj.getString("Color"));
+                    areaList.add(
+                            auxObj.getString("AreaContrato"));
+                }
+            }
+            for (int i = 0; i < tareas.length(); i++) {
+                auxObj=tareas.getJSONObject(i);
+
+                if (auxObj.getInt("TareaStatusPriority")==4){
+                    tareaIdList.add(
+                            auxObj.getString("Id"));
+
+                    nameList.add(
+                            auxObj.getString("Name"));
+                    statusList.add(
+                            auxObj.getString("TareaStatusName"));
+                    especialidadList.add(
+                            auxObj.getString("EspecialidadName"));
+                    colorList.add(
+                            auxObj.getString("Color"));
+                    areaList.add(
+                            auxObj.getString("AreaContrato"));
+                }
             }
 
             nameArray = new String[tareas.length()];
             statusArray = new String[tareas.length()];
             especialidadArray = new String[tareas.length()];
             colorArray = new String[tareas.length()];
+            areaArray = new String[tareas.length()];
 
             nameArray = nameList.toArray(nameArray);
             statusArray = statusList.toArray(statusArray);
             especialidadArray = especialidadList.toArray(especialidadArray);
             colorArray = colorList.toArray(colorArray);
+            areaArray = areaList.toArray(areaArray);
 
 
         } catch (JSONException e) {
