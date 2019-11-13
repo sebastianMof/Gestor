@@ -42,12 +42,9 @@ public class Sesion implements Parcelable {
     private TareasTareaId mTareasTareaId = null;
     private FinalizarTarea mFinalizarTarea = null;
     private IniciarTarea mIniciarTarea = null;
-    private ComentariosTareas mComentariosTareas = null;
     private Interrupciones mInterrupciones = null;
-    private CausaInterrupciones mCausaInterrupciones = null;
-    private StatusInterrupciones mStatusInterrupciones = null;
-    private AccionesSoluciones mAccionesSoluciones = null;
     private CausasInmediatas mCausasInmediatas = null;
+    private CausasInmediatasCausaId mCausasInmediatasCausaId = null;
     private TerminarInterrupcion mTerminarInterrupcion = null;
     private Responsables mResponsables = null;
 
@@ -83,6 +80,7 @@ public class Sesion implements Parcelable {
     private String equipos;
     private String equiposEquipoId;
     private String causasInmediatas;
+    private String causasInmediatasCausaId;
     private String tareasTareaId;
     private String responsables;
 
@@ -118,6 +116,7 @@ public class Sesion implements Parcelable {
         this.equipos = in.readString();
         this.equiposEquipoId = in.readString();
         this.causasInmediatas = in.readString();
+        this.causasInmediatasCausaId = in.readString();
         this.tareasTareaId = in.readString();
 
     }
@@ -152,6 +151,7 @@ public class Sesion implements Parcelable {
         dest.writeString(this.equipos);
         dest.writeString(this.equiposEquipoId);
         dest.writeString(this.causasInmediatas);
+        dest.writeString(this.causasInmediatasCausaId);
         dest.writeString(this.tareasTareaId);
 
     }
@@ -340,7 +340,16 @@ public class Sesion implements Parcelable {
         this.causasInmediatas = causasInmediatas;
     }
 
+    public String getCausasInmediatasCausaId() {
+        return causasInmediatasCausaId;
+    }
+
+    public void setCausasInmediatasCausaId(String causasInmediatasCausaId) {
+        this.causasInmediatasCausaId = causasInmediatasCausaId;
+    }
+
     public String getTareasTareaId() {
+        Log.e("TEST",tareasTareaId);
         return tareasTareaId;
     }
 
@@ -1514,82 +1523,6 @@ public class Sesion implements Parcelable {
         }
     }
 
-    public class ComentariosTareas extends AsyncTask<Void, Void, Boolean> {
-
-        private String tareaId;
-        private String comentario;
-
-        ComentariosTareas(String tareaId, String comentario) {
-            this.tareaId = tareaId;
-            this.comentario = comentario;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            OkHttpClient client = new OkHttpClient();
-
-            RequestBody body = new FormBody.Builder()
-                    .add("TareaId", tareaId)// id de la tarea a finalizar
-                    .add("UserId", getUserId())
-                    .add("StatusId", "") //id del status correspondiente
-                    .add("Comentario", comentario)
-                    .add("Hora", "00:00")
-                    .build();
-
-            final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/ComentariosTareas")
-                    .post(body)
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("Authorization", "Bearer "+getToken())
-                    .build();
-
-            try (Response response = client.newCall(request).execute()) {
-
-                if (response.body() != null) {
-
-                    String jsonResponse = response.body().string();
-
-                    try {
-                        JSONObject obj = new JSONObject(jsonResponse);
-                        // mensaje de avance o algo? guardar?
-
-                    } catch (Throwable tx) {
-                        Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
-                    }
-
-                }
-
-                return response.isSuccessful();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mComentariosTareas = null;
-            //showProgress(false);
-
-            if (success) {
-
-                Log.e("TEST","AUTH OK");
-
-            } else {
-
-                Log.e("TEST","AUTH NOT OK");
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mComentariosTareas = null;
-            //showProgress(false);
-        }
-    }
-
     public class Interrupciones extends AsyncTask<Void, Void, Boolean> {
 
         private String tareaId;
@@ -1660,218 +1593,6 @@ public class Sesion implements Parcelable {
         }
     }
 
-    public class CausaInterrupciones extends AsyncTask<Void, Void, Boolean> {
-
-        private String interrupcionesId;
-        private String descripcion;
-
-        CausaInterrupciones(String interrupcionesId, String descripcion) {
-            this.interrupcionesId = interrupcionesId;
-            this.descripcion = descripcion;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            OkHttpClient client = new OkHttpClient();
-
-            RequestBody body = new FormBody.Builder()
-                    .add("InterrupcionesId", interrupcionesId) //InterrupcionesId de metodo interrupciones
-                    .add("CreadorId", getUserId())
-                    .add("Fecha", "") // AAAA-MM-DD HH:mm
-                    .add("Descripcion", descripcion)
-                    .build();
-
-            final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/CausaInterrupciones")
-                    .post(body)
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("Authorization", "Bearer "+getToken())
-                    .build();
-
-            try (Response response = client.newCall(request).execute()) {
-
-                if (response.body() != null) {
-
-                    String jsonResponse = response.body().string();
-
-                    try {
-                        JSONObject obj = new JSONObject(jsonResponse);
-                        // mensaje de avance o algo? guardar?
-
-                    } catch (Throwable tx) {
-                        Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
-                    }
-
-                }
-
-                return response.isSuccessful();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mCausaInterrupciones = null;
-            //showProgress(false);
-
-            if (success) {
-
-            } else {
-
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mCausaInterrupciones = null;
-            //showProgress(false);
-        }
-    }
-
-    public class StatusInterrupciones extends AsyncTask<Void, Void, Boolean> {
-
-        StatusInterrupciones() {
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            OkHttpClient client = new OkHttpClient();
-
-            RequestBody body = new FormBody.Builder()
-                    .add("isFinalizado", "")
-                    .add("isActivo", "")
-                    .add("isPendiente", "") //se puede mandar cualquier value, con tal de mandar el campo lo toma true
-                    .build();
-
-            final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/StatusInterrupciones")
-                    .post(body)
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("Authorization", "Bearer "+getToken())
-                    .build();
-
-            try (Response response = client.newCall(request).execute()) {
-
-                if (response.body() != null) {
-
-                    String jsonResponse = response.body().string();
-
-                    try {
-                        JSONArray array = new JSONArray(jsonResponse);
-                        JSONObject auxObj = new JSONObject();
-                        for (int i = 0; i < array.length(); i++) {
-                            auxObj = array.getJSONObject(i);
-
-                            auxObj.getString("Id"); //Id del status
-                            auxObj.getString("Name"); //Nombre del status
-                        }
-
-                    } catch (Throwable tx) {
-                        Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
-                    }
-
-                }
-
-                return response.isSuccessful();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mStatusInterrupciones = null;
-            //showProgress(false);
-
-            if (success) {
-
-                Log.e("TEST","AUTH OK");
-
-            } else {
-
-                Log.e("TEST","AUTH NOT OK");
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mStatusInterrupciones = null;
-            //showProgress(false);
-        }
-    }
-
-    public class AccionesSoluciones extends AsyncTask<Void, Void, Boolean> {
-
-        private String interrrupcionesId;
-        private String descripcion;
-        private String statusInterrupcionId;
-
-        AccionesSoluciones(String interrrupcionesId, String descripcion, String statusInterrupcionId) {
-            this.interrrupcionesId = interrrupcionesId;
-            this.descripcion = descripcion;
-            this.statusInterrupcionId = statusInterrupcionId;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            OkHttpClient client = new OkHttpClient();
-
-            RequestBody requestBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("InterrupcionesId", interrrupcionesId)
-                    .addFormDataPart("StatusInterrupcionId", statusInterrupcionId)
-                    .addFormDataPart("UserId",  getUserId())
-                    .addFormDataPart("Fecha", "") // AAAA-MM-DD HH:mm
-                    .addFormDataPart("Descripcion", descripcion)
-                    .build();
-
-            final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/AccionesSoluciones")
-                    .post(requestBody)
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("Authorization", "Bearer "+getToken())
-                    .build();
-
-            try (Response response = client.newCall(request).execute()) {
-
-                return response.isSuccessful();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAccionesSoluciones = null;
-            //showProgress(false);
-
-            if (success) {
-
-                Log.e("TEST","AUTH OK");
-
-            } else {
-
-                Log.e("TEST","AUTH NOT OK");
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAccionesSoluciones = null;
-            //showProgress(false);
-        }
-    }
-
     public class CausasInmediatas extends AsyncTask<Void, Void, Boolean> {
 
         CausasInmediatas() {
@@ -1934,6 +1655,72 @@ public class Sesion implements Parcelable {
         @Override
         protected void onCancelled() {
             mCausasInmediatas = null;
+            //showProgress(false);
+        }
+    }
+
+    public class CausasInmediatasCausaId extends AsyncTask<Void, Void, Boolean> {
+
+        String causaId;
+
+        CausasInmediatasCausaId(String causaId) {
+            this.causaId=causaId;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            OkHttpClient client = new OkHttpClient();
+
+
+            final Request request = new Request.Builder()
+                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/CausasInmediatas/"+causaId)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "Bearer "+getToken())
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+
+                if (response.body() != null) {
+
+                    String jsonResponse = response.body().string();
+                    Log.e("TEST",jsonResponse);
+                    try {
+                        setCausasInmediatasCausaId(jsonResponse);
+
+                    } catch (Throwable tx) {
+                        Log.e("My App", "Could not parse malformed JSON: \"" + jsonResponse + "\"");
+                    }
+
+                }
+
+
+                return response.isSuccessful();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mCausasInmediatasCausaId = null;
+            //showProgress(false);
+
+            if (success) {
+
+                Log.e("TEST","CAUSAS INMEDIATAS OK");
+
+            } else {
+
+                Log.e("TEST","AUTH NOT OK");
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mCausasInmediatasCausaId = null;
             //showProgress(false);
         }
     }
@@ -2375,26 +2162,6 @@ public class Sesion implements Parcelable {
         return str_result;
     }
 
-    public boolean attemptComentariosTareas() {
-        if (mContratistas != null) {
-            return false;
-        }
-
-        mContratistas = new Contratistas();
-        //mAuthTask.execute((Void) null);
-
-        boolean str_result = false;
-
-        try {
-            str_result= mContratistas.execute((Void) null).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return str_result;
-    }
-
     public boolean attemptInterrupciones(String tareaId, String encargadoId, String causaInmediataId, String horaInicio, String horaTerminoEstimado) {
 
         if (mInterrupciones != null) {
@@ -2416,86 +2183,6 @@ public class Sesion implements Parcelable {
         return str_result;
     }
 
-    public boolean attemptCausaInterrupciones() {
-        if (mContratistas != null) {
-            return false;
-        }
-
-        mContratistas = new Contratistas();
-        //mAuthTask.execute((Void) null);
-
-        boolean str_result = false;
-
-        try {
-            str_result= mContratistas.execute((Void) null).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return str_result;
-    }
-
-    public boolean attemptSolucionCausaInterrupcionCausaInterrupcionId() {
-        if (mContratistas != null) {
-            return false;
-        }
-
-        mContratistas = new Contratistas();
-        //mAuthTask.execute((Void) null);
-
-        boolean str_result = false;
-
-        try {
-            str_result= mContratistas.execute((Void) null).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return str_result;
-    }
-
-    public boolean attemptStatusInterrupciones() {
-        if (mContratistas != null) {
-            return false;
-        }
-
-        mContratistas = new Contratistas();
-        //mAuthTask.execute((Void) null);
-
-        boolean str_result = false;
-
-        try {
-            str_result= mContratistas.execute((Void) null).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return str_result;
-    }
-
-    public boolean attemptAccionesSoluciones() {
-        if (mContratistas != null) {
-            return false;
-        }
-
-        mContratistas = new Contratistas();
-        //mAuthTask.execute((Void) null);
-
-        boolean str_result = false;
-
-        try {
-            str_result= mContratistas.execute((Void) null).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return str_result;
-    }
-
     public boolean attemptCausasInmediatas() {
 
         if (mCausasInmediatas != null) {
@@ -2509,6 +2196,27 @@ public class Sesion implements Parcelable {
 
         try {
             str_result= mCausasInmediatas.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptCausasInmediatasCausaId(String causaId) {
+
+        if (mCausasInmediatasCausaId != null) {
+            return false;
+        }
+
+        mCausasInmediatasCausaId = new CausasInmediatasCausaId(causaId);
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mCausasInmediatasCausaId.execute((Void) null).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

@@ -77,7 +77,7 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
 
                 if (!switch_state){
 
-                    obtenerFechaEstimada();
+                    terminarTarea();
 
                 } else {
 
@@ -114,30 +114,13 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
         });
     }
 
-    private void obtenerFechaEstimada(){
-        DatePickerDialog recogerFecha = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                //Aumenta en uno el mes porque comienza desde 0 = enero
-                final int mesActual = month + 1;
-                //Formateo el día obtenido: antepone el 0 si son menores de 10
-                String diaFormateado = (dayOfMonth < 10)? CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
-                //Formateo el mes obtenido: antepone el 0 si son menores de 10
-                String mesFormateado = (mesActual < 10)? CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+    private void terminarTarea(){
+        Intent myIntent = new Intent(PodInterrupcionTerminoActivity.this, PodFinalizarTareaActivity.class);
+        myIntent.putExtra("SESSION", session);
+        myIntent.putExtra("tareaId", tareaId);
+        myIntent.putExtra("horaObtenida", horaInicio);
+        startActivityForResult(myIntent,1);
 
-                //Fecha con el formato deseado
-                fechaObtenida= year+ BARRA + mesFormateado + BARRA + diaFormateado;
-
-                Intent myIntent = new Intent(PodInterrupcionTerminoActivity.this, PodFinalizarTareaActivity.class);
-                myIntent.putExtra("SESSION", session);
-                myIntent.putExtra("tareaId", tareaId);
-                myIntent.putExtra("horaObtenida", fechaObtenida);
-                startActivityForResult(myIntent,1);
-
-            }
-        },anio, mes, dia);
-
-        recogerFecha.show();
     }
 
     private void obtenerHoraTerminoEstimada(){

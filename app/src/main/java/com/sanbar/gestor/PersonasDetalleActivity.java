@@ -113,24 +113,45 @@ public class PersonasDetalleActivity extends AppCompatActivity {
         try {
             JSONObject worker = new JSONObject(session.getWorkersWorkerId());
 
-            nombre.setText(worker.getString("Name"));
-            categoria.setText(worker.getString("Categoria"));
-            if (worker.getBoolean("IsActivo")){
-                status.setText("Activo");
+            String sourceString = "";
+
+            nombre.setText("");
+            sourceString = "<b>" + "Nombre: " + "</b> ";
+            nombre.append(Html.fromHtml(sourceString));
+            if (worker.isNull("Name")){
+                nombre.append("\n" + "No definido");
             } else {
-                status.setText("No activo");
+                nombre.append("\n" +worker.getString("Name"));
+            }
+
+            categoria.setText("");
+            sourceString = "<b>" + "Categoria: " + "</b> ";
+            categoria.append(Html.fromHtml(sourceString));
+            if (worker.isNull("Categoria")){
+                categoria.append("\n" + "No definido");
+            } else {
+                categoria.append("\n" +worker.getString("Categoria"));
+            }
+
+            status.setText("");
+            sourceString = "<b>" + "Estado: " + "</b> ";
+            status.append(Html.fromHtml(sourceString));
+            if (worker.getBoolean("IsActivo")){
+                status.append("\n" + "Activo");
+            } else {
+                status.append("\n" + "No activo");
             }
 
             JSONArray equiposArray = worker.getJSONArray("Equipos");
             JSONArray auxEquiposArray;
             JSONObject auxEquiposObj;
 
+            capacitados.setText("");
             if (equiposArray.length()!=0){
-                capacitados.setText("Capacitado para: \n");
-            } else{
-                capacitados.setText("");
+                sourceString = "<b>" + "Capacitado para: " + "</b> ";
+                capacitados.append(Html.fromHtml(sourceString));
+                capacitados.append("\n");
             }
-
 
             for (int i = 0; i< equiposArray.length(); i++){
                 auxEquiposArray = equiposArray.getJSONArray(i);
@@ -146,7 +167,7 @@ public class PersonasDetalleActivity extends AppCompatActivity {
             JSONObject auxInfObj;
 
             informacionEscalable.setText("");
-            String sourceString = "";
+            sourceString = "";
 
             for (int i = 0; i< infEscalable.length();i++){
                 auxInfObj = infEscalable.getJSONObject(i);

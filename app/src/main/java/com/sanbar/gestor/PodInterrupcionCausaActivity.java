@@ -1,19 +1,18 @@
 package com.sanbar.gestor;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,10 +25,15 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
     private Sesion session;
     private String tareaId;
     private String horaInicio;
-    private String causaId;
 
     private ArrayList<String> causasList;
     private ArrayList<String> causasIdList;
+
+    private ArrayList<String> causasHijoList;
+    private ArrayList<String> causasHijoIdList;
+
+    private String causaSeleccionada="Causa Seleccionada";
+    private String causaSeleccionadaId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +50,10 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
         }
 
         getCausasList();
-        configureCausasList();
+        configureCausasListview();
 
+        configureButtonConfirmar();
+        configureTextviewCausa();
     }
 
     private void getCausasList() {
@@ -75,7 +81,7 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
 
     }
 
-    private void configureCausasList() {
+    private void configureCausasListview() {
 
         ListView listView;
         listView = (ListView) findViewById(R.id.listview_pod_causas);
@@ -89,7 +95,66 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 
-                Toast.makeText(getApplicationContext(),"testing "+position+":"+causasIdList.get(position),Toast.LENGTH_LONG);
+                causaSeleccionadaId=causasIdList.get(position);
+                causaSeleccionada=causasList.get(position);
+                configureTextviewCausa();
+
+                getCausasHijoList(causasIdList.get(position));
+                configureCausasHijoListview();
+
+            }
+        });
+
+
+    }
+
+    private void getCausasHijoList(String causaId) {
+        causasHijoList = new ArrayList<>();
+        causasHijoIdList = new ArrayList<>();
+
+        session.attemptCausasInmediatasCausaId(causaId);
+
+        try {
+            JSONObject CausasInmediatasCausaId = new JSONObject(session.getCausasInmediatasCausaId());
+            JSONArray auxArray = CausasInmediatasCausaId.getJSONArray("CausasHijo");
+            JSONObject auxObj;
+
+            for (int i = 0; i < auxArray.length(); i++) {
+                auxObj=auxArray.getJSONObject(i);
+                causasHijoList.add(auxObj.getString("Name"));
+                causasHijoIdList.add(auxObj.getString("Id"));
+            }
+
+            Log.e("TEST",causasHijoList.toString());
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+    }
+
+    private void configureCausasHijoListview() {
+
+        ListView listView;
+        listView = (ListView) findViewById(R.id.listview_pod_causas);
+
+        ArrayAdapter<String> adaptador;
+        adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,causasHijoList);
+
+        listView.setAdapter(adaptador);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+
+                causaSeleccionadaId=causasHijoIdList.get(position);
+                causaSeleccionada=causasHijoList.get(position);
+                configureTextviewCausa();
+
+                getCausasHijoList(causasHijoIdList.get(position));
+                configureCausasHijoListview();
 
 
             }
@@ -98,54 +163,31 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
 
     }
 
+    private void configureTextviewCausa() {
+        TextView tv_causa = (TextView) findViewById(R.id.textview_pod_causa_seleccionada);
+        tv_causa.setText(causaSeleccionada);
+    }
 
-
-/*
-    private void configureSpinnerTipos() {
-        Spinner spn_causas = (Spinner) findViewById(R.id.spinner_pod_interrupcion_causa);
-
-        ArrayAdapter<String> spnAdapter = new ArrayAdapter<String>(PodInterrupcionCausaActivity.this, R.layout.spinner_item, causasList){
-
+    private void configureButtonConfirmar() {
+        Button btn_confirmar = (Button) findViewById(R.id.button_pod_causas_confirmar);
+        btn_confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                tv.setTextColor(getResources().getColor(R.color.colorBlue));
+            public void onClick(View v) {
+                //causaId
+                //causaId = causasIdList.get(position-1);
 
-                return view;
-            }
-        };
-        spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                Intent myIntent = new Intent(PodInterrupcionCausaActivity.this, PodInterrupcionTerminoActivity.class);
 
-        spn_causas.setAdapter(spnAdapter);
+                myIntent.putExtra("SESSION", session);
+                myIntent.putExtra("tareaId", tareaId);
+                myIntent.putExtra("causaId", causaSeleccionadaId);
+                myIntent.putExtra("horaInicio", horaInicio);
 
-        spn_causas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-
-                if (position!=0){
-
-                    causaId = causasIdList.get(position-1);
-
-                    Intent myIntent = new Intent(PodInterrupcionCausaActivity.this, PodInterrupcionTerminoActivity.class);
-
-                    myIntent.putExtra("SESSION", session);
-                    myIntent.putExtra("tareaId", tareaId);
-                    myIntent.putExtra("causaId", causaId);
-                    myIntent.putExtra("horaInicio", horaInicio);
-
-                    startActivityForResult(myIntent,2);
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                startActivityForResult(myIntent,2);
 
             }
         });
-
-    }*/
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

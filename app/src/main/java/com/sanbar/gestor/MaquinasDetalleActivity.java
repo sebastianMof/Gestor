@@ -73,28 +73,86 @@ public class MaquinasDetalleActivity extends AppCompatActivity {
         try {
             JSONObject equipo = new JSONObject(session.getEquiposEquipoId());
 
-            nombre.setText(equipo.getString("Name"));
-            codigoInterno.setText(equipo.getString("Code"));
-            marca.setText(equipo.getString("Marca"));
-            modelo.setText(equipo.getString("Modelo"));
-            patente.setText(equipo.getString("Patente"));
-            if (equipo.getBoolean("IsActivo")){
-                status.setText("Activo");
-            }else {
-                status.setText("No activo");
+            String sourceString = "";
+
+            nombre.setText("");
+            sourceString = "<b>" + "Nombre: " + "</b> ";
+            nombre.append(Html.fromHtml(sourceString));
+            if (equipo.isNull("Name")){
+                nombre.append("\n" + "No definido");
+            } else {
+                nombre.append("\n" +equipo.getString("Name"));
             }
-            ubicacion.setText("Última ubicación:"+"\n"+equipo.getString("UltimaUbicacion"));
-            //ubicacion.setText("Última ubicación");
+
+            codigoInterno.setText("");
+            sourceString = "<b>" + "Código interno: " + "</b> ";
+            codigoInterno.append(Html.fromHtml(sourceString));
+            if (equipo.isNull("Code")){
+                codigoInterno.append("\n" + "No definido");
+            } else {
+                codigoInterno.append("\n" +equipo.getString("Code"));
+            }
+
+            marca.setText("");
+            sourceString = "<b>" + "Marca: " + "</b> ";
+            marca.append(Html.fromHtml(sourceString));
+            if (equipo.isNull("Marca")){
+                marca.append("\n" + "No definida");
+            } else {
+                marca.append("\n" +equipo.getString("Marca"));
+            }
+
+            modelo.setText("");
+            sourceString = "<b>" + "Modelo: " + "</b> ";
+            modelo.append(Html.fromHtml(sourceString));
+            if (equipo.isNull("Modelo")){
+                modelo.append("\n" + "No definido");
+            } else {
+                modelo.append("\n" +equipo.getString("Modelo"));
+            }
+
+            patente.setText("");
+            sourceString = "<b>" + "Patente: " + "</b> ";
+            patente.append(Html.fromHtml(sourceString));
+            if (equipo.isNull("Patente")){
+                patente.append("\n" + "No definida");
+            } else {
+                patente.append("\n" +equipo.getString("Patente"));
+            }
+
+            status.setText("");
+            sourceString = "<b>" + "Estado: " + "</b> ";
+            status.append(Html.fromHtml(sourceString));
+            status.append("\n");
+            if (equipo.getBoolean("IsActivo")){
+                status.append("Activo");
+            }else {
+                status.append("No activo");
+            }
+
+            ubicacion.setText("");
+            sourceString = "<b>" + "Última ubicación: " + "</b> ";
+            ubicacion.append(Html.fromHtml(sourceString));
+            if (equipo.isNull("UltimaUbicacion")){
+                ubicacion.append("\n" + "No definida");
+            } else {
+                ubicacion.append("\n" +equipo.getString("UltimaUbicacion"));
+            }
 
 
             JSONArray workersArray = equipo.getJSONArray("Workers");
             JSONArray auxWorkerArray;
             JSONObject auxWorkerObj;
-            workers.setText("Operadores autorizados: \n");
+
+            workers.setText("");
+            sourceString = "<b>" + "Operadores autorizados: " + "</b> ";
+            workers.append(Html.fromHtml(sourceString));
+            workers.append("\n");
+
 
             for (int i = 0; i< workersArray.length(); i++){
-
                 auxWorkerArray = workersArray.getJSONArray(i);
+
                 for (int j = 0; j < auxWorkerArray.length(); j++){
                     auxWorkerObj = auxWorkerArray.getJSONObject(j);
                     workers.append(auxWorkerObj.getString("value")+"\n");
@@ -108,7 +166,7 @@ public class MaquinasDetalleActivity extends AppCompatActivity {
             JSONObject auxInfObj;
 
             informacionEscalable.setText("");
-            String sourceString = "";
+            sourceString = "";
 
             for (int i = 0; i< infEscalable.length();i++){
                 auxInfObj = infEscalable.getJSONObject(i);
@@ -118,7 +176,12 @@ public class MaquinasDetalleActivity extends AppCompatActivity {
             }
 
 
-            int combustible = equipo.getInt("Combustible");
+            int combustible;
+            if (equipo.isNull("Combustible")){
+                combustible = 0;
+            } else {
+                combustible = equipo.getInt("Combustible");
+            }
             List<SliceValue> pieData = new ArrayList<>();
             pieData.add(new SliceValue((100-combustible), Color.rgb(235,169,119)));
             pieData.add(new SliceValue(combustible, Color.rgb(244,106,0)));

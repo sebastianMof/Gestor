@@ -52,8 +52,9 @@ public class PodFinalizarTareaActivity extends AppCompatActivity {
 
         try {
             JSONObject auxObj = new JSONObject(session.getTareasTareaId());
-            avance.setText(" / "+auxObj.getString("CantidadPlanificada"));
             et_progreso.setText(auxObj.getString("CantidadPlanificada"));
+            avance.setText(" / "+auxObj.getString("CantidadPlanificada") +" "+auxObj.getString("UnidadMedida"));
+
 
         } catch (JSONException e) {
             e.printStackTrace();

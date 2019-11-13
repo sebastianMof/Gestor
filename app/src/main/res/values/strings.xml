@@ -94,4 +94,7 @@
     <string name="operadores_autorizados">Operadores Autorizados</string>
     <string name="progreso">Progreso</string>
     <string name="rea_contrato">ÁREA CONTRATO</string>
+    <string name="no_definido">No definido</string>
+    <string name="causa_seleccionada">Causa seleccionada</string>
+    <string name="confirmar_causa">CONFIRMAR CAUSA</string>
 </resources>

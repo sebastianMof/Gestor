@@ -77,6 +77,38 @@ tools:context=".PodInterrupcionCausaActivity">
         </androidx.appcompat.widget.Toolbar>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
+
+            <Button
+                android:id="@+id/button_pod_causas_confirmar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/confirmar_causa"
+                android:textColor="@color/colorWhite"
+                android:background = "@drawable/rounded_button_orange"/>
+
+            <TextView
+                android:id="@+id/textview_pod_causa_seleccionada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/causa_seleccionada"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15sp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlue"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/linearlayout_pod_detalle_tarea"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

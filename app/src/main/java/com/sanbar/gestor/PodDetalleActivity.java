@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.util.LongSparseArray;
 import android.view.View;
@@ -80,7 +81,7 @@ public class PodDetalleActivity extends AppCompatActivity {
     private void configureData(){
         session.attemptTareasTareaId(tareaId);
 
-        TextView ito = findViewById(R.id.textview_pod_detalle_ito);
+        TextView descripcion = findViewById(R.id.textview_pod_detalle_descripcion);
         TextView horaInicio = findViewById(R.id.textview_pod_detalle_hora_inicio);
         TextView horaFin = findViewById(R.id.textview_pod_detalle_hora_fin);
         TextView horaInterrupcion = findViewById(R.id.textview_pod_detalle_hora_interrupcion);
@@ -90,22 +91,55 @@ public class PodDetalleActivity extends AppCompatActivity {
         try {
             JSONObject tarea = new JSONObject(session.getTareasTareaId());
 
-            ito.setText("Ito de la tarea con id: "+tarea.getString("Id"));
+            String sourceString;
 
-            if ( tarea.isNull("InicioReal")) {
-                horaInicio.setText("Inicio programado: \n"+tarea.getString("InicioPrograma"));
+            descripcion.setText("");
+            sourceString = "<b>" + tarea.getString("Name")+ "</b> ";
+            descripcion.append(Html.fromHtml(sourceString));
+            descripcion.append("\n");
+            descripcion.append("Cantidad planificada: "+tarea.getString("CantidadPlanificada")+" "+tarea.getString("UnidadMedida"));
+
+            horaInicio.setText("");
+            if ( tarea.isNull("InicioReal") || tarea.getString("InicioReal").equals("-")) {
+                sourceString = "<b>" + "Inicio programado: "+ "</b>" ;
+                horaInicio.append(Html.fromHtml(sourceString));
+                horaInicio.append("\n");
+                horaInicio.append(tarea.getString("InicioPrograma"));
             }else {
-                horaInicio.setText("Inicio: \n"+tarea.getString("InicioReal"));
+                sourceString = "<b>" + "Inicio: "+ "</b>" ;
+                horaInicio.append(Html.fromHtml(sourceString));
+                horaInicio.append("\n");
+                horaInicio.append(tarea.getString("InicioReal"));
             }
 
-            if (tarea.isNull("TerminoReal")) {
-                horaFin.setText("Fin programado: \n"+tarea.getString("TerminoProgramada"));
+            horaFin.setText("");
+            if (tarea.isNull("TerminoReal") || tarea.getString("InicioReal").equals("-")) {
+                sourceString = "<b>" + "Fin programado: "+ "</b>" ;
+                horaFin.append(Html.fromHtml(sourceString));
+                horaFin.append("\n");
+                horaFin.append(tarea.getString("TerminoPrograma"));
             }else {
-                horaFin.setText("Fin: \n"+tarea.getString("TerminoReal"));
+                sourceString = "<b>" + "Fin: "+ "</b>" ;
+                horaFin.append(Html.fromHtml(sourceString));
+                horaFin.append("\n");
+                horaFin.append(tarea.getString("TerminoReal"));
             }
 
+            horaInterrupcion.setText("");
             if (!tarea.isNull("UltimaInterrupcion")){
-                horaInterrupcion.setText("Interrupción: \n"+tarea.getString("UltimaInterrupcion"));
+                sourceString = "<b>" + "Interrupción: "+ "</b>" ;
+                horaInterrupcion.append(Html.fromHtml(sourceString));
+                horaInterrupcion.append("\n");
+
+                JSONObject auxObj = tarea.getJSONObject("UltimaInterrupcion");
+
+                horaInterrupcion.append("Inicio: "+auxObj.getString("HoraInicio")+"\n");
+                if (auxObj.isNull("HoraTerminoReal") || auxObj.getString("HoraTerminoReal").equals("-")) {
+                    horaInterrupcion.append("Fin Estimado: "+auxObj.getString("HoraTerminoEstimado")+"\n");
+                }else {
+                    horaInterrupcion.append("Fin: "+auxObj.getString("HoraTerminoReal")+"\n");
+                }
+                horaInterrupcion.append("Causa inmediata: "+auxObj.getString("NombreCausaInmediata"));
             }
 
             int color = parseColor(tarea.getString("Color"));
