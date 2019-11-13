@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -54,6 +55,8 @@ public class PodActivity extends AppCompatActivity {
 
     private int onCreate;
 
+    private boolean filtersHided = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,7 @@ public class PodActivity extends AppCompatActivity {
         configureItemList();
 
         configureButtonFilter();
+        configureButtonFilterSearch();
 
         configureEspecialidadList();
         configureAreaList();
@@ -333,6 +337,26 @@ public class PodActivity extends AppCompatActivity {
     }
 
     private void configureButtonFilter() {
+        Button btn_filter = (Button) findViewById(R.id.button_pod_filter);
+        btn_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout filters = (LinearLayout) findViewById(R.id.linearlayout_pod_filters);
+
+                if (filtersHided){
+                    filters.setVisibility(View.VISIBLE);
+                    filtersHided=true;
+                } else {
+                    filters.setVisibility(View.GONE);
+                    filtersHided=true;
+                }
+
+
+            }
+        });
+    }
+
+    private void configureButtonFilterSearch() {
         Button btn_filter = (Button) findViewById(R.id.button_pod_busqueda);
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override

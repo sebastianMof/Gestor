@@ -173,8 +173,6 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
         btn_confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //causaId
-                //causaId = causasIdList.get(position-1);
 
                 Intent myIntent = new Intent(PodInterrupcionCausaActivity.this, PodInterrupcionTerminoActivity.class);
 

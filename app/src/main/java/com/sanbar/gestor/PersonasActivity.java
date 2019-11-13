@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,6 +43,8 @@ public class PersonasActivity extends AppCompatActivity {
 
     private ListView listView;
 
+    private boolean filtersHided = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +69,7 @@ public class PersonasActivity extends AppCompatActivity {
 
         configureButtonBack();
         configureButtonFilter();
+        configureButtonFilterSearch();
 
     }
 
@@ -87,6 +91,26 @@ public class PersonasActivity extends AppCompatActivity {
     }
 
     private void configureButtonFilter() {
+        Button btn_filter = (Button) findViewById(R.id.button_personas_filter);
+        btn_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout filters = (LinearLayout) findViewById(R.id.linearlayout_personas_filters);
+
+                if (filtersHided){
+                    filters.setVisibility(View.VISIBLE);
+                    filtersHided=true;
+                } else {
+                    filters.setVisibility(View.GONE);
+                    filtersHided=true;
+                }
+
+
+            }
+        });
+    }
+
+    private void configureButtonFilterSearch() {
 
         Button btn_atras = (Button) findViewById(R.id.button_personas_busqueda);
         btn_atras.setOnClickListener(new View.OnClickListener() {
@@ -240,5 +264,6 @@ public class PersonasActivity extends AppCompatActivity {
         });
 
     }
+
 
 }

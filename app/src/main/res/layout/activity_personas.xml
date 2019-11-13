@@ -67,13 +67,27 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="end">
+
+                    <Button
+                        android:id="@+id/button_personas_filter"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/ic_filter" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/linearlayout_personas_filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/edittext_personas_busqueda"
@@ -122,6 +136,7 @@
 
         </LinearLayout>
 
+    </LinearLayout>
 
         <ListView
             android:id="@+id/listview_personas"

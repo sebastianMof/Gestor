@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -50,6 +51,8 @@ public class MaquinasActivity extends AppCompatActivity {
 
     private ListView listView;
 
+    private boolean filtersHided = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +77,27 @@ public class MaquinasActivity extends AppCompatActivity {
 
         configureButtonBack();
         configureButtonFilter();
+        configureButtonFilterSearch();
+    }
+
+    private void configureButtonFilter() {
+        Button btn_filter = (Button) findViewById(R.id.button_maquinas_filter);
+        btn_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout filters = (LinearLayout) findViewById(R.id.linearlayout_maquinas_filters);
+
+                if (filtersHided){
+                    filters.setVisibility(View.VISIBLE);
+                    filtersHided=true;
+                } else {
+                    filters.setVisibility(View.GONE);
+                    filtersHided=true;
+                }
+
+
+            }
+        });
     }
 
 
@@ -152,9 +176,9 @@ public class MaquinasActivity extends AppCompatActivity {
         et_nombre= (EditText) findViewById(R.id.edittext_maquinas_busqueda);
     }
 
-    private void configureButtonFilter() {
-        Button btn_filter = (Button) findViewById(R.id.button_maquinas_busqueda);
-        btn_filter.setOnClickListener(new View.OnClickListener() {
+    private void configureButtonFilterSearch() {
+        Button btn_filter_search = (Button) findViewById(R.id.button_maquinas_busqueda);
+        btn_filter_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
