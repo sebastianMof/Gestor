@@ -742,6 +742,7 @@ public class Sesion implements Parcelable {
                 if (response.body() != null) {
                     String jsonResponse = response.body().string();
                     setWorkers(jsonResponse);
+                    Log.e("TEST",jsonResponse);
                 }
 
                 return response.isSuccessful();

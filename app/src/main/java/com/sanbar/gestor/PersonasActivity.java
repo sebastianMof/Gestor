@@ -99,7 +99,7 @@ public class PersonasActivity extends AppCompatActivity {
 
                 if (filtersHided){
                     filters.setVisibility(View.VISIBLE);
-                    filtersHided=true;
+                    filtersHided=false;
                 } else {
                     filters.setVisibility(View.GONE);
                     filtersHided=true;
