@@ -23,6 +23,7 @@ public class CustomListAdapterPod extends ArrayAdapter {
     private final String[] statusArray;
     private final String[] especialidadArray;
     private final String[] colorArray;
+    private final String[] colorLetraArray;
 
 
     public CustomListAdapterPod(Activity context,
@@ -30,7 +31,8 @@ public class CustomListAdapterPod extends ArrayAdapter {
                                 String[] areaArrayParam,
                                 String[] statusArrayParam,
                                 String[] especialidadArrayParam,
-                                String[] colorArrayParam){
+                                String[] colorArrayParam,
+                                String[] colorLetraArrayParam){
 
         super(context,R.layout.listview_row_persona, nameArrayParam);
 
@@ -40,6 +42,7 @@ public class CustomListAdapterPod extends ArrayAdapter {
         this.statusArray = statusArrayParam;
         this.especialidadArray = especialidadArrayParam;
         this.colorArray = colorArrayParam;
+        this.colorLetraArray = colorLetraArrayParam;
 
     }
 
@@ -62,6 +65,10 @@ public class CustomListAdapterPod extends ArrayAdapter {
         ColorDrawable cd = new ColorDrawable(color);
         ll_row.setBackground(cd);
 
+        tv_nombre.setTextColor(Color.parseColor(colorLetraArray[position]));
+        tv_area.setTextColor(Color.parseColor(colorLetraArray[position]));
+        tv_status.setTextColor(Color.parseColor(colorLetraArray[position]));
+        tv_especialidad.setTextColor(Color.parseColor(colorLetraArray[position]));
 
         return rowView;
 

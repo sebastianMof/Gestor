@@ -3,11 +3,14 @@ package com.sanbar.gestor;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.IntegerRes;
@@ -19,6 +22,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sanbar.gestor.R.color.colorOrangeSelected;
+import static com.sanbar.gestor.R.color.colorOrangeUnselected;
 
 public class ContratoActivity extends AppCompatActivity {
 
@@ -69,8 +75,8 @@ public class ContratoActivity extends AppCompatActivity {
                 JSONObject auxObj;
                 for (int i = 0; i < contracts.length(); i++) {
                     auxObj = contracts.getJSONObject(i);
-                    ContractNameList.add(auxObj.getString("Name"));
-                    ContractCodeList.add(auxObj.getString("Code"));
+                    ContractNameList.add(auxObj.getString("Nombre"));
+                    ContractCodeList.add(auxObj.getString("Código"));
                 }
 
                 nameArray = new String[contracts.length()];
@@ -111,7 +117,10 @@ public class ContratoActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 
+                changeLinearLayout();
+
                 try {
+
                     JSONArray contracts = new JSONArray(session.getContracts());
                     JSONObject auxObj;
 
@@ -126,7 +135,6 @@ public class ContratoActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("SESSION", session);
                 setResult(Activity.RESULT_OK, resultIntent);
@@ -135,6 +143,25 @@ public class ContratoActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    public void changeLinearLayout(){
+
+        final LinearLayout ll_progressBar = (LinearLayout) findViewById(R.id.linearlayout_contrato_progressbar);
+        final LinearLayout ll_activity = (LinearLayout) findViewById(R.id.linearlayout_contrato_activity);
+        Log.e("TEST","test");
+        if (ll_progressBar.getVisibility()==View.GONE){
+            Log.e("TEST","test1");
+            ll_activity.setVisibility(View.GONE);
+            ll_progressBar.setVisibility(View.VISIBLE);
+        } else if (ll_progressBar.getVisibility()==View.VISIBLE){
+            Log.e("TEST","test2");
+            ll_progressBar.setVisibility(View.GONE);
+            ll_activity.setVisibility(View.VISIBLE);
+        }
+
+
 
     }
 

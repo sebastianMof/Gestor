@@ -530,7 +530,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Contracts")
+                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/apiv2/Contractors/"+getUserId()+"/Contracts")
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -906,7 +906,7 @@ public class Sesion implements Parcelable {
 
             OkHttpClient client = new OkHttpClient();
 
-            String url ="https://ezprogpdar-apiproductividad.azurewebsites.net/api/Equipos";
+            String url ="https://ezprogpdar-apiproductividad.azurewebsites.net/apiv2/Equipment";
 
 
             if(filter != null || tipoId != null ){
@@ -935,10 +935,13 @@ public class Sesion implements Parcelable {
                 }
             }
 
-            url+=("contractId="+getLastContractId());
+            url+=("ContractId="+getLastContractId());
+
+            Log.e("TEST",url);
 
             final Request request = new Request.Builder()
                     .url(url)
+                    .method("GET", null)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -957,6 +960,7 @@ public class Sesion implements Parcelable {
                     }
 
                 }
+                Log.e("TEST", String.valueOf(response.code()));
 
 
                 return response.isSuccessful();
@@ -1276,6 +1280,7 @@ public class Sesion implements Parcelable {
 
             final Request request = new Request.Builder()
                     .url(url)
+                    .method("GET", null)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();

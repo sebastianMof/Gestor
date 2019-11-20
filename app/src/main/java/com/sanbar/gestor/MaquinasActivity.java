@@ -229,13 +229,13 @@ public class MaquinasActivity extends AppCompatActivity {
 
                 equiposIdList.add(String.valueOf(auxObj.getInt("Id")));
 
-                nameList.add(auxObj.getString("Name"));
-                codeList.add(auxObj.getString("Code"));
+                nameList.add(auxObj.getString("Nombre"));
+                codeList.add(auxObj.getString("Código"));
                 marcaList.add(auxObj.getString("Marca"));
                 modeloList.add(auxObj.getString("Modelo"));
                 patenteList.add(auxObj.getString("Patente"));
-                ubicacionList.add(auxObj.getString("UltimaUbicacion"));
-                if (auxObj.getString("IsActivo").equals("true")){
+                ubicacionList.add(auxObj.getString("UltimaUbicación"));
+                if (auxObj.getString("EsActivo").equals("true")){
                     isActivoList.add("Activo");
                 }else {
                     isActivoList.add("No activo");

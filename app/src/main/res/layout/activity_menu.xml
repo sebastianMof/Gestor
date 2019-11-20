@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/container_menu"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,72 +12,24 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/linearlayout_menu_progressbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/colorGray">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".35"
-
-            android:src="@drawable/logo_area_salvador"/>
-
-        <LinearLayout
-            android:layout_width="0dp"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+        <ProgressBar
+            android:id="@+id/progressBar_contrato"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".65"
-
-            android:layout_marginTop="12sp"
-            android:layout_marginBottom="12sp"
-            android:layout_marginLeft="12sp"
-            android:layout_marginRight="12sp"
-
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textview_menu_nombre_contratista"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nombre_contratista"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12sp"/>
-
-            <TextView
-                android:id="@+id/textview_menu_nombre_contrato"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nombre_contrato"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-                android:layout_marginBottom="10sp"/>
-
-            <TextView
-                android:id="@+id/textview_menu_codigo_contrato"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/c_digo_contrato"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"
-                android:layout_marginBottom="10sp"/>
-
-            <TextView
-                android:id="@+id/textview_menu_codigo_api"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/c_digo_api"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp"/>
-
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:visibility="visible">
+        </ProgressBar>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/menu_buttons"
+        android:id="@+id/linearlayout_menu_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -86,97 +37,172 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:background="@color/colorGray">
 
-            <Button
-                android:id="@+id/button_menu_personas"
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".35"
 
-                android:layout_width="match_parent"
+                android:src="@drawable/logo_area_salvador"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight=".65"
 
-                android:layout_marginTop="20sp"
-                android:layout_marginRight="20sp"
-                android:layout_marginLeft="20sp"
+                android:layout_marginTop="12sp"
+                android:layout_marginBottom="12sp"
+                android:layout_marginLeft="12sp"
+                android:layout_marginRight="12sp"
 
-                android:layout_gravity="center_horizontal"
-                android:text="@string/listado_de_personal"
-                android:textColor="@color/colorWhite"
-                android:background = "@drawable/rounded_button_blue"/>
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/button_menu_maquinas"
+                <TextView
+                    android:id="@+id/textview_menu_nombre_contratista"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nombre_contratista"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12sp"/>
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/textview_menu_nombre_contrato"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nombre_contrato"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="10sp"/>
 
-                android:layout_marginTop="20sp"
-                android:layout_marginRight="20sp"
-                android:layout_marginLeft="20sp"
+                <TextView
+                    android:id="@+id/textview_menu_codigo_contrato"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c_digo_contrato"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"
+                    android:layout_marginBottom="10sp"/>
 
-                android:layout_gravity="center_horizontal"
-                android:text="@string/listado_de_equipos_y_maquinaria"
-                android:textColor="@color/colorWhite"
-                android:background = "@drawable/rounded_button_blue"/>
+                <TextView
+                    android:id="@+id/textview_menu_codigo_api"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c_digo_api"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp"/>
 
-            <Button
-                android:id="@+id/button_menu_plan_de_obra_diaria"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="20sp"
-                android:layout_marginBottom="20sp"
-                android:layout_marginRight="20sp"
-                android:layout_marginLeft="20sp"
-
-                android:layout_gravity="center_horizontal"
-                android:text="@string/plan_de_obra_diaria"
-                android:textColor="@color/colorWhite"
-                android:background = "@drawable/rounded_button_blue"/>
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/menu_buttons"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:gravity="center|bottom"
-            android:orientation="vertical" >
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/button_menu_cambiar_contrato"
-
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                android:layout_marginTop="20sp"
-                android:layout_marginRight="20sp"
-                android:layout_marginLeft="20sp"
+                <Button
+                    android:id="@+id/button_menu_personas"
 
-                android:layout_gravity="center_horizontal"
-                android:text="@string/cambiar_contrato"
-                android:textColor="@color/colorWhite"
-                android:background = "@drawable/rounded_button_orange"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-            <Button
-                android:id="@+id/button_menu_cerrar_sesion"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
 
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/listado_de_personal"
+                    android:textColor="@color/colorWhite"
+                    android:background = "@drawable/rounded_button_blue"/>
+
+                <Button
+                    android:id="@+id/button_menu_maquinas"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="20sp"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
+
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/listado_de_equipos_y_maquinaria"
+                    android:textColor="@color/colorWhite"
+                    android:background = "@drawable/rounded_button_blue"/>
+
+                <Button
+                    android:id="@+id/button_menu_plan_de_obra_diaria"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="20sp"
+                    android:layout_marginBottom="20sp"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
+
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/plan_de_obra_diaria"
+                    android:textColor="@color/colorWhite"
+                    android:background = "@drawable/rounded_button_blue"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:gravity="center|bottom"
+                android:orientation="vertical" >
 
-                android:layout_marginTop="20sp"
-                android:layout_marginBottom="20sp"
-                android:layout_marginRight="20sp"
-                android:layout_marginLeft="20sp"
+                <Button
+                    android:id="@+id/button_menu_cambiar_contrato"
 
-                android:layout_gravity="center_horizontal"
-                android:text="@string/cerrar_sesi_n"
-                android:textColor="@color/colorWhite"
-                android:background = "@drawable/rounded_button_orange"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="20sp"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
+
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/cambiar_contrato"
+                    android:textColor="@color/colorWhite"
+                    android:background = "@drawable/rounded_button_orange"/>
+
+                <Button
+                    android:id="@+id/button_menu_cerrar_sesion"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="20sp"
+                    android:layout_marginBottom="20sp"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
+
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/cerrar_sesi_n"
+                    android:textColor="@color/colorWhite"
+                    android:background = "@drawable/rounded_button_orange"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
+
 
 
 </LinearLayout>

@@ -33,6 +33,7 @@ public class PodActivity extends AppCompatActivity {
     private String[] statusArray;
     private String[] especialidadArray;
     private String[] colorArray;
+    private String[] colorLetraArray;
     private String[] areaArray;
 
     //For list filters
@@ -120,7 +121,7 @@ public class PodActivity extends AppCompatActivity {
         //sort arrays(and id list) by status priority
 
         //Lo que se pasa acá aparecerá en la lista
-        CustomListAdapterPod list_adapter = new CustomListAdapterPod(this, nameArray, areaArray, statusArray, especialidadArray, colorArray);
+        CustomListAdapterPod list_adapter = new CustomListAdapterPod(this, nameArray, areaArray, statusArray, especialidadArray, colorArray,colorLetraArray);
 
         listView = (ListView) findViewById(R.id.listview_pod);
         listView.setAdapter(list_adapter);
@@ -393,6 +394,7 @@ public class PodActivity extends AppCompatActivity {
             List<String> statusList = new ArrayList<String>();
             List<String> especialidadList = new ArrayList<String>();
             List<String> colorList = new ArrayList<String>();
+            List<String> colorLetraList = new ArrayList<String>();
             List<String> areaList = new ArrayList<String>();
 
             tareaIdList = new ArrayList<String>();
@@ -412,6 +414,8 @@ public class PodActivity extends AppCompatActivity {
                             auxObj.getString("EspecialidadName"));
                     colorList.add(
                             auxObj.getString("Color"));
+                    colorLetraList.add(
+                            auxObj.getString("ColorLetra"));
                     areaList.add(
                             auxObj.getString("AreaContrato"));
 
@@ -432,6 +436,8 @@ public class PodActivity extends AppCompatActivity {
                             auxObj.getString("EspecialidadName"));
                     colorList.add(
                             auxObj.getString("Color"));
+                    colorLetraList.add(
+                            auxObj.getString("ColorLetra"));
                     areaList.add(
                             auxObj.getString("AreaContrato"));
                 }
@@ -451,6 +457,8 @@ public class PodActivity extends AppCompatActivity {
                             auxObj.getString("EspecialidadName"));
                     colorList.add(
                             auxObj.getString("Color"));
+                    colorLetraList.add(
+                            auxObj.getString("ColorLetra"));
                     areaList.add(
                             auxObj.getString("AreaContrato"));
                 }
@@ -470,6 +478,8 @@ public class PodActivity extends AppCompatActivity {
                             auxObj.getString("EspecialidadName"));
                     colorList.add(
                             auxObj.getString("Color"));
+                    colorLetraList.add(
+                            auxObj.getString("ColorLetra"));
                     areaList.add(
                             auxObj.getString("AreaContrato"));
                 }
@@ -489,6 +499,8 @@ public class PodActivity extends AppCompatActivity {
                             auxObj.getString("EspecialidadName"));
                     colorList.add(
                             auxObj.getString("Color"));
+                    colorLetraList.add(
+                            auxObj.getString("ColorLetra"));
                     areaList.add(
                             auxObj.getString("AreaContrato"));
                 }
@@ -498,12 +510,14 @@ public class PodActivity extends AppCompatActivity {
             statusArray = new String[tareas.length()];
             especialidadArray = new String[tareas.length()];
             colorArray = new String[tareas.length()];
+            colorLetraArray = new String[tareas.length()];
             areaArray = new String[tareas.length()];
 
             nameArray = nameList.toArray(nameArray);
             statusArray = statusList.toArray(statusArray);
             especialidadArray = especialidadList.toArray(especialidadArray);
             colorArray = colorList.toArray(colorArray);
+            colorLetraArray = colorLetraList.toArray(colorLetraArray);
             areaArray = areaList.toArray(areaArray);
 
 

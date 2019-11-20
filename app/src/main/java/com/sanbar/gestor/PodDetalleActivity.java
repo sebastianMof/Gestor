@@ -3,6 +3,7 @@ package com.sanbar.gestor;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
@@ -145,6 +146,11 @@ public class PodDetalleActivity extends AppCompatActivity {
             int color = parseColor(tarea.getString("Color"));
             ColorDrawable cd = new ColorDrawable(color);
             ll_pod_detalle_tarea.setBackground(cd);
+
+            descripcion.setTextColor(Color.parseColor(tarea.getString("ColorLetra")));
+            horaInicio.setTextColor(Color.parseColor(tarea.getString("ColorLetra")));
+            horaFin.setTextColor(Color.parseColor(tarea.getString("ColorLetra")));
+            horaInterrupcion.setTextColor(Color.parseColor(tarea.getString("ColorLetra")));
 
         } catch (JSONException e) {
             e.printStackTrace();

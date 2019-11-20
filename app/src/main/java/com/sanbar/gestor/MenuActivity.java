@@ -3,8 +3,10 @@ package com.sanbar.gestor;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +44,17 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        final LinearLayout ll_progressBar = (LinearLayout) findViewById(R.id.linearlayout_menu_progressbar);
+        final LinearLayout ll_activity = (LinearLayout) findViewById(R.id.linearlayout_menu_activity);
+        ll_progressBar.setVisibility(View.GONE);
+        ll_activity.setVisibility(View.VISIBLE);
+    }
+
+
     private void configureHeader(Sesion session){
         nombreContratista = (TextView) findViewById(R.id.textview_menu_nombre_contratista);
         nombreContrato = (TextView) findViewById(R.id.textview_menu_nombre_contrato);
@@ -75,6 +88,7 @@ public class MenuActivity extends AppCompatActivity {
         btn_personas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changeLinearLayout();
                 Intent myIntent = new Intent(MenuActivity.this, PersonasActivity.class);
                 myIntent.putExtra("SESSION", session); //Optional parameters
                 startActivity(myIntent);
@@ -88,6 +102,7 @@ public class MenuActivity extends AppCompatActivity {
         btn_maquinas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changeLinearLayout();
                 Intent myIntent = new Intent(MenuActivity.this, MaquinasActivity.class);
                 myIntent.putExtra("SESSION", session); //Optional parameters
                 startActivity(myIntent);
@@ -101,6 +116,7 @@ public class MenuActivity extends AppCompatActivity {
         btn_pod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changeLinearLayout();
                 Intent myIntent = new Intent(MenuActivity.this, PodActivity.class);
                 myIntent.putExtra("SESSION", session); //Optional parameters
                 startActivity(myIntent);
@@ -115,12 +131,30 @@ public class MenuActivity extends AppCompatActivity {
         btn_pod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changeLinearLayout();
                 Intent myIntent = new Intent(MenuActivity.this, ContratoActivity.class);
                 myIntent.putExtra("SESSION", session); //Optional parameters
                 startActivityForResult(myIntent,1); // 1 is code for contracto
 
             }
         });
+    }
+
+    public void changeLinearLayout(){
+
+        final LinearLayout ll_progressBar = (LinearLayout) findViewById(R.id.linearlayout_menu_progressbar);
+        final LinearLayout ll_activity = (LinearLayout) findViewById(R.id.linearlayout_menu_activity);
+
+        if (ll_progressBar.getVisibility()==View.GONE){
+            ll_activity.setVisibility(View.GONE);
+            ll_progressBar.setVisibility(View.VISIBLE);
+        } else if (ll_progressBar.getVisibility()==View.VISIBLE){
+            ll_progressBar.setVisibility(View.GONE);
+            ll_activity.setVisibility(View.VISIBLE);
+        }
+
+
+
     }
 
     @Override
