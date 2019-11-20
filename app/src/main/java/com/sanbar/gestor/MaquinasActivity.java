@@ -240,7 +240,7 @@ public class MaquinasActivity extends AppCompatActivity {
                 }else {
                     isActivoList.add("No activo");
                 }
-                Double combustibleDouble = auxObj.getDouble("Combustible");
+                Double combustibleDouble = auxObj.getDouble("PorcentajeCombustible");
                 Integer combustible = combustibleDouble.intValue();
                 combustibleList.add(combustible);
                 imageList.add(R.drawable.imagen);

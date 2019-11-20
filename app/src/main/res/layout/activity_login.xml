@@ -17,94 +17,105 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_login_header"
+        android:id="@+id/linearlayout_login_progressbar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/colorGray">
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+        <ProgressBar
+            android:id="@+id/progressBar_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:layout_marginTop="12sp"
-            android:layout_marginBottom="12sp"
-            android:layout_marginLeft="12sp"
-            android:layout_marginRight="12sp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ezpro_color_side"/>
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:visibility="visible">
+        </ProgressBar>
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/username"
-
+    <LinearLayout
+        android:id="@+id/linearlayout_login_activity"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".5"
-        android:layout_marginTop="20sp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        android:hint="@string/prompt_email"
-        android:inputType="textEmailAddress"
-        android:selectAllOnFocus="true" />
+        <LinearLayout
+            android:id="@+id/ll_login_header"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorGray">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:layout_marginTop="12sp"
+                android:layout_marginBottom="12sp"
+                android:layout_marginLeft="12sp"
+                android:layout_marginRight="12sp">
 
-    <EditText
-        android:id="@+id/password"
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ezpro_color_side"/>
+            </LinearLayout>
 
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".5"
+        </LinearLayout>
 
-        android:layout_marginTop="20sp"
+        <EditText
+            android:id="@+id/username"
 
-        android:hint="@string/prompt_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true" />
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".5"
+            android:layout_marginTop="20sp"
 
-    <Button
-        android:id="@+id/login"
+            android:hint="@string/prompt_email"
+            android:inputType="textEmailAddress"
+            android:selectAllOnFocus="true" />
 
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".5"
+        <EditText
+            android:id="@+id/password"
 
-        android:layout_marginTop="20sp"
-        android:layout_marginBottom="20sp"
-        
-        android:layout_gravity="center_horizontal"
-        android:enabled="false"
-        android:text="@string/action_sign_in"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintVertical_bias="0.2"
-        android:background="@drawable/iniciar"/>
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".5"
 
-    <ImageView
-        android:id="@+id/img_login_codelco"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2.5"
-        android:src="@drawable/codelco"
-        android:backgroundTint="@null"/>
+            android:layout_marginTop="20sp"
 
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="64dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+            android:hint="@string/prompt_password"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:selectAllOnFocus="true" />
+
+        <Button
+            android:id="@+id/login"
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".5"
+
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+
+            android:layout_gravity="center_horizontal"
+            android:enabled="false"
+            android:text="@string/action_sign_in"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintVertical_bias="0.2"
+            android:background="@drawable/iniciar"/>
+
+        <ImageView
+            android:id="@+id/img_login_codelco"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5"
+            android:src="@drawable/codelco"
+            android:backgroundTint="@null"/>
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

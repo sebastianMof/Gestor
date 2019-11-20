@@ -153,8 +153,6 @@ public class MenuActivity extends AppCompatActivity {
             ll_activity.setVisibility(View.VISIBLE);
         }
 
-
-
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
-        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -63,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginResult == null) {
                     return;
                 }
-                loadingProgressBar.setVisibility(View.GONE);
                 if (loginResult.getError() != null) {
                     showLoginFailed(loginResult.getError());
                 }
@@ -111,7 +110,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //loadingProgressBar.setVisibility(View.VISIBLE);
+
+                changeLinearLayout();
 
                 session = new Sesion(usernameEditText.getText().toString(),passwordEditText.getText().toString());
 
@@ -146,6 +146,31 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+
+    public void changeLinearLayout(){
+
+        final LinearLayout ll_progressBar = (LinearLayout) findViewById(R.id.linearlayout_login_progressbar);
+        final LinearLayout ll_activity = (LinearLayout) findViewById(R.id.linearlayout_login_activity);
+
+        if (ll_progressBar.getVisibility()==View.GONE){
+            ll_activity.setVisibility(View.GONE);
+            ll_progressBar.setVisibility(View.VISIBLE);
+        } else if (ll_progressBar.getVisibility()==View.VISIBLE){
+            ll_progressBar.setVisibility(View.GONE);
+            ll_activity.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        final LinearLayout ll_progressBar = (LinearLayout) findViewById(R.id.linearlayout_login_progressbar);
+        final LinearLayout ll_activity = (LinearLayout) findViewById(R.id.linearlayout_login_activity);
+        ll_progressBar.setVisibility(View.GONE);
+        ll_activity.setVisibility(View.VISIBLE);
     }
 }
 

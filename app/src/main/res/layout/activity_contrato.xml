@@ -14,7 +14,7 @@
         <LinearLayout
             android:id="@+id/linearlayout_contrato_progressbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center_horizontal"
             android:visibility="gone">

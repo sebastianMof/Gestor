@@ -164,6 +164,7 @@ public class PodDetalleActivity extends AppCompatActivity {
         btn_atras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changeLinearLayout();
                 finish();
 
             }
@@ -401,6 +402,21 @@ public class PodDetalleActivity extends AppCompatActivity {
         recogerFecha.show();
     }
 
+    public void changeLinearLayout(){
+
+        final LinearLayout ll_progressBar = (LinearLayout) findViewById(R.id.linearlayout_pod_detalle_progressbar);
+        final LinearLayout ll_activity = (LinearLayout) findViewById(R.id.linearlayout_pod_detalle_activity);
+
+        if (ll_progressBar.getVisibility()==View.GONE){
+            ll_activity.setVisibility(View.GONE);
+            ll_progressBar.setVisibility(View.VISIBLE);
+        } else if (ll_progressBar.getVisibility()==View.VISIBLE){
+            ll_progressBar.setVisibility(View.GONE);
+            ll_activity.setVisibility(View.VISIBLE);
+        }
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -434,6 +450,12 @@ public class PodDetalleActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        final LinearLayout ll_progressBar = (LinearLayout) findViewById(R.id.linearlayout_pod_detalle_progressbar);
+        final LinearLayout ll_activity = (LinearLayout) findViewById(R.id.linearlayout_pod_detalle_activity);
+        ll_progressBar.setVisibility(View.GONE);
+        ll_activity.setVisibility(View.VISIBLE);
+
 
         configureData();
         configureButtonBack();

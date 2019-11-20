@@ -82,6 +82,8 @@ public class PodFinalizarTareaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                changeLinearLayout();
+
                 String cantidadReal="";
 
                 cantidadReal= et_cantidad.getText().toString();
@@ -98,6 +100,31 @@ public class PodFinalizarTareaActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void changeLinearLayout(){
+
+        final LinearLayout ll_progressBar = (LinearLayout) findViewById(R.id.linearlayout_pod_finalizar_progressbar);
+        final LinearLayout ll_activity = (LinearLayout) findViewById(R.id.linearlayout_pod_finalizar_activity);
+
+        if (ll_progressBar.getVisibility()==View.GONE){
+            ll_activity.setVisibility(View.GONE);
+            ll_progressBar.setVisibility(View.VISIBLE);
+        } else if (ll_progressBar.getVisibility()==View.VISIBLE){
+            ll_progressBar.setVisibility(View.GONE);
+            ll_activity.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        final LinearLayout ll_progressBar = (LinearLayout) findViewById(R.id.linearlayout_pod_finalizar_progressbar);
+        final LinearLayout ll_activity = (LinearLayout) findViewById(R.id.linearlayout_pod_finalizar_activity);
+        ll_progressBar.setVisibility(View.GONE);
+        ll_activity.setVisibility(View.VISIBLE);
     }
 
 }

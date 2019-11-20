@@ -948,10 +948,14 @@ public class Sesion implements Parcelable {
 
             try (Response response = client.newCall(request).execute()) {
 
+
                 if (response.body() != null) {
 
                     String jsonResponse = response.body().string();
-                    try {
+
+                    Log.e("TEST", jsonResponse);
+
+                        try {
                         JSONArray array = new JSONArray(jsonResponse);
                         setEquipos(jsonResponse);
 
@@ -960,7 +964,7 @@ public class Sesion implements Parcelable {
                     }
 
                 }
-                Log.e("TEST", String.valueOf(response.code()));
+
 
 
                 return response.isSuccessful();

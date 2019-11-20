@@ -115,6 +115,7 @@ public class PodInterrupcionTerminoActivity extends AppCompatActivity {
     }
 
     private void terminarTarea(){
+
         Intent myIntent = new Intent(PodInterrupcionTerminoActivity.this, PodFinalizarTareaActivity.class);
         myIntent.putExtra("SESSION", session);
         myIntent.putExtra("tareaId", tareaId);
