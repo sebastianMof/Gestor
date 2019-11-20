@@ -70,7 +70,7 @@ public class PodInterrupcionCausaActivity extends AppCompatActivity {
             for (int i = 0; i < CausasInmediatas.length(); i++) {
 
                 auxObj = CausasInmediatas.getJSONObject(i);
-                causasList.add(auxObj.getString("Name"));
+                causasList.add(auxObj.getString("Nombre"));
                 causasIdList.add(auxObj.getString("Id"));
             }
 

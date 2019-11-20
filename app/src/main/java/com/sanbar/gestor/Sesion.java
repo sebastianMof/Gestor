@@ -1553,11 +1553,11 @@ public class Sesion implements Parcelable {
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             JSONObject auxBody = new JSONObject();
             try {
-                auxBody.put("TareaId", tareaId);
-                auxBody.put("EncargadoId", encargadoId);
-                auxBody.put("CausaInmediataId", causaInmediataId);
+                auxBody.put("TaskId", tareaId);
+                auxBody.put("ContractorId", encargadoId);
+                auxBody.put("ImmediateCauseId", causaInmediataId);
                 auxBody.put("HoraInicio", horaInicio);
-                auxBody.put("HoraTerminoEstimado", horaTerminoEstimado);
+                auxBody.put("HoraTérminoProgramado", horaTerminoEstimado);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

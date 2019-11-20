@@ -120,18 +120,29 @@ tools:context=".PodInterrupcionResponsableActivity">
                         android:text="@string/qui_n_es_el_responsable"
                         android:textSize="18sp"
                         android:textColor="@color/colorWhite" />
-                    <EditText
-                        android:id="@+id/edittext_pod_interrupcion_responsable"
+                    <TextView
+                        android:id="@+id/textview_pod_interrupcion_responsable"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15sp"  
-                        android:textColorHint="@color/colorWhite"
+                        android:layout_marginBottom="15sp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/guion"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:textColor="@color/colorWhite"/>
+
+                    <AutoCompleteTextView
+                        android:id="@+id/autoTextView_pod_interrupcion_responsable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Ingrese nombre responsable"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"/>
 
                     <ListView
                         android:id="@+id/listview_pod_interrupcion_responsable"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="150sp"
                         android:background="@color/colorWhite">
 
                     </ListView>

@@ -11,12 +11,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -37,10 +39,13 @@ public class PodInterrupcionResponsableActivity extends AppCompatActivity {
 
     private boolean userResponsable;
 
-    List<String> ResponsablesArray = new ArrayList<String>();
-    List<String> ResponsablesIdArray = new ArrayList<String>();
+    List<String> ResponsablesList = new ArrayList<String>();
+    List<String> ResponsablesIdList = new ArrayList<String>();
 
-    EditText et_responsable;
+    TextView tv_responsable;
+    private AutoCompleteTextView atv_responsable;
+    private String[] responsables;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,30 +64,45 @@ public class PodInterrupcionResponsableActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"PROBLEMA CON DATOS DE LA CUENTA",Toast.LENGTH_SHORT).show();
         }
 
-        configureEditText();
         getResponsablesList();
         configureResponsablesList();
         configureSwitch();
         configureButtonBack();
         configureButtonConfirmar();
 
+        configureAutoTextView();
+        configureTextView();
+
     }
 
-    private void configureEditText() {
-        et_responsable = findViewById(R.id.edittext_pod_interrupcion_responsable);
+    private void configureTextView() {
+        tv_responsable = findViewById(R.id.textview_pod_interrupcion_responsable);
+        tv_responsable.setText("-");
+    }
 
-        et_responsable.addTextChangedListener(new TextWatcher() {
+    private void configureAutoTextView() {
+        atv_responsable = findViewById(R.id.autoTextView_pod_interrupcion_responsable);
 
-            public void afterTextChanged(Editable s) {
+        responsables = new String[ResponsablesList.size()];
+        responsables = ResponsablesList.toArray(responsables);
 
-                Log.e("TEST",et_responsable.getText().toString());
-                //modificar busqueda
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.select_dialog_item, responsables);
+        atv_responsable.setThreshold(1); //will start working from first character
+        atv_responsable.setAdapter(adapter);
+
+        atv_responsable.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Object item = parent.getItemAtPosition(position);
+                responsableId = ResponsablesIdList.get(position);
+                tv_responsable.setText(ResponsablesList.get(position));
+                Toast.makeText(getApplicationContext(),"Responsable seleccionado: "+ResponsablesList.get(position),Toast.LENGTH_LONG).show();
+
             }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
+
+
     }
 
     private void getResponsablesList() {
@@ -94,15 +114,15 @@ public class PodInterrupcionResponsableActivity extends AppCompatActivity {
                 JSONObject auxObj;
                 for (int i = 0; i < responsables.length(); i++) {
                     auxObj = responsables.getJSONObject(i);
-                    ResponsablesArray.add(auxObj.getString("FullNameComputed"));
-                    ResponsablesIdArray.add(auxObj.getString("Id"));
+                    ResponsablesList.add(auxObj.getString("FullNameComputed"));
+                    ResponsablesIdList.add(auxObj.getString("Id"));
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         } else {
-            ResponsablesArray.add("No hay responsables disponibles");
+            ResponsablesList.add("No hay responsables disponibles");
         }
     }
 
@@ -111,16 +131,16 @@ public class PodInterrupcionResponsableActivity extends AppCompatActivity {
         ListView lv_responsables = (ListView) findViewById(R.id.listview_pod_interrupcion_responsable);
 
         ArrayAdapter<String> adaptador;
-        adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, ResponsablesArray);
+        adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, ResponsablesList);
         lv_responsables.setAdapter(adaptador);
 
         lv_responsables.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 
-                responsableId = ResponsablesIdArray.get(position);
-                et_responsable.setText(ResponsablesArray.get(position));
-                Toast.makeText(getApplicationContext(),"Responsable seleccionado: "+ResponsablesArray.get(position),Toast.LENGTH_LONG).show();
+                responsableId = ResponsablesIdList.get(position);
+                tv_responsable.setText(ResponsablesList.get(position));
+                Toast.makeText(getApplicationContext(),"Responsable seleccionado: "+ResponsablesList.get(position),Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -140,6 +160,7 @@ public class PodInterrupcionResponsableActivity extends AppCompatActivity {
                     ll_lista.setVisibility(View.GONE);
                 } else {
                     ll_lista.setVisibility(View.VISIBLE);
+                    configureTextView();
                 }
 
             }

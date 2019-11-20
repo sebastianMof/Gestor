@@ -97,4 +97,5 @@
     <string name="no_definido">No definido</string>
     <string name="causa_seleccionada">Causa seleccionada</string>
     <string name="confirmar_causa">CONFIRMAR CAUSA</string>
+    <string name="guion">-</string>
 </resources>
