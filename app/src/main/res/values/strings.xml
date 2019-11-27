@@ -98,4 +98,11 @@
     <string name="causa_seleccionada">Causa seleccionada</string>
     <string name="confirmar_causa">CONFIRMAR CAUSA</string>
     <string name="guion">-</string>
+    <string name="layout">LAYOUT</string>
+    <string name="x">X</string>
+    <string name="x_dospuntos">X:</string>
+    <string name="y_dospuntos">Y:</string>
+    <string name="tareas_completadas">TAREAS COMPLETADAS: </string>
+    <string name="n_mero_etiqueta">Número - Etiqueta</string>
+    <string name="dashboard">DASHBOARD</string>
 </resources>

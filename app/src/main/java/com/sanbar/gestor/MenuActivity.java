@@ -3,7 +3,6 @@ package com.sanbar.gestor;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -42,6 +41,21 @@ public class MenuActivity extends AppCompatActivity {
         configureButtonContrato();
         configureButtonAtras();
 
+        configureButtonDashboard();
+
+    }
+
+    private void configureButtonDashboard() {
+        Button btn_layout = (Button) findViewById(R.id.button_menu_dashboard);
+        btn_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeLinearLayout();
+                Intent myIntent = new Intent(MenuActivity.this, DashboardActivity.class);
+                myIntent.putExtra("SESSION", session); //Optional parameters
+                startActivity(myIntent);
+            }
+        });
     }
 
     @Override

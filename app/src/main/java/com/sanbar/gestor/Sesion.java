@@ -14,7 +14,6 @@ import java.util.concurrent.ExecutionException;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -47,6 +46,8 @@ public class Sesion implements Parcelable {
     private CausasInmediatasCausaId mCausasInmediatasCausaId = null;
     private TerminarInterrupcion mTerminarInterrupcion = null;
     private Responsables mResponsables = null;
+    private Layouts mLayouts = null;
+    private PodSummary mPodSummary = null;
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public Sesion createFromParcel(Parcel in) {
@@ -83,6 +84,8 @@ public class Sesion implements Parcelable {
     private String causasInmediatasCausaId;
     private String tareasTareaId;
     private String responsables;
+    private String layouts;
+    private String podSummary;
 
     //CONSTRUCTOR
     public Sesion(String mail, String password) {
@@ -118,6 +121,8 @@ public class Sesion implements Parcelable {
         this.causasInmediatas = in.readString();
         this.causasInmediatasCausaId = in.readString();
         this.tareasTareaId = in.readString();
+        this.layouts = in.readString();
+        this.podSummary = in.readString();
 
     }
 
@@ -153,6 +158,8 @@ public class Sesion implements Parcelable {
         dest.writeString(this.causasInmediatas);
         dest.writeString(this.causasInmediatasCausaId);
         dest.writeString(this.tareasTareaId);
+        dest.writeString(this.layouts);
+        dest.writeString(this.podSummary);
 
     }
 
@@ -363,6 +370,22 @@ public class Sesion implements Parcelable {
 
     public void setResponsables(String responsables) {
         this.responsables = responsables;
+    }
+
+    public String getLayouts() {
+        return layouts;
+    }
+
+    public void setLayouts(String layouts) {
+        this.layouts = layouts;
+    }
+
+    public String getPodSummary() {
+        return podSummary;
+    }
+
+    public void setPodSummary(String podSummary) {
+        this.podSummary = podSummary;
     }
 
     //TASK CLASSES
@@ -1752,7 +1775,6 @@ public class Sesion implements Parcelable {
 
             OkHttpClient client = new OkHttpClient();
 
-
             RequestBody body = new FormBody.Builder()
                     .add("Id", interrupcionId)// id de la tarea a terminar su interripcion
                     .add("HoraTerminoReal", horaTerminoReal)
@@ -1847,6 +1869,121 @@ public class Sesion implements Parcelable {
         @Override
         protected void onCancelled() {
             mResponsables = null;
+            //showProgress(false);
+        }
+    }
+
+    public class Layouts extends AsyncTask<Void, Void, Boolean> {
+
+        String date;
+        Layouts(String date) {
+            this.date=date;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            OkHttpClient client = new OkHttpClient();
+
+            final Request request = new Request.Builder()
+                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/apiv2/Layouts?ContractId="+getLastContractId()+"&Date="+date)//2019-11-18
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "Bearer "+getToken())
+                    .method("GET", null)
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+
+                if (response.body() != null) {
+
+                    String jsonResponse = response.body().string();
+                    setLayouts(jsonResponse);
+
+                }
+
+                return response.isSuccessful();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mLayouts = null;
+            //showProgress(false);
+
+            if (success) {
+
+            } else {
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mLayouts = null;
+            //showProgress(false);
+        }
+    }
+
+    public class PodSummary extends AsyncTask<Void, Void, Boolean> {
+
+        String x;
+        String y;
+        String date;
+
+        PodSummary(String x, String y, String date) {
+            this.x=x; //Specialty, Area, Crew
+            this.y=y; //InicioProgramado, InicioReal, TerminoProgramado, TerminoReal
+            this.date=date; //2019-11-26
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            OkHttpClient client = new OkHttpClient();
+
+            final Request request = new Request.Builder()
+                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/apiv2/PodSummary?x="+x+"&y="+y+"&Date="+date+"&ContractId="+getLastContractId())
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "Bearer "+getToken())
+                    .method("GET", null)
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+
+                if (response.body() != null) {
+
+                    String jsonResponse = response.body().string();
+                    setPodSummary(jsonResponse);
+
+                }
+
+                return response.isSuccessful();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mPodSummary = null;
+            //showProgress(false);
+
+            if (success) {
+
+            } else {
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mPodSummary = null;
             //showProgress(false);
         }
     }
@@ -2288,6 +2425,46 @@ public class Sesion implements Parcelable {
 
         try {
             str_result= mResponsables.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptLayouts(String date) {
+        if (mLayouts != null) {
+            return false;
+        }
+
+        mLayouts = new Layouts(date);
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mLayouts.execute((Void) null).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return str_result;
+    }
+
+    public boolean attemptPodSummary(String x, String y, String date) {
+        if (mPodSummary != null) {
+            return false;
+        }
+
+        mPodSummary = new PodSummary(x, y, date);
+        //mAuthTask.execute((Void) null);
+
+        boolean str_result = false;
+
+        try {
+            str_result= mPodSummary.execute((Void) null).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
