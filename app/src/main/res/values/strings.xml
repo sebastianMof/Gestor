@@ -105,4 +105,5 @@
     <string name="tareas_completadas">TAREAS COMPLETADAS: </string>
     <string name="n_mero_etiqueta">Número - Etiqueta</string>
     <string name="dashboard">DASHBOARD</string>
+    <string name="informaci_n_layout">Información Layouts</string>
 </resources>

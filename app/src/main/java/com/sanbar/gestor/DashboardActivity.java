@@ -503,19 +503,25 @@ public class DashboardActivity extends AppCompatActivity {
     public void configureImageView(){
 
         ImageView iv_layout = (ImageView) findViewById(R.id.imageview_layout);
+        TextView tv_layout = (TextView) findViewById(R.id.textview_layout);
+        tv_layout.setText(R.string.informaci_n_layout);
+        tv_layout.append("\n");
+
         String layouts = session.getLayouts();
-        Log.e("TEST",layouts);
 
         try {
             JSONArray layoutsArray = new JSONArray(layouts);
             JSONObject auxObj;
             for (int i =0; i<layoutsArray.length();i++){
                 auxObj=layoutsArray.getJSONObject(i);
-                auxObj.getInt("Id");
-                auxObj.getString("Nombre");
+                //auxObj.getInt("Id");
+                tv_layout.append(auxObj.getString("Nombre")+"\n");
+
                 auxObj.getJSONObject("Dimensiones");
                 maxImgX=auxObj.getJSONObject("Dimensiones").getInt("X");
                 maxImgY=auxObj.getJSONObject("Dimensiones").getInt("Y");
+                tv_layout.append("Tamaño imagen: "+maxImgX+","+maxImgY+"\n");
+
                 auxObj.getString("Foto");
                 auxObj.getJSONArray("Areas");
 
@@ -525,6 +531,8 @@ public class DashboardActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        drawTareasOnImageView();
+
         iv_layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -532,7 +540,7 @@ public class DashboardActivity extends AppCompatActivity {
 
                     int x = (int) event.getX();
                     int y = (int) event.getY();
-                    drawTareasOnImageView(x,y);
+                    drawClickOnImageView(x,y);
 
                     Log.e("TEST","movil size:" + view.getWidth() +" - "+ view.getHeight() );
                     Log.e("TEST","full size:" + maxImgX +" - "+ maxImgY );
@@ -547,6 +555,7 @@ public class DashboardActivity extends AppCompatActivity {
                     Log.e("TEST","scaleRatioX:"+ scaleRatioX + " - scaleRatioY"+scaleRatioY);
                     Log.e("TEST","scaleClickPosX:"+ scaleClickPosX + " - scaleClickPosY"+scaleClickPosY);
 
+
                 }
                 return false;
             }
@@ -554,7 +563,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
-    private void drawTareasOnImageView(int x,int y) {
+    private void drawClickOnImageView(int x,int y) {
 
         BitmapFactory.Options myOptions = new BitmapFactory.Options();
 
@@ -572,6 +581,33 @@ public class DashboardActivity extends AppCompatActivity {
 
         Canvas canvas = new Canvas(mutableBitmap);
         canvas.drawCircle(x, y, 25, paint);
+
+        ImageView imageView = (ImageView)findViewById(R.id.imageview_layout);
+        imageView.setAdjustViewBounds(false);
+        imageView.setImageBitmap(mutableBitmap);
+
+    }
+
+    private void drawTareasOnImageView() {
+
+        BitmapFactory.Options myOptions = new BitmapFactory.Options();
+
+        myOptions.inScaled = false;
+        myOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// important
+        myOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.imagen_maquina_extendida,myOptions);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.RED);
+
+        Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
+        Bitmap mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+        Canvas canvas = new Canvas(mutableBitmap);
+        canvas.drawCircle(120, 130, 25, paint);
+        canvas.drawCircle(340, 220, 25, paint);
+        canvas.drawCircle(70, 40, 25, paint);
 
         ImageView imageView = (ImageView)findViewById(R.id.imageview_layout);
         imageView.setAdjustViewBounds(false);
