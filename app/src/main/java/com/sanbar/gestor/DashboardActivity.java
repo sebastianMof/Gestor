@@ -62,9 +62,8 @@ public class DashboardActivity extends AppCompatActivity {
 
         configureButtonBack();
 
-        configureDate();
-
-        getLayoutData();
+        //configureDate();
+        //getLayoutData();
         //configureImageView();
 
         configureWebView();
