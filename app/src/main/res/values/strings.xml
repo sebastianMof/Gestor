@@ -106,4 +106,6 @@
     <string name="n_mero_etiqueta">Número - Etiqueta</string>
     <string name="dashboard">DASHBOARD</string>
     <string name="informaci_n_layout">Información Layouts</string>
+    <string name="gauge_chart">Gauge Chart</string>
+    <string name="pie_chart">Pie Chart</string>
 </resources>

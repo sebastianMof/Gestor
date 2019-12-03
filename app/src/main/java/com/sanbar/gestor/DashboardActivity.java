@@ -1,30 +1,16 @@
 package com.sanbar.gestor;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.jjoe64.graphview.DefaultLabelFormatter;
-import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.PointsGraphSeries;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+//----------------------
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -77,282 +64,31 @@ public class DashboardActivity extends AppCompatActivity {
 
         configureDate();
 
-        configureXList();
-        configureSpinnerX();
-
-        configureYList();
-        configureSpinnerY();
-
-        getPodSummaryData();
-        plotPodSummaryData();
-
         getLayoutData();
-        configureImageView();
+        //configureImageView();
 
+        configureWebView();
 
 
     }
+
+    private void configureButtonBack() {
+
+        Button btn_atras = (Button) findViewById(R.id.button_dashboard_atras);
+        btn_atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
+    }
+
+
 
     private void configureDate() {
         currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-    }
-
-    private void getPodSummaryData() {
-
-        boolean aux = session.attemptPodSummary("Specialty","InicioProgramado",currentDate);
-        String podSummary = session.getPodSummary();
-
-        //Labels for x axis
-        try {
-            JSONObject podSummaryObj = new JSONObject(podSummary);
-            JSONArray labelsJSONArray = podSummaryObj.getJSONArray("labels");
-
-            ArrayList<String> arrayListLabels = new ArrayList<>();
-            arrayListLabels.add(" ");
-            for (int i = 0; i < labelsJSONArray.length(); i++){
-                arrayListLabels.add(labelsJSONArray.getString(i));
-            }
-            arrayListLabels.add(" ");
-            xLabels= arrayListLabels.toArray(new String[0]);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        //completationRate
-        try {
-            JSONObject podSummaryObj = new JSONObject(podSummary);
-
-            TextView tv_completation_ratio = (TextView) findViewById(R.id.textview_layout_tareas_completadas);
-            tv_completation_ratio.setText(R.string.tareas_completadas);
-            String ratio = String.valueOf(podSummaryObj.getInt("completionRate"));
-            tv_completation_ratio.append(ratio);
-            tv_completation_ratio.append("%");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        //datasets
-        try {
-            JSONObject podSummaryObj = new JSONObject(podSummary);
-            JSONArray datasets = podSummaryObj.getJSONArray("datasets");
-            noIniciadas=new ArrayList<JSONObject>();
-            atrasadas=new ArrayList<JSONObject>();
-            iniciadas=new ArrayList<JSONObject>();
-            interrumpidas=new ArrayList<JSONObject>();
-            terminadas=new ArrayList<JSONObject>();
-
-            for (int i=0; i<datasets.length(); i++){
-                JSONObject auxObj = datasets.getJSONObject(i);
-
-                if (auxObj.getString("label").equals("No iniciadas") ){
-                    JSONArray auxArray = auxObj.getJSONArray("data");
-                    for (int j =0; j<auxArray.length();j++){
-                        noIniciadas.add(auxArray.getJSONObject(j));
-                    }
-
-                }
-
-                if (auxObj.getString("label").equals("Atrasada") ){
-                    JSONArray auxArray = auxObj.getJSONArray("data");
-                    for (int j =0; j<auxArray.length();j++){
-                        atrasadas.add(auxArray.getJSONObject(j));
-                    }
-
-                }
-
-                if (auxObj.getString("label").equals("Iniciada") ){
-                    JSONArray auxArray = auxObj.getJSONArray("data");
-                    for (int j =0; j<auxArray.length();j++){
-                        iniciadas.add(auxArray.getJSONObject(j));
-                    }
-
-                }
-
-                if (auxObj.getString("label").equals("Interrumpida") ){
-                    JSONArray auxArray = auxObj.getJSONArray("data");
-                    for (int j =0; j<auxArray.length();j++){
-                        interrumpidas.add(auxArray.getJSONObject(j));
-                    }
-
-                }
-
-                if (auxObj.getString("label").equals("Terminada") ){
-                    JSONArray auxArray = auxObj.getJSONArray("data");
-                    for (int j =0; j<auxArray.length();j++){
-                        terminadas.add(auxArray.getJSONObject(j));
-                    }
-
-                }
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void getPodSummaryDataFiltered() {
-
-        boolean aux = session.attemptPodSummary(xSelected,ySelected,currentDate);
-        String podSummary = session.getPodSummary();
-
-        //Labels for x axis
-        try {
-            JSONObject podSummaryObj = new JSONObject(podSummary);
-            JSONArray labelsJSONArray = podSummaryObj.getJSONArray("labels");
-
-            ArrayList<String> arrayListLabels = new ArrayList<>();
-            arrayListLabels.add(" ");
-            for (int i = 0; i < labelsJSONArray.length(); i++){
-                arrayListLabels.add(labelsJSONArray.getString(i));
-            }
-            arrayListLabels.add(" ");
-            xLabels= arrayListLabels.toArray(new String[0]);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        //completationRate
-        try {
-            JSONObject podSummaryObj = new JSONObject(podSummary);
-
-            TextView tv_completation_ratio = (TextView) findViewById(R.id.textview_layout_tareas_completadas);
-            tv_completation_ratio.setText(R.string.tareas_completadas);
-            String ratio = String.valueOf(podSummaryObj.getInt("completionRate"));
-            tv_completation_ratio.append(ratio);
-            tv_completation_ratio.append("%");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        //datasets
-        try {
-            JSONObject podSummaryObj = new JSONObject(podSummary);
-            JSONArray datasets = podSummaryObj.getJSONArray("datasets");
-            noIniciadas=new ArrayList<JSONObject>();
-            atrasadas=new ArrayList<JSONObject>();
-            iniciadas=new ArrayList<JSONObject>();
-            interrumpidas=new ArrayList<JSONObject>();
-            terminadas=new ArrayList<JSONObject>();
-
-            for (int i=0; i<datasets.length(); i++){
-                JSONObject auxObj = datasets.getJSONObject(i);
-
-                if (auxObj.getString("label").equals("No iniciadas") ){
-                    JSONArray auxArray = auxObj.getJSONArray("data");
-                    for (int j =0; j<auxArray.length();j++){
-                        noIniciadas.add(auxArray.getJSONObject(j));
-                    }
-
-                }
-
-                if (auxObj.getString("label").equals("Atrasada") ){
-                    JSONArray auxArray = auxObj.getJSONArray("data");
-                    for (int j =0; j<auxArray.length();j++){
-                        atrasadas.add(auxArray.getJSONObject(j));
-                    }
-
-                }
-
-                if (auxObj.getString("label").equals("Iniciada") ){
-                    JSONArray auxArray = auxObj.getJSONArray("data");
-                    for (int j =0; j<auxArray.length();j++){
-                        iniciadas.add(auxArray.getJSONObject(j));
-                    }
-
-                }
-
-                if (auxObj.getString("label").equals("Interrumpida") ){
-                    JSONArray auxArray = auxObj.getJSONArray("data");
-                    for (int j =0; j<auxArray.length();j++){
-                        interrumpidas.add(auxArray.getJSONObject(j));
-                    }
-
-                }
-
-                if (auxObj.getString("label").equals("Terminada") ){
-                    JSONArray auxArray = auxObj.getJSONArray("data");
-                    for (int j =0; j<auxArray.length();j++){
-                        terminadas.add(auxArray.getJSONObject(j));
-                    }
-
-                }
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void plotPodSummaryData() {
-        //x always > 0
-
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(24);
-
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(xLabels.length-1);
-
-        // enable scaling and scrolling
-        //graph.getViewport().setScalable(true);
-        //graph.getViewport().setScalableY(true);
-
-        PointsGraphSeries<DataPoint> tareasNoIniciadas = new PointsGraphSeries<>(data(noIniciadas));
-        graph.addSeries(tareasNoIniciadas);
-        tareasNoIniciadas.setShape(PointsGraphSeries.Shape.POINT);
-        tareasNoIniciadas.setColor(Color.parseColor("#4f4f4f"));
-
-        PointsGraphSeries<DataPoint> tareasAtrasadas = new PointsGraphSeries<>(data(atrasadas));
-        graph.addSeries(tareasAtrasadas);
-        tareasAtrasadas.setShape(PointsGraphSeries.Shape.POINT);
-        tareasAtrasadas.setColor(Color.parseColor("#f2f21e"));
-
-        PointsGraphSeries<DataPoint> tareasIniciadas = new PointsGraphSeries<>(data(iniciadas));
-        graph.addSeries(tareasIniciadas);
-        tareasIniciadas.setShape(PointsGraphSeries.Shape.POINT);
-        tareasIniciadas.setColor(Color.parseColor("#589c36"));
-
-        PointsGraphSeries<DataPoint> tareasInterrumpidas = new PointsGraphSeries<>(data(interrumpidas));
-        graph.addSeries(tareasInterrumpidas);
-        tareasInterrumpidas.setShape(PointsGraphSeries.Shape.POINT);
-        tareasInterrumpidas.setColor(Color.parseColor("#e35253"));
-
-        PointsGraphSeries<DataPoint> tareasTerminadas = new PointsGraphSeries<>(data(terminadas));
-        graph.addSeries(tareasTerminadas);
-        tareasTerminadas.setShape(PointsGraphSeries.Shape.POINT);
-        tareasTerminadas.setColor(Color.parseColor("#cccccc"));
-
-        TextView tv_labels = (TextView) findViewById(R.id.textview_layout_graph_labels);
-        tv_labels.setText("Número - Etiqueta\n");
-        for (int i =1;i<xLabels.length-1;i++){
-            tv_labels.append(Integer.toString(i)+" - "+xLabels[i]);
-            tv_labels.append("\n");
-        }
-
-        // custom label formatter to show currency "EUR"
-        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if (isValueX) {
-                    // show normal x values
-                    return super.formatLabel(value, isValueX);
-                } else {
-                    // show hour for y values
-                    return super.formatLabel(value, isValueX) + ":00";
-                }
-            }
-        });
     }
 
     public DataPoint[] data(ArrayList<JSONObject> listDataset){
@@ -372,127 +108,6 @@ public class DashboardActivity extends AppCompatActivity {
         return values;
     }
 
-    private void configureXList() {
-
-        xList = new ArrayList<>();
-
-        xList.add("Especialidad");
-        xList.add("Area");
-        xList.add("Cuadrilla");
-        //Specialty, Area, Crew
-
-
-    }
-
-    private void configureYList() {
-
-        yList = new ArrayList<>();
-
-        yList.add("InicioProgramado");
-        yList.add("InicioReal");
-        yList.add("TerminoProgramado");
-        yList.add("TerminoReal");
-        //InicioProgramado, InicioReal, TerminoProgramado, TerminoReal
-
-
-    }
-
-    private void configureSpinnerX() {
-        Spinner spn_x = (Spinner) findViewById(R.id.spinner_layout_x);
-
-        ArrayAdapter<String> spnAdapter = new ArrayAdapter<String>(DashboardActivity.this, R.layout.spinner_item, xList){
-
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                tv.setTextColor(getResources().getColor(R.color.colorBlue));
-
-                return view;
-            }
-        };
-        spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spn_x.setAdapter(spnAdapter);
-
-        spn_x.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                switch (xList.get(position)) {
-                    case "Especialidad":
-                        xSelected = "Specialty";
-                        break;
-                    case "Area":
-                        xSelected = "Area";
-                        break;
-                    case "Cuadrilla":
-                        xSelected = "Crew";
-                        break;
-                }
-
-                if (ySelected == null ||ySelected.equals("")){
-                    try{
-                        ySelected=yList.get(0);
-                    } catch (Exception e){
-                        Log.e("TEST","exception")   ;
-                    }
-                }
-                getPodSummaryDataFiltered();
-                plotPodSummaryData();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-    }
-
-    private void configureSpinnerY() {
-        Spinner spn_x = (Spinner) findViewById(R.id.spinner_layout_y);
-
-        ArrayAdapter<String> spnAdapter = new ArrayAdapter<String>(DashboardActivity.this, R.layout.spinner_item, yList){
-
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View view = super.getDropDownView(position, convertView, parent);
-                TextView tv = (TextView) view;
-                tv.setTextColor(getResources().getColor(R.color.colorBlue));
-
-                return view;
-            }
-        };
-        spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spn_x.setAdapter(spnAdapter);
-
-        spn_x.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                ySelected = yList.get(position);
-
-                if (xSelected == null ||xSelected.equals("")){
-                    try{
-                        xSelected=xList.get(0);
-                    } catch (Exception e){
-                        Log.e("TEST","exception")   ;
-                    }
-                }
-
-                getPodSummaryDataFiltered();
-                plotPodSummaryData();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-    }
-
     private void getLayoutData() {
 
         //session.attemptLayouts(currentDate);
@@ -500,6 +115,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
+/*
     public void configureImageView(){
 
         ImageView iv_layout = (ImageView) findViewById(R.id.imageview_layout);
@@ -554,7 +170,6 @@ public class DashboardActivity extends AppCompatActivity {
                     Log.e("TEST","movil click X:"+ Integer.toString(x) + " - movil click Y:"+Integer.toString(y));
                     Log.e("TEST","scaleRatioX:"+ scaleRatioX + " - scaleRatioY"+scaleRatioY);
                     Log.e("TEST","scaleClickPosX:"+ scaleClickPosX + " - scaleClickPosY"+scaleClickPosY);
-
 
                 }
                 return false;
@@ -615,17 +230,182 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
-    private void configureButtonBack() {
+*/
 
-        Button btn_atras = (Button) findViewById(R.id.button_dashboard_atras);
-        btn_atras.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+    private void configureWebView() {
+        WebView webView = (WebView) findViewById(R.id.web);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+
+        JSONObject Task = new JSONObject();
+        String content = addTasks(Task);
+
+        webView.loadDataWithBaseURL(
+                "file:///android_asset/",
+                content,
+                "text/html",
+                "utf-8",
+                null);
+    }
+
+    public String addTasks(JSONObject Task){
+
+        JSONArray Tasks = new JSONArray();//Tasks.lenght o size debe ser mayor a cero
+        Task = new JSONObject();
+
+        try {
+            Task.put("PersonaName","Diego Riquelme");
+            Task.put("TareaName","Tarea1");
+            Task.put("TareaInicio","08:30");
+            Task.put("TareaFin","12:30");
+            //String currentString = "Fruit: they taste good";
+            //String[] separated = currentString.split(":");
+            //separated[0]; // this will contain "Fruit"
+            //separated[1]; // this will contain " they taste good"
+            Task.put("TareaColor","#589C36");
+
+            Tasks.put(Task);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        Task = new JSONObject();
+
+        try {
+            Task.put("PersonaName","Sebastián Mofré");
+            Task.put("TareaName","Tarea2");
+            Task.put("TareaInicio","14:30");
+            Task.put("TareaFin","22:30");
+            //String currentString = "Fruit: they taste good";
+            //String[] separated = currentString.split(":");
+            //separated[0]; // this will contain "Fruit"
+            //separated[1]; // this will contain " they taste good"
+            Task.put("TareaColor","#C1BC3F");
+
+            Tasks.put(Task);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.e("TEST1",Tasks.toString());
+
+        String start ="<html>\n" +
+                "   <head>\n" +
+                "      <script type = \"text/javascript\" src = \"https://www.gstatic.com/charts/loader.js\"></script>\n" +
+                "      <script type = \"text/javascript\" src = \"https://www.google.com/jsapi\"></script>\n" +
+                "      <script type = \"text/javascript\">\n" +
+                "         google.charts.load('current', {packages: ['timeline']});     \n" +
+                "      </script>\n" +
+                "   </head>\n" +
+                "   \n" +
+                "   <body>\n" +
+                "      <div id = \"container\" style = \"width: 550px; height: 400px; margin: 0 auto\">\n" +
+                "      </div>\n" +
+                "      <script language = \"JavaScript\">\n" +
+                "         function drawChart() {\n" +
+                "            // Define the chart to be drawn.\n" +
+                "            var data = new google.visualization.DataTable();\n" +
+                "            \n" ;
+
+        String content =
+                "            data.addColumn({ \n" +
+                        "               type: 'string', id: 'Person'\n" +
+                        "            });\n" +
+                        "            \n" +
+                        "            data.addColumn({ \n" +
+                        "               type: 'string', id: 'Task'\n" +
+                        "            });\n" +
+                        "            \n" +
+                        "            data.addColumn({ \n" +
+                        "               type: 'date', id: 'Start' \n" +
+                        "            });\n" +
+                        "            \n" +
+                        "            data.addColumn({ \n" +
+                        "               type: 'date', id: 'End'\n" +
+                        "            });\n" +
+                        "            \n" +
+                        "            data.addRows([\n";
+
+
+        try {
+            for (int i = 0; i<Tasks.length();i++){
+                JSONObject auxObj = Tasks.getJSONObject(i);
+
+                String TareaInicio = auxObj.getString("TareaInicio");
+                String[] TareaInicioSeparada = TareaInicio.split(":");
+
+                String horaInicio=TareaInicioSeparada[0];
+                String minInicio=TareaInicioSeparada[1];
+
+                String TareaFin = auxObj.getString("TareaFin");
+                String[] TareaFinSeparada = TareaFin.split(":");
+
+                String horaFin=TareaFinSeparada[0];
+                String minFin=TareaFinSeparada[1];
+
+                content +=
+                        "               [ '"+ auxObj.getString("PersonaName")+"','  "+ auxObj.getString("TareaName") +" ', new Date(0,0,0,"+horaInicio+","+minInicio+",0),  new Date(0,0,0,"+horaFin+","+minFin+",0) ],\n";
 
             }
-        });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        content+=
+                "            ]);\n" +
+                        "\n" +
+                        "            var options = {      \n" +
+                        "               width: '100%', \n" +
+                        "               height: '100%',\n" +
+                        "               colors: [" ;
+
+        try {
+            if (Tasks.length()==1){
+
+                JSONObject auxObj = Tasks.getJSONObject(0);
+                content+=
+                        "'"+auxObj.getString("TareaColor")+"'";
+            } else {
+
+                for (int i = 0; i<Tasks.length();i++){
+                    JSONObject auxObj = Tasks.getJSONObject(i);
+                    content+=
+                            "'"+auxObj.getString("TareaColor")+"'";
+                    if (i!=Tasks.length()-1)
+                        content+= ",";
+                }
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        content+=
+                "               ]\n" +
+                        "            };\n" ;
+
+        String end =
+                "                  \n" +
+                        "            // Instantiate and draw the chart.\n" +
+                        "            var chart = new google.visualization.Timeline(document.getElementById('container'));\n" +
+                        "            chart.draw(data, options);\n" +
+                        "         }\n" +
+                        "         google.charts.setOnLoadCallback(drawChart);\n" +
+                        "      </script>\n" +
+                        "   </body>\n" +
+                        "</html>";
+
+        String timelineChart = start+content+end;
+
+        Log.e("TEST",timelineChart);
+        return timelineChart;
+
     }
+
 
 
 }
