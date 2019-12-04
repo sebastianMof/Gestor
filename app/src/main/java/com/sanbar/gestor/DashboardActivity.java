@@ -4,8 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +33,8 @@ public class DashboardActivity extends AppCompatActivity {
     private Sesion session;
 
     private String currentDate;
+    private String filterSelected= "Specialty";
+    private ArrayList<String> filterList;
 
     private ArrayList<String> xList;
     private ArrayList<String> yList;
@@ -62,9 +69,9 @@ public class DashboardActivity extends AppCompatActivity {
 
         configureButtonBack();
 
-        //configureDate();
-        //getLayoutData();
-        //configureImageView();
+        configureDate();
+        configureFilterList();
+        configureSpinnerFilter();
 
         configureWebView();
 
@@ -83,11 +90,9 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void configureDate() {
         currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-
+        currentDate="2019-11-18";
     }
 
     public DataPoint[] data(ArrayList<JSONObject> listDataset){
@@ -236,8 +241,7 @@ public class DashboardActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 
-        JSONObject Task = new JSONObject();
-        String content = addTasks(Task);
+        String content = addTasks();
 
         webView.loadDataWithBaseURL(
                 "file:///android_asset/",
@@ -247,161 +251,187 @@ public class DashboardActivity extends AppCompatActivity {
                 null);
     }
 
-    public String addTasks(JSONObject Task){
+    public String addTasks(){
 
-        JSONArray Tasks = new JSONArray();//Tasks.lenght o size debe ser mayor a cero
-        Task = new JSONObject();
+        boolean call = session.attemptPodSummary(currentDate,filterSelected);
 
-        try {
-            Task.put("PersonaName","Diego Riquelme");
-            Task.put("TareaName","Tarea1");
-            Task.put("TareaInicio","08:30");
-            Task.put("TareaFin","12:30");
-            //String currentString = "Fruit: they taste good";
-            //String[] separated = currentString.split(":");
-            //separated[0]; // this will contain "Fruit"
-            //separated[1]; // this will contain " they taste good"
-            Task.put("TareaColor","#589C36");
+        if (call){
+            JSONObject auxObj=null;
+            JSONArray Tasks=null;
 
-            Tasks.put(Task);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        Task = new JSONObject();
-
-        try {
-            Task.put("PersonaName","Sebastián Mofré");
-            Task.put("TareaName","Tarea2");
-            Task.put("TareaInicio","14:30");
-            Task.put("TareaFin","22:30");
-            //String currentString = "Fruit: they taste good";
-            //String[] separated = currentString.split(":");
-            //separated[0]; // this will contain "Fruit"
-            //separated[1]; // this will contain " they taste good"
-            Task.put("TareaColor","#C1BC3F");
-
-            Tasks.put(Task);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        Log.e("TEST1",Tasks.toString());
-
-        String start ="<html>\n" +
-                "   <head>\n" +
-                "      <script type = \"text/javascript\" src = \"https://www.gstatic.com/charts/loader.js\"></script>\n" +
-                "      <script type = \"text/javascript\" src = \"https://www.google.com/jsapi\"></script>\n" +
-                "      <script type = \"text/javascript\">\n" +
-                "         google.charts.load('current', {packages: ['timeline']});     \n" +
-                "      </script>\n" +
-                "   </head>\n" +
-                "   \n" +
-                "   <body>\n" +
-                "      <div id = \"container\" style = \"width: 550px; height: 400px; margin: 0 auto\">\n" +
-                "      </div>\n" +
-                "      <script language = \"JavaScript\">\n" +
-                "         function drawChart() {\n" +
-                "            // Define the chart to be drawn.\n" +
-                "            var data = new google.visualization.DataTable();\n" +
-                "            \n" ;
-
-        String content =
-                "            data.addColumn({ \n" +
-                        "               type: 'string', id: 'Person'\n" +
-                        "            });\n" +
-                        "            \n" +
-                        "            data.addColumn({ \n" +
-                        "               type: 'string', id: 'Task'\n" +
-                        "            });\n" +
-                        "            \n" +
-                        "            data.addColumn({ \n" +
-                        "               type: 'date', id: 'Start' \n" +
-                        "            });\n" +
-                        "            \n" +
-                        "            data.addColumn({ \n" +
-                        "               type: 'date', id: 'End'\n" +
-                        "            });\n" +
-                        "            \n" +
-                        "            data.addRows([\n";
-
-
-        try {
-            for (int i = 0; i<Tasks.length();i++){
-                JSONObject auxObj = Tasks.getJSONObject(i);
-
-                String TareaInicio = auxObj.getString("TareaInicio");
-                String[] TareaInicioSeparada = TareaInicio.split(":");
-
-                String horaInicio=TareaInicioSeparada[0];
-                String minInicio=TareaInicioSeparada[1];
-
-                String TareaFin = auxObj.getString("TareaFin");
-                String[] TareaFinSeparada = TareaFin.split(":");
-
-                String horaFin=TareaFinSeparada[0];
-                String minFin=TareaFinSeparada[1];
-
-                content +=
-                        "               [ '"+ auxObj.getString("PersonaName")+"','  "+ auxObj.getString("TareaName") +" ', new Date(0,0,0,"+horaInicio+","+minInicio+",0),  new Date(0,0,0,"+horaFin+","+minFin+",0) ],\n";
-
+            try {
+                auxObj = new JSONObject(session.getPodSummary());
+                Tasks = auxObj.getJSONArray("rows");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            Log.e("TEST1",Tasks.toString());
 
-        content+=
-                "            ]);\n" +
-                        "\n" +
-                        "            var options = {      \n" +
-                        "               width: '100%', \n" +
-                        "               height: '100%',\n" +
-                        "               colors: [" ;
+            String start ="<html>\n" +
+                    "   <head>\n" +
+                    "      <script type = \"text/javascript\" src = \"https://www.gstatic.com/charts/loader.js\"></script>\n" +
+                    "      <script type = \"text/javascript\" src = \"https://www.google.com/jsapi\"></script>\n" +
+                    "      <script type = \"text/javascript\">\n" +
+                    "         google.charts.load('current', {packages: ['timeline']});     \n" +
+                    "      </script>\n" +
+                    "   </head>\n" +
+                    "   \n" +
+                    "   <body>\n" +
+                    "      <div id = \"container\" style = \"width: 550px; height: 400px; margin: 0 auto\">\n" +
+                    "      </div>\n" +
+                    "      <script language = \"JavaScript\">\n" +
+                    "         function drawChart() {\n" +
+                    "            // Define the chart to be drawn.\n" +
+                    "            var data = new google.visualization.DataTable();\n" +
+                    "            \n" ;
 
-        try {
-            if (Tasks.length()==1){
+            String content =
+                    "            data.addColumn({ \n" +
+                            "               type: 'string', id: 'Rol'\n" +
+                            "            });\n" +
+                            "            \n" +
+                            "            data.addColumn({ \n" +
+                            "               type: 'string', id: 'Nombre'\n" +
+                            "            });\n" +
+                            "            \n" +
+                            "            data.addColumn({ \n" +
+                            "               type: 'date', id: 'Start' \n" +
+                            "            });\n" +
+                            "            \n" +
+                            "            data.addColumn({ \n" +
+                            "               type: 'date', id: 'End'\n" +
+                            "            });\n" +
+                            "            \n" +
+                            "            data.addRows([\n";
 
-                JSONObject auxObj = Tasks.getJSONObject(0);
-                content+=
-                        "'"+auxObj.getString("TareaColor")+"'";
-            } else {
 
+            try {
                 for (int i = 0; i<Tasks.length();i++){
-                    JSONObject auxObj = Tasks.getJSONObject(i);
-                    content+=
-                            "'"+auxObj.getString("TareaColor")+"'";
-                    if (i!=Tasks.length()-1)
-                        content+= ",";
+                    JSONArray Task = Tasks.getJSONArray(i);
+
+                    String TareaInicio = Task.getString(3);
+                    String[] TareaInicioSeparada = TareaInicio.split(":");
+
+                    String horaInicio=TareaInicioSeparada[0];
+                    String minInicio=TareaInicioSeparada[1];
+
+                    String TareaFin = Task.getString(4);
+                    String[] TareaFinSeparada = TareaFin.split(":");
+
+                    String horaFin=TareaFinSeparada[0];
+                    String minFin=TareaFinSeparada[1];
+
+                    content +=
+                            "               [ '"+ Task.getString(0)+"','  "+ Task.getString(1) +" ', new Date(0,0,0,"+horaInicio+","+minInicio+",0),  new Date(0,0,0,"+horaFin+","+minFin+",0) ],\n";
+
                 }
 
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
+            content+=
+                    "            ]);\n" +
+                            "\n" +
+                            "            var options = {      \n" +
+                            "               width: '100%', \n" +
+                            "               height: '100%',\n" +
+                            "               colors: [" ;
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+            try {
+                if (Tasks.length()==1){
+
+                    JSONArray Task = Tasks.getJSONArray(0);
+                    content+=
+                            "'"+Task.getString(2)+"'";
+                } else {
+
+                    for (int i = 0; i<Tasks.length();i++){
+                        JSONArray Task = Tasks.getJSONArray(i);
+                        content+=
+                                "'"+Task.getString(2)+"'";
+                        if (i!=Tasks.length()-1)
+                            content+= ",";
+                    }
+
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            content+=
+                    "               ]\n" +
+                            "            };\n" ;
+
+            String end =
+                    "                  \n" +
+                            "            // Instantiate and draw the chart.\n" +
+                            "            var chart = new google.visualization.Timeline(document.getElementById('container'));\n" +
+                            "            chart.draw(data, options);\n" +
+                            "         }\n" +
+                            "         google.charts.setOnLoadCallback(drawChart);\n" +
+                            "      </script>\n" +
+                            "   </body>\n" +
+                            "</html>";
+
+            String timelineChart = start+content+end;
+
+            Log.e("TEST",timelineChart);
+            return timelineChart;
         }
+        return null;
 
-        content+=
-                "               ]\n" +
-                        "            };\n" ;
+    }
+    private void configureFilterList() {
+        filterList = new ArrayList<>();
 
-        String end =
-                "                  \n" +
-                        "            // Instantiate and draw the chart.\n" +
-                        "            var chart = new google.visualization.Timeline(document.getElementById('container'));\n" +
-                        "            chart.draw(data, options);\n" +
-                        "         }\n" +
-                        "         google.charts.setOnLoadCallback(drawChart);\n" +
-                        "      </script>\n" +
-                        "   </body>\n" +
-                        "</html>";
+        filterList.add("Especialidad");
+        filterList.add("Area");
+        filterList.add("Cuadrilla");
 
-        String timelineChart = start+content+end;
+    }
 
-        Log.e("TEST",timelineChart);
-        return timelineChart;
+    private void configureSpinnerFilter() {
+        Spinner spn_bodega = (Spinner) findViewById(R.id.spinner_dashboard);
+
+        ArrayAdapter<String> spnAdapter = new ArrayAdapter<String>(DashboardActivity.this, R.layout.spinner_item, filterList){
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                tv.setTextColor(getResources().getColor(R.color.colorBlue));
+
+                return view;
+            }
+        };
+        spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spn_bodega.setAdapter(spnAdapter);
+
+        spn_bodega.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                //tipoSelected= (String) adapterView.getItemAtPosition(position);
+                if (position==0){
+                    filterSelected= "Specialty";
+                } else if (position==1){
+                    filterSelected= "Area";
+                } else if (position==2){
+                    filterSelected= "Crew";
+                }
+                configureWebView();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                filterSelected="Specialty";
+            }
+        });
 
     }
 

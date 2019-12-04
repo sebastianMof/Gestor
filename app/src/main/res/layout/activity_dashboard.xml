@@ -129,6 +129,23 @@
     -->
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp">
+
+        <Spinner
+            android:id="@+id/spinner_dashboard"
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:textColor="@color/colorBlue"
+            android:backgroundTint="@color/colorBlue"
+            android:spinnerMode="dropdown" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <WebView

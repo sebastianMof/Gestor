@@ -1930,14 +1930,12 @@ public class Sesion implements Parcelable {
 
     public class PodSummary extends AsyncTask<Void, Void, Boolean> {
 
-        String x;
-        String y;
         String date;
+        String filter;
 
-        PodSummary(String x, String y, String date) {
-            this.x=x; //Specialty, Area, Crew
-            this.y=y; //InicioProgramado, InicioReal, TerminoProgramado, TerminoReal
-            this.date=date; //2019-11-26
+        PodSummary(String date,String filter) {
+            this.date=date; //2019-11-18
+            this.filter=filter;
         }
 
         @Override
@@ -1947,7 +1945,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/apiv2/PodSummary?x="+x+"&y="+y+"&Date="+date+"&ContractId="+getLastContractId())
+                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/apiv2/PodSummary?filter="+filter+"&Date="+date+"&ContractId="+getLastContractId())
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .method("GET", null)
@@ -2453,12 +2451,12 @@ public class Sesion implements Parcelable {
         return str_result;
     }
 
-    public boolean attemptPodSummary(String x, String y, String date) {
+    public boolean attemptPodSummary(String date, String filter) {
         if (mPodSummary != null) {
             return false;
         }
 
-        mPodSummary = new PodSummary(x, y, date);
+        mPodSummary = new PodSummary(date,filter);
         //mAuthTask.execute((Void) null);
 
         boolean str_result = false;
