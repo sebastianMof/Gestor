@@ -311,7 +311,7 @@ public class PodActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 if (position!=0){
-                    statusSelected= statusIdList.get(position-1);
+                    statusSelected= statusList.get(position);
                 } else {
                     statusSelected = null;
                 }
