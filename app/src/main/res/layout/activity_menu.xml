@@ -171,6 +171,21 @@
                     android:textColor="@color/colorWhite"
                     android:background = "@drawable/rounded_button_blue"/>
 
+                <Button
+                    android:id="@+id/button_menu_layout"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginBottom="20sp"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
+
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/ubicaci_n_de_tareas"
+                    android:textColor="@color/colorWhite"
+                    android:background = "@drawable/rounded_button_blue"/>
+
             </LinearLayout>
 
             <LinearLayout

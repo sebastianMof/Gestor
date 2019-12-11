@@ -23,6 +23,8 @@ public class Sesion implements Parcelable {
 
     //FOR HTTP
     private static final MediaType MEDIA_TYPE = MediaType.parse("application/json");
+    private static final String URL = "https://ezprogpdar-apiproductividadProd.azurewebsites.net";
+
     //TASKS DECLARATIONS
     private Token mToken = null;
     private Contratistas mContratistas = null;
@@ -356,7 +358,6 @@ public class Sesion implements Parcelable {
     }
 
     public String getTareasTareaId() {
-        Log.e("TEST",tareasTareaId);
         return tareasTareaId;
     }
 
@@ -405,7 +406,7 @@ public class Sesion implements Parcelable {
             RequestBody body = RequestBody.create(MEDIA_TYPE, postdata.toString());
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/Token")
+                    .url(URL+"/Token")
                     .post(body)
                     .addHeader("Content-Type", "application/json")
                     .build();
@@ -468,7 +469,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Contratistas/"+"?email="+getMail())
+                    .url(URL+"/api/Contratistas/"+"?email="+getMail())
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -553,7 +554,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/apiv2/Contractors/"+getUserId()+"/Contracts")
+                    .url(URL+"/apiv2/Contractors/"+getUserId()+"/Contracts")
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -616,7 +617,7 @@ public class Sesion implements Parcelable {
             RequestBody body = RequestBody.create(MEDIA_TYPE, postdata.toString());
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/CambioContrato")
+                    .url(URL+"/api/CambioContrato")
                     .put(body)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
@@ -662,7 +663,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/WorkerCategorias")
+                    .url(URL+"/api/WorkerCategorias")
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -722,7 +723,7 @@ public class Sesion implements Parcelable {
 
             OkHttpClient client = new OkHttpClient();
 
-            String url ="https://ezprogpdar-apiproductividad.azurewebsites.net/api/Workers";
+            String url =URL+"/api/Workers";
 
 
             if(filter != null || categoriaId != null ){
@@ -807,7 +808,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Workers/"+workerId)
+                    .url(URL+"/api/Workers/"+workerId)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -862,7 +863,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/TipoEquipos")
+                    .url(URL+"/api/TipoEquipos")
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -930,7 +931,7 @@ public class Sesion implements Parcelable {
 
             OkHttpClient client = new OkHttpClient();
 
-            String url ="https://ezprogpdar-apiproductividad.azurewebsites.net/apiv2/Equipment";
+            String url =URL+"/apiv2/Equipment";
 
 
             if(filter != null || tipoId != null ){
@@ -1030,7 +1031,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Equipos/"+equipoId)
+                    .url(URL+"/api/Equipos/"+equipoId)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -1088,7 +1089,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Especialidades")
+                    .url(URL+"/api/Especialidades")
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -1146,7 +1147,7 @@ public class Sesion implements Parcelable {
                     .build();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/AreaContratos")
+                    .url(URL+"/api/AreaContratos")
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -1205,7 +1206,7 @@ public class Sesion implements Parcelable {
                     .build();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/TareaStatus")
+                    .url(URL+"/api/TareaStatus")
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -1268,43 +1269,41 @@ public class Sesion implements Parcelable {
             if (nombreCapataz!= null && nombreCapataz.equals(""))
                 nombreCapataz=null;
 
-            String url = "https://ezprogpdar-apiproductividad.azurewebsites.net/api/Tareas?";
+            String url = URL+"/apiv2/Tasks?";
 
             if (nombreCapataz!=null){
-                url+="nombreCapataz="+nombreCapataz;
+                url+="ForemanName="+nombreCapataz;
             }
 
             if (especialidadId!=null){
                 if (url.substring(url.length() - 1).equals("?")){
-                    url+="especialidadId="+especialidadId;
+                    url+="SpecialtyId="+especialidadId;
                 } else {
-                    url+="&especialidadId="+especialidadId;
+                    url+="&SpecialtyId="+especialidadId;
                 }
             }
 
             if (areaId!=null){
                 if (url.substring(url.length() - 1).equals("?")){
-                    url+="areaId="+areaId;
+                    url+="AreaId="+areaId;
                 } else {
-                    url+="&areaId="+areaId;
+                    url+="&AreaId="+areaId;
                 }
             }
 
             if (statusTareaId!=null){
                 if (url.substring(url.length() - 1).equals("?")){
-                    url+="statusTareaId="+statusTareaId;
+                    url+="TaskStatus="+statusTareaId;
                 } else {
-                    url+="&statusTareaId="+statusTareaId;
+                    url+="&TaskStatus="+statusTareaId;
                 }
             }
 
             if (url.substring(url.length() - 1).equals("?")){
-                url+="contractId="+getLastContractId();
+                url+="ContractId="+getLastContractId();
             } else {
-                url+="&contractId="+getLastContractId();
+                url+="&ContractId="+getLastContractId();
             }
-
-
 
             final Request request = new Request.Builder()
                     .url(url)
@@ -1370,7 +1369,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Tareas/"+tareaId)
+                    .url(URL+"/apiv2/Tasks/"+tareaId)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -1445,7 +1444,7 @@ public class Sesion implements Parcelable {
                     .build();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/FinalizarTarea")
+                    .url(URL+"/api/FinalizarTarea")
                     .put(body)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
@@ -1512,7 +1511,7 @@ public class Sesion implements Parcelable {
                     .build();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/IniciarTarea")
+                    .url(URL+"/api/IniciarTarea")
                     .put(body)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
@@ -1593,7 +1592,7 @@ public class Sesion implements Parcelable {
             RequestBody body = RequestBody.create(JSON, String.valueOf(auxBody));
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Interrupciones")
+                    .url(URL+"/api/Interrupciones")
                     .post(body)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
@@ -1639,7 +1638,7 @@ public class Sesion implements Parcelable {
 
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/CausasInmediatas?causasPadre=TRUE")
+                    .url(URL+"/api/CausasInmediatas?causasPadre=TRUE")
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -1708,7 +1707,7 @@ public class Sesion implements Parcelable {
 
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/CausasInmediatas/"+causaId)
+                    .url(URL+"/api/CausasInmediatas/"+causaId)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -1781,7 +1780,7 @@ public class Sesion implements Parcelable {
                     .build();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/TerminarInterrupcion")
+                    .url(URL+"/api/TerminarInterrupcion")
                     .put(body)
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
@@ -1832,7 +1831,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/api/Contratistas/?ContractId="+getLastContractId())
+                    .url(URL+"/api/Contratistas/?ContractId="+getLastContractId())
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .build();
@@ -1887,7 +1886,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/apiv2/Layouts?ContractId="+getLastContractId()+"&Date="+date)//2019-11-18
+                    .url(URL+"/apiv2/Layouts?ContractId="+getLastContractId()+"&Date="+date)//2019-11-18
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .method("GET", null)
@@ -1945,7 +1944,7 @@ public class Sesion implements Parcelable {
             OkHttpClient client = new OkHttpClient();
 
             final Request request = new Request.Builder()
-                    .url("https://ezprogpdar-apiproductividad.azurewebsites.net/apiv2/PodSummary?filter="+filter+"&Date="+date+"&ContractId="+getLastContractId())
+                    .url(URL+"/apiv2/PodSummary?filter="+filter+"&Date="+date+"&ContractId="+getLastContractId())
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Authorization", "Bearer "+getToken())
                     .method("GET", null)

@@ -47,6 +47,12 @@
             android:layout_height="wrap_content"
             android:text="@string/especialidad"
             android:textColor="@color/colorWhite"/>
+        <TextView
+            android:id="@+id/textview_pod_item_capataz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/capataz"
+            android:textColor="@color/colorWhite"/>
 
     </LinearLayout>
 

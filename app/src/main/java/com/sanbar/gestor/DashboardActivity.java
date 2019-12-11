@@ -2,7 +2,6 @@ package com.sanbar.gestor;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.jjoe64.graphview.series.DataPoint;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,25 +32,6 @@ public class DashboardActivity extends AppCompatActivity {
     private String currentDate;
     private String filterSelected= "Specialty";
     private ArrayList<String> filterList;
-
-    private ArrayList<String> xList;
-    private ArrayList<String> yList;
-
-    private String[] xLabels;
-
-    private ArrayList<JSONObject> noIniciadas;
-    private ArrayList<JSONObject> atrasadas;
-    private ArrayList<JSONObject> iniciadas;
-    private ArrayList<JSONObject> interrumpidas;
-    private ArrayList<JSONObject> terminadas;
-
-    private String xSelected;
-    private String ySelected;
-
-    //-----
-    private int maxImgX=0;
-    private int maxImgY=0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +53,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         configureWebView();
 
-
     }
 
     private void configureButtonBack() {
@@ -93,147 +70,6 @@ public class DashboardActivity extends AppCompatActivity {
     private void configureDate() {
         currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
     }
-
-    public DataPoint[] data(ArrayList<JSONObject> listDataset){
-        int n= listDataset.size();
-        DataPoint[] values = new DataPoint[n];
-        for(int i=0;i<n;i++){
-            JSONObject auxObj = listDataset.get(i);
-            DataPoint v = null;
-            try {
-                v = new DataPoint(auxObj.getDouble("x"),auxObj.getDouble("y"));
-                values[i] = v;
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return values;
-    }
-
-    private void getLayoutData() {
-
-        session.attemptLayouts(currentDate);
-        //session.attemptLayouts("2019-11-18");
-
-    }
-
-/*
-    public void configureImageView(){
-
-        ImageView iv_layout = (ImageView) findViewById(R.id.imageview_layout);
-        TextView tv_layout = (TextView) findViewById(R.id.textview_layout);
-        tv_layout.setText(R.string.informaci_n_layout);
-        tv_layout.append("\n");
-
-        String layouts = session.getLayouts();
-
-        try {
-            JSONArray layoutsArray = new JSONArray(layouts);
-            JSONObject auxObj;
-            for (int i =0; i<layoutsArray.length();i++){
-                auxObj=layoutsArray.getJSONObject(i);
-                //auxObj.getInt("Id");
-                tv_layout.append(auxObj.getString("Nombre")+"\n");
-
-                auxObj.getJSONObject("Dimensiones");
-                maxImgX=auxObj.getJSONObject("Dimensiones").getInt("X");
-                maxImgY=auxObj.getJSONObject("Dimensiones").getInt("Y");
-                tv_layout.append("Tamaño imagen: "+maxImgX+","+maxImgY+"\n");
-
-                auxObj.getString("Foto");
-                auxObj.getJSONArray("Areas");
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        drawTareasOnImageView();
-
-        iv_layout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                    int x = (int) event.getX();
-                    int y = (int) event.getY();
-                    drawClickOnImageView(x,y);
-
-                    Log.e("TEST","movil size:" + view.getWidth() +" - "+ view.getHeight() );
-                    Log.e("TEST","full size:" + maxImgX +" - "+ maxImgY );
-
-                    double scaleRatioX = (double)view.getWidth()/(double)maxImgX;
-                    double scaleRatioY = (double)view.getHeight()/(double)maxImgY;
-
-                    double scaleClickPosX=scaleRatioX*(double)x;
-                    double scaleClickPosY=scaleRatioY*(double)y;
-
-                    Log.e("TEST","movil click X:"+ Integer.toString(x) + " - movil click Y:"+Integer.toString(y));
-                    Log.e("TEST","scaleRatioX:"+ scaleRatioX + " - scaleRatioY"+scaleRatioY);
-                    Log.e("TEST","scaleClickPosX:"+ scaleClickPosX + " - scaleClickPosY"+scaleClickPosY);
-
-                }
-                return false;
-            }
-        });
-
-    }
-
-    private void drawClickOnImageView(int x,int y) {
-
-        BitmapFactory.Options myOptions = new BitmapFactory.Options();
-
-        myOptions.inScaled = false;
-        myOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// important
-        myOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.imagen_maquina_extendida,myOptions);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setColor(Color.BLUE);
-
-        Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
-        Bitmap mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
-
-        Canvas canvas = new Canvas(mutableBitmap);
-        canvas.drawCircle(x, y, 25, paint);
-
-        ImageView imageView = (ImageView)findViewById(R.id.imageview_layout);
-        imageView.setAdjustViewBounds(false);
-        imageView.setImageBitmap(mutableBitmap);
-
-    }
-
-    private void drawTareasOnImageView() {
-
-        BitmapFactory.Options myOptions = new BitmapFactory.Options();
-
-        myOptions.inScaled = false;
-        myOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// important
-        myOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.imagen_maquina_extendida,myOptions);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setColor(Color.RED);
-
-        Bitmap workingBitmap = Bitmap.createBitmap(bitmap);
-        Bitmap mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
-
-        Canvas canvas = new Canvas(mutableBitmap);
-        canvas.drawCircle(120, 130, 25, paint);
-        canvas.drawCircle(340, 220, 25, paint);
-        canvas.drawCircle(70, 40, 25, paint);
-
-        ImageView imageView = (ImageView)findViewById(R.id.imageview_layout);
-        imageView.setAdjustViewBounds(false);
-        imageView.setImageBitmap(mutableBitmap);
-
-    }
-
-*/
 
     private void configureWebView() {
         WebView webView = (WebView) findViewById(R.id.web);
@@ -374,6 +210,7 @@ public class DashboardActivity extends AppCompatActivity {
         return null;
 
     }
+
     private void configureFilterList() {
         filterList = new ArrayList<>();
 

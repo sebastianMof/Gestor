@@ -42,12 +42,26 @@ public class MenuActivity extends AppCompatActivity {
         configureButtonAtras();
 
         configureButtonDashboard();
+        configureButtonLayout();
 
     }
 
-    private void configureButtonDashboard() {
-        Button btn_layout = (Button) findViewById(R.id.button_menu_dashboard);
+    private void configureButtonLayout() {
+        Button btn_layout = (Button) findViewById(R.id.button_menu_layout);
         btn_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeLinearLayout();
+                Intent myIntent = new Intent(MenuActivity.this, LayoutActivity.class);
+                myIntent.putExtra("SESSION", session); //Optional parameters
+                startActivity(myIntent);
+            }
+        });
+    }
+
+    private void configureButtonDashboard() {
+        Button btn_dashboard = (Button) findViewById(R.id.button_menu_dashboard);
+        btn_dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeLinearLayout();

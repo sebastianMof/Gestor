@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PersonasActivity">
-    
+    tools:context=".LayoutActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        
+
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                     android:gravity="start">
 
                     <Button
-                        android:id="@+id/button_personas_atras"
+                        android:id="@+id/button_layout_atras"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="10dp"
@@ -56,7 +56,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/gesti_n_de_personas"
+                        android:text="@string/layout"
                         android:textAlignment="center"
                         android:textColor="@color/colorWhite"
                         android:textSize="18sp" />
@@ -68,84 +68,27 @@
                     android:layout_weight="1"
                     android:gravity="end">
 
-                    <Button
-                        android:id="@+id/button_personas_filter"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginEnd="10dp"
-                        android:background="@drawable/ic_filter" />
-
                 </LinearLayout>
 
             </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:id="@+id/linearlayout_personas_filters"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/edittext_personas_busqueda"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/nombre_rut"
-            android:textColorHint="@color/colorBlue"
-            android:textColor="@color/colorBlue"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="@color/colorBlue"
-            android:focusable="true"
-            android:focusableInTouchMode="true"/>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
 
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp">
-
-            <Spinner
-                android:id="@+id/spinner_personas_tipo"
-                android:layout_width="0dp"
-                android:layout_height="50sp"
-                android:layout_weight="1"
-
-                android:textColor="@color/colorBlue"
-                android:backgroundTint="@color/colorBlue"
-                android:spinnerMode="dropdown" />
-
-            <Button
-                android:id="@+id/button_personas_busqueda"
-
-                android:layout_width="50sp"
-                android:layout_height="50sp"
-                android:layout_marginStart="20sp"
-
-                android:background="@drawable/busqueda" />
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:id="@+id/graph" />
 
         </LinearLayout>
 
-    </LinearLayout>
-
-        <ListView
-            android:id="@+id/listview_personas"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="10.0sp"/>
 
 
     </LinearLayout>

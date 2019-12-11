@@ -24,6 +24,7 @@ public class CustomListAdapterPod extends ArrayAdapter {
     private final String[] especialidadArray;
     private final String[] colorArray;
     private final String[] colorLetraArray;
+    private final String[] capatazArray;
 
 
     public CustomListAdapterPod(Activity context,
@@ -32,7 +33,8 @@ public class CustomListAdapterPod extends ArrayAdapter {
                                 String[] statusArrayParam,
                                 String[] especialidadArrayParam,
                                 String[] colorArrayParam,
-                                String[] colorLetraArrayParam){
+                                String[] colorLetraArrayParam,
+                                String[] capatazArrayParam){
 
         super(context,R.layout.listview_row_persona, nameArrayParam);
 
@@ -43,6 +45,7 @@ public class CustomListAdapterPod extends ArrayAdapter {
         this.especialidadArray = especialidadArrayParam;
         this.colorArray = colorArrayParam;
         this.colorLetraArray = colorLetraArrayParam;
+        this.capatazArray = capatazArrayParam;
 
     }
 
@@ -54,12 +57,14 @@ public class CustomListAdapterPod extends ArrayAdapter {
         TextView tv_area = (TextView) rowView.findViewById(R.id.textview_pod_item_area);
         TextView tv_status = (TextView) rowView.findViewById(R.id.textview_pod_item_status);
         TextView tv_especialidad = (TextView) rowView.findViewById(R.id.textview_pod_item_especialidad);
+        TextView tv_capataz = (TextView) rowView.findViewById(R.id.textview_pod_item_capataz);
         LinearLayout ll_row = (LinearLayout) rowView.findViewById(R.id.linearlayout_pod_listrow);
 
         tv_nombre.setText(nameArray[position]);
         tv_area.setText(areaArray[position]);
         tv_status.setText(statusArray[position]);
         tv_especialidad.setText(especialidadArray[position]);
+        tv_capataz.setText(capatazArray[position]);
 
         int color = parseColor (colorArray[position]);
         ColorDrawable cd = new ColorDrawable(color);
@@ -69,6 +74,7 @@ public class CustomListAdapterPod extends ArrayAdapter {
         tv_area.setTextColor(Color.parseColor(colorLetraArray[position]));
         tv_status.setTextColor(Color.parseColor(colorLetraArray[position]));
         tv_especialidad.setTextColor(Color.parseColor(colorLetraArray[position]));
+        tv_capataz.setTextColor(Color.parseColor(colorLetraArray[position]));
 
         return rowView;
 

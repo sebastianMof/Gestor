@@ -108,4 +108,7 @@
     <string name="informaci_n_layout">Información Layouts</string>
     <string name="gauge_chart">Gauge Chart</string>
     <string name="pie_chart">Pie Chart</string>
+    <string name="ubicaci_n_de_tareas">UBICACIÓN DE TAREAS</string>
+    <string name="capataz">CAPATAZ</string>
+
 </resources>

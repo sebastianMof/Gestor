@@ -36,6 +36,7 @@ public class PodActivity extends AppCompatActivity {
     private String[] colorArray;
     private String[] colorLetraArray;
     private String[] areaArray;
+    private String[] capatazArray;
 
     //For list filters
     private ArrayList<String> especialidadList;
@@ -122,7 +123,7 @@ public class PodActivity extends AppCompatActivity {
         //sort arrays(and id list) by status priority
 
         //Lo que se pasa acá aparecerá en la lista
-        CustomListAdapterPod list_adapter = new CustomListAdapterPod(this, nameArray, areaArray, statusArray, especialidadArray, colorArray,colorLetraArray);
+        CustomListAdapterPod list_adapter = new CustomListAdapterPod(this, nameArray, areaArray, statusArray, especialidadArray, colorArray,colorLetraArray,capatazArray);
 
         listView = (ListView) findViewById(R.id.listview_pod);
         listView.setAdapter(list_adapter);
@@ -398,6 +399,7 @@ public class PodActivity extends AppCompatActivity {
             List<String> colorList = new ArrayList<String>();
             List<String> colorLetraList = new ArrayList<String>();
             List<String> areaList = new ArrayList<String>();
+            List<String> capatazList = new ArrayList<String>();
 
             tareaIdList = new ArrayList<String>();
 
@@ -409,17 +411,19 @@ public class PodActivity extends AppCompatActivity {
                             auxObj.getString("Id"));
 
                     nameList.add(
-                            auxObj.getString("Name"));
+                            auxObj.getString("Nombre"));
                     statusList.add(
-                            auxObj.getString("TareaStatusName"));
+                            auxObj.getString("TaskStatus"));
                     especialidadList.add(
-                            auxObj.getString("EspecialidadName"));
+                            auxObj.getString("Especialidad"));
                     colorList.add(
                             auxObj.getString("Color"));
                     colorLetraList.add(
                             auxObj.getString("ColorLetra"));
                     areaList.add(
                             auxObj.getString("AreaContrato"));
+                    capatazList.add(
+                            auxObj.getString("NombreCapataz"));
 
                 }
             }
@@ -431,17 +435,20 @@ public class PodActivity extends AppCompatActivity {
                             auxObj.getString("Id"));
 
                     nameList.add(
-                            auxObj.getString("Name"));
+                            auxObj.getString("Nombre"));
                     statusList.add(
-                            auxObj.getString("TareaStatusName"));
+                            auxObj.getString("TaskStatus"));
                     especialidadList.add(
-                            auxObj.getString("EspecialidadName"));
+                            auxObj.getString("Especialidad"));
                     colorList.add(
                             auxObj.getString("Color"));
                     colorLetraList.add(
                             auxObj.getString("ColorLetra"));
                     areaList.add(
                             auxObj.getString("AreaContrato"));
+                    capatazList.add(
+                            auxObj.getString("NombreCapataz"));
+
                 }
             }
             for (int i = 0; i < tareas.length(); i++) {
@@ -452,17 +459,20 @@ public class PodActivity extends AppCompatActivity {
                             auxObj.getString("Id"));
 
                     nameList.add(
-                            auxObj.getString("Name"));
+                            auxObj.getString("Nombre"));
                     statusList.add(
-                            auxObj.getString("TareaStatusName"));
+                            auxObj.getString("TaskStatus"));
                     especialidadList.add(
-                            auxObj.getString("EspecialidadName"));
+                            auxObj.getString("Especialidad"));
                     colorList.add(
                             auxObj.getString("Color"));
                     colorLetraList.add(
                             auxObj.getString("ColorLetra"));
                     areaList.add(
                             auxObj.getString("AreaContrato"));
+                    capatazList.add(
+                            auxObj.getString("NombreCapataz"));
+
                 }
             }
             for (int i = 0; i < tareas.length(); i++) {
@@ -473,17 +483,20 @@ public class PodActivity extends AppCompatActivity {
                             auxObj.getString("Id"));
 
                     nameList.add(
-                            auxObj.getString("Name"));
+                            auxObj.getString("Nombre"));
                     statusList.add(
-                            auxObj.getString("TareaStatusName"));
+                            auxObj.getString("TaskStatus"));
                     especialidadList.add(
-                            auxObj.getString("EspecialidadName"));
+                            auxObj.getString("Especialidad"));
                     colorList.add(
                             auxObj.getString("Color"));
                     colorLetraList.add(
                             auxObj.getString("ColorLetra"));
                     areaList.add(
                             auxObj.getString("AreaContrato"));
+                    capatazList.add(
+                            auxObj.getString("NombreCapataz"));
+
                 }
             }
             for (int i = 0; i < tareas.length(); i++) {
@@ -494,17 +507,20 @@ public class PodActivity extends AppCompatActivity {
                             auxObj.getString("Id"));
 
                     nameList.add(
-                            auxObj.getString("Name"));
+                            auxObj.getString("Nombre"));
                     statusList.add(
-                            auxObj.getString("TareaStatusName"));
+                            auxObj.getString("TaskStatus"));
                     especialidadList.add(
-                            auxObj.getString("EspecialidadName"));
+                            auxObj.getString("Especialidad"));
                     colorList.add(
                             auxObj.getString("Color"));
                     colorLetraList.add(
                             auxObj.getString("ColorLetra"));
                     areaList.add(
                             auxObj.getString("AreaContrato"));
+                    capatazList.add(
+                            auxObj.getString("NombreCapataz"));
+
                 }
             }
 
@@ -514,6 +530,7 @@ public class PodActivity extends AppCompatActivity {
             colorArray = new String[tareas.length()];
             colorLetraArray = new String[tareas.length()];
             areaArray = new String[tareas.length()];
+            capatazArray = new String[tareas.length()];
 
             nameArray = nameList.toArray(nameArray);
             statusArray = statusList.toArray(statusArray);
@@ -521,6 +538,7 @@ public class PodActivity extends AppCompatActivity {
             colorArray = colorList.toArray(colorArray);
             colorLetraArray = colorLetraList.toArray(colorLetraArray);
             areaArray = areaList.toArray(areaArray);
+            capatazArray = capatazList.toArray(capatazArray);
 
 
         } catch (JSONException e) {

@@ -2,34 +2,27 @@ package com.sanbar.gestor;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
-import android.util.LongSparseArray;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.widget.DatePicker;
 import android.widget.TimePicker;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Calendar;
 
 import static android.graphics.Color.parseColor;
 
@@ -83,6 +76,7 @@ public class PodDetalleActivity extends AppCompatActivity {
         session.attemptTareasTareaId(tareaId);
 
         TextView descripcion = findViewById(R.id.textview_pod_detalle_descripcion);
+        TextView capataz = findViewById(R.id.textview_pod_detalle_capataz);
         TextView horaInicio = findViewById(R.id.textview_pod_detalle_hora_inicio);
         TextView horaFin = findViewById(R.id.textview_pod_detalle_hora_fin);
         TextView horaInterrupcion = findViewById(R.id.textview_pod_detalle_hora_interrupcion);
@@ -95,35 +89,35 @@ public class PodDetalleActivity extends AppCompatActivity {
             String sourceString;
 
             descripcion.setText("");
-            sourceString = "<b>" + tarea.getString("Name")+ "</b> ";
+            sourceString = "<b>" + tarea.getString("Nombre")+ "</b> ";
             descripcion.append(Html.fromHtml(sourceString));
             descripcion.append("\n");
             descripcion.append("Cantidad planificada: "+tarea.getString("CantidadPlanificada")+" "+tarea.getString("UnidadMedida"));
 
             horaInicio.setText("");
-            if ( tarea.isNull("InicioReal") || tarea.getString("InicioReal").equals("-")) {
+            if ( tarea.isNull("HoraInicioReal") || tarea.getString("HoraInicioReal").equals("-")) {
                 sourceString = "<b>" + "Inicio programado: "+ "</b>" ;
                 horaInicio.append(Html.fromHtml(sourceString));
                 horaInicio.append("\n");
-                horaInicio.append(tarea.getString("InicioPrograma"));
+                horaInicio.append(tarea.getString("HoraInicioProgramado"));
             }else {
                 sourceString = "<b>" + "Inicio: "+ "</b>" ;
                 horaInicio.append(Html.fromHtml(sourceString));
                 horaInicio.append("\n");
-                horaInicio.append(tarea.getString("InicioReal"));
+                horaInicio.append(tarea.getString("HoraInicioReal"));
             }
 
             horaFin.setText("");
-            if (tarea.isNull("TerminoReal") || tarea.getString("InicioReal").equals("-")) {
+            if (tarea.isNull("HoraTérminoReal") || tarea.getString("HoraTérminoReal").equals("-")) {
                 sourceString = "<b>" + "Fin programado: "+ "</b>" ;
                 horaFin.append(Html.fromHtml(sourceString));
                 horaFin.append("\n");
-                horaFin.append(tarea.getString("TerminoPrograma"));
+                horaFin.append(tarea.getString("HoraTérminoProgramado"));
             }else {
                 sourceString = "<b>" + "Fin: "+ "</b>" ;
                 horaFin.append(Html.fromHtml(sourceString));
                 horaFin.append("\n");
-                horaFin.append(tarea.getString("TerminoReal"));
+                horaFin.append(tarea.getString("HoraTérminoReal"));
             }
 
             horaInterrupcion.setText("");
@@ -132,22 +126,29 @@ public class PodDetalleActivity extends AppCompatActivity {
                 horaInterrupcion.append(Html.fromHtml(sourceString));
                 horaInterrupcion.append("\n");
 
-                JSONObject auxObj = tarea.getJSONObject("UltimaInterrupcion");
+                JSONObject auxObj = tarea.getJSONObject("UltimaInterrupción");
 
-                horaInterrupcion.append("Inicio: "+auxObj.getString("HoraInicio")+"\n");
-                if (auxObj.isNull("HoraTerminoReal") || auxObj.getString("HoraTerminoReal").equals("-")) {
-                    horaInterrupcion.append("Fin Estimado: "+auxObj.getString("HoraTerminoEstimado")+"\n");
+                horaInterrupcion.append("Inicio: "+auxObj.getString("HoraInicioReal")+"\n");
+                if (auxObj.isNull("HoraTérminoReal") || auxObj.getString("HoraTérminoReal").equals("-")) {
+                    horaInterrupcion.append("Fin Estimado: "+auxObj.getString("HoraTérminoProgramado")+"\n");
                 }else {
-                    horaInterrupcion.append("Fin: "+auxObj.getString("HoraTerminoReal")+"\n");
+                    horaInterrupcion.append("Fin: "+auxObj.getString("HoraTérminoReal")+"\n");
                 }
                 horaInterrupcion.append("Causa inmediata: "+auxObj.getString("NombreCausaInmediata"));
             }
+
+            capataz.setText("");
+            sourceString = "<b>" + "Capataz" + "</b> ";
+            capataz.append(Html.fromHtml(sourceString));
+            capataz.append("\n");
+            capataz.append(tarea.getString("NombreCapataz"));
 
             int color = parseColor(tarea.getString("Color"));
             ColorDrawable cd = new ColorDrawable(color);
             ll_pod_detalle_tarea.setBackground(cd);
 
             descripcion.setTextColor(Color.parseColor(tarea.getString("ColorLetra")));
+            capataz.setTextColor(Color.parseColor(tarea.getString("ColorLetra")));
             horaInicio.setTextColor(Color.parseColor(tarea.getString("ColorLetra")));
             horaFin.setTextColor(Color.parseColor(tarea.getString("ColorLetra")));
             horaInterrupcion.setTextColor(Color.parseColor(tarea.getString("ColorLetra")));
@@ -179,27 +180,27 @@ public class PodDetalleActivity extends AppCompatActivity {
         try {
             JSONObject tarea = new JSONObject(session.getTareasTareaId());
 
-            if (tarea.getString("TareaStatusName").equals("No iniciada")){
+            if (tarea.getString("TaskStatus").equals("No iniciada")){
                 btn_iniciar.setVisibility(View.VISIBLE);
                 btn_terminar.setVisibility(View.VISIBLE);
             }
                 //puede interrumpirse y terminarse o iniciarse
-            if (tarea.getString("TareaStatusName").equals("Atrasada")){
+            if (tarea.getString("TaskStatus").equals("Atrasada")){
                 btn_iniciar.setVisibility(View.VISIBLE);
                 btn_terminar.setVisibility(View.VISIBLE);
             }
                 //puede interrumpirse y terminarse o iniciarse
-            if (tarea.getString("TareaStatusName").equals("Iniciada")){
+            if (tarea.getString("TaskStatus").equals("Iniciada")){
                 btn_iniciar.setVisibility(View.GONE);
                 btn_terminar.setVisibility(View.VISIBLE);
             }
                 //puede interrumpirse y terminarse
-            if (tarea.getString("TareaStatusName").equals("Interrupcion")){
+            if (tarea.getString("TaskStatus").equals("Interrupcion")){
                 btn_iniciar.setVisibility(View.GONE);
                 btn_terminar.setVisibility(View.VISIBLE);
             }
                 //puede desinterruprse y terminarse
-            if (tarea.getString("TareaStatusName").equals("Terminada")){
+            if (tarea.getString("TaskStatus").equals("Terminada")){
                 btn_iniciar.setVisibility(View.GONE);
                 btn_terminar.setVisibility(View.GONE);
             }
@@ -233,27 +234,27 @@ public class PodDetalleActivity extends AppCompatActivity {
         try {
             JSONObject tarea = new JSONObject(session.getTareasTareaId());
 
-            if (tarea.getString("TareaStatusName").equals("No iniciada")){
+            if (tarea.getString("TaskStatus").equals("No iniciada")){
                 btn_interrupcion.setVisibility(View.VISIBLE);
                 tarea_interrumpida=false;
             }
             //puede interrumpirse y terminarse o iniciarse
-            if (tarea.getString("TareaStatusName").equals("Atrasada")){
+            if (tarea.getString("TaskStatus").equals("Atrasada")){
                 btn_interrupcion.setVisibility(View.VISIBLE);
                 tarea_interrumpida=false;
             }
             //puede interrumpirse y terminarse o iniciarse
-            if (tarea.getString("TareaStatusName").equals("Iniciada")){
+            if (tarea.getString("TaskStatus").equals("Iniciada")){
                 btn_interrupcion.setVisibility(View.VISIBLE);
                 tarea_interrumpida=false;
             }
             //puede interrumpirse y terminarse
-            if (tarea.getString("TareaStatusName").equals("Interrupcion")){
+            if (tarea.getString("TaskStatus").equals("Interrupcion")){
                 btn_interrupcion.setVisibility(View.VISIBLE);
                 tarea_interrumpida=true;
             }
             //puede desinterruprse y terminarse
-            if (tarea.getString("TareaStatusName").equals("Terminada")){
+            if (tarea.getString("TaskStatus").equals("Terminada")){
                 btn_interrupcion.setVisibility(View.GONE);
             }
             //nada
@@ -455,7 +456,6 @@ public class PodDetalleActivity extends AppCompatActivity {
         final LinearLayout ll_activity = (LinearLayout) findViewById(R.id.linearlayout_pod_detalle_activity);
         ll_progressBar.setVisibility(View.GONE);
         ll_activity.setVisibility(View.VISIBLE);
-
 
         configureData();
         configureButtonBack();
