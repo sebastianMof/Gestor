@@ -108,8 +108,6 @@ public class LayoutActivity extends AppCompatActivity {
 
             }
 
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

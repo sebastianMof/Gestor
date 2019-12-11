@@ -25,7 +25,7 @@ import java.util.Locale;
 
 //----------------------
 
-public class DashboardActivity extends AppCompatActivity {
+public class  DashboardActivity extends AppCompatActivity {
 
     private Sesion session;
 
