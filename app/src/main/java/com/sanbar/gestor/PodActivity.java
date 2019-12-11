@@ -2,6 +2,7 @@ package com.sanbar.gestor;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -388,6 +389,7 @@ public class PodActivity extends AppCompatActivity {
 
         try {
             JSONArray tareas = new JSONArray(session.getTareas());
+            Log.e("TEST",session.getTareas());
             JSONObject auxObj;
 
             List<String> nameList = new ArrayList<String>();

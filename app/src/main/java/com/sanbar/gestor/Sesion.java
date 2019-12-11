@@ -1934,7 +1934,7 @@ public class Sesion implements Parcelable {
         String filter;
 
         PodSummary(String date,String filter) {
-            this.date=date; //2019-11-18
+            this.date=date;
             this.filter=filter;
         }
 
@@ -2470,6 +2470,5 @@ public class Sesion implements Parcelable {
         }
         return str_result;
     }
-
 
 }
